@@ -4,10 +4,8 @@
 
 Engine::Engine()
 {
-	std::cout << "Hello World";
-	std::cin.get();
+	std::cout << "Starting Engine...\n";
 }
-
 
 Engine::~Engine()
 {

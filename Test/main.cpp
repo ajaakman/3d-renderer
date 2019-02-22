@@ -1,6 +1,6 @@
-#include "Engine.h"
+#include "Game.h"
 
 int main()
 {
-	Engine e;
+	Game g;	
 }
