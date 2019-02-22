@@ -16,5 +16,11 @@ void Game::Init()
 
 void Game::Loop()
 {
-	while (1) {}
+	while (window.ShouldNotClose()) 
+	{
+		window.Clear();
+		window.Draw();
+		window.SwapBuffers();
+		window.PollEvents();
+	}
 }

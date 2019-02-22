@@ -1,9 +1,13 @@
 #pragma once
+#include "IO/Window.h"
 
 class Engine
 {
 public:
+
 	Engine();
+
+	Window window;
 
 	virtual ~Engine() = 0;
 
