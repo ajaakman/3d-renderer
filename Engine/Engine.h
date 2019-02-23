@@ -7,7 +7,7 @@ public:
 
 	Engine();
 
-	Window window;
+	Window* window;
 
 	virtual ~Engine() = 0;
 

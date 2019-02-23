@@ -70,20 +70,20 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)bin\$(Configuration)\Intermediates\$(ProjectName)\$(Platform)\</IntDir>
+    <OutDir>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)Binaries\$(Configuration)\Intermediates\$(ProjectName)\$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)bin\$(Configuration)\Intermediates\$(ProjectName)\$(Platform)\</IntDir>
+    <OutDir>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)Binaries\$(Configuration)\Intermediates\$(ProjectName)\$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)bin\$(Configuration)\Intermediates\$(ProjectName)\$(Platform)\</IntDir>
+    <OutDir>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)Binaries\$(Configuration)\Intermediates\$(ProjectName)\$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)bin\$(Configuration)\Intermediates\$(ProjectName)\$(Platform)\</IntDir>
+    <OutDir>$(SolutionDir)Binaries\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)Binaries\$(Configuration)\Intermediates\$(ProjectName)\$(Platform)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -139,12 +139,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Graphics\ElementArrayBuffer.h" />
+    <ClInclude Include="Graphics\Buffer.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="Graphics\Program.h" />
+    <ClInclude Include="Utility\Error.h" />
     <ClInclude Include="IO\Window.h" />
+    <ClInclude Include="Graphics\Vertex.h" />
+    <ClInclude Include="Graphics\VertexArray.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Graphics\ElementArrayBuffer.cpp" />
+    <ClCompile Include="Graphics\Buffer.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Graphics\Program.cpp" />
+    <ClCompile Include="Utility\Error.cpp" />
     <ClCompile Include="IO\Window.cpp" />
+    <ClCompile Include="Graphics\Vertex.cpp" />
+    <ClCompile Include="Graphics\VertexArray.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

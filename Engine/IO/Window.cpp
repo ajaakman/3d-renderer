@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "../Utility/Error.h"
+
 Window::Window()
 {
 	Init();
@@ -14,7 +16,7 @@ Window::~Window()
 
 void Window::Clear()
 {
-	glClear(GL_COLOR_BUFFER_BIT);
+	GL(glClear(GL_COLOR_BUFFER_BIT));
 }
 
 void Window::SwapBuffers()
@@ -24,11 +26,7 @@ void Window::SwapBuffers()
 
 void Window::Draw()
 {
-	glBegin(GL_TRIANGLES);
-	glVertex2f(-0.5f, -0.5f);
-	glVertex2f(0.0f, 0.5f);
-	glVertex2f(0.5f, -0.5f);
-	glEnd();
+	GL(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
 }
 
 void Window::PollEvents()
