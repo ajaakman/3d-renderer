@@ -24,11 +24,6 @@ void Window::SwapBuffers()
 	glfwSwapBuffers(m_pWindow);
 }
 
-void Window::Draw()
-{
-	GL(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
-}
-
 void Window::PollEvents()
 {
 	glfwPollEvents();

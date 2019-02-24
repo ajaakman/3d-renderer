@@ -10,7 +10,6 @@ public:
 
 	void Clear();
 	void SwapBuffers();
-	void Draw();
 	void PollEvents();
 	bool ShouldNotClose();
 private:

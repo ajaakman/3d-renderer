@@ -3,8 +3,17 @@
 
 SimpleRenderable::SimpleRenderable(float positionX)
 {
-	for (int i = 0; i < 8; i+=2)
-		positions[i] += positionX;
+	float positions[8] = {
+			-0.1f + positionX, -0.1f,
+			 0.1f + positionX, -0.1f,
+			 0.1f + positionX,  0.1f,
+			-0.1f + positionX,  0.1f,
+	};
+
+	unsigned int indices[6] = {
+		0, 1, 2,
+		2, 3, 0
+	};
 
 	p_VertexArray = new VertexArray;
 	p_Buffer = new Buffer(positions, 4 * 2 * sizeof(float));
@@ -22,7 +31,10 @@ SimpleRenderable::SimpleRenderable(float positionX)
 
 void SimpleRenderable::Draw()
 {
-	GL(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+	p_Program->Bind();
+	p_VertexArray->Bind();
+	p_ElementArrayBuffer->Bind();
+	GL(glDrawElements(GL_TRIANGLES, p_ElementArrayBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
 }
 
 SimpleRenderable::~SimpleRenderable()
