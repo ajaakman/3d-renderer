@@ -18,8 +18,8 @@ void Game::Init()
 
 void Game::Loop()
 {
-	SimpleRenderable renderable(0.2f, 0.2f);
-	SimpleRenderable renderable2(-0.2f, 0.3f);
+	SimpleRenderable renderable(  0.0f,  0.2f, 1.0f, 0.2f, 1);
+	SimpleRenderable renderable2( 0.0f, -0.1f, 0.2f, 0.2f, 1);
 	
 	float col = 0.0f;
 	float increment = 0.01f;

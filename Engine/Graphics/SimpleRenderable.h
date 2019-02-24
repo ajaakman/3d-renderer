@@ -7,7 +7,7 @@
 class SimpleRenderable
 {
 public:
-	SimpleRenderable(float positionX, float positionY);
+	SimpleRenderable(float positionX, float positionY, float sizeX, float sizeY, int centered = 0);
 	~SimpleRenderable();
 
 	void SetColor(float r, float b, float g, float a);

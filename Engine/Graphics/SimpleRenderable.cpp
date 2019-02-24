@@ -1,13 +1,19 @@
 #include "SimpleRenderable.h"
 
 
-SimpleRenderable::SimpleRenderable(float positionX, float positionY)
+SimpleRenderable::SimpleRenderable(float positionX, float positionY, float sizeX, float sizeY, int centered)
 {
+	if (centered)
+	{
+		positionX -= sizeX / 2;
+		positionY -= sizeY / 2;
+	}
+
 	float positions[8] = {
-			-0.1f + positionX, -0.1f + positionY,
-			 0.1f + positionX, -0.1f + positionY,
-			 0.1f + positionX,  0.1f + positionY,
-			-0.1f + positionX,  0.1f + positionY
+			        positionX,         positionY,
+			sizeX + positionX,         positionY,
+			sizeX + positionX, sizeY + positionY,
+			        positionX, sizeY + positionY
 	};
 
 	unsigned int indices[6] = {
