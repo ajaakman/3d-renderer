@@ -1,8 +1,8 @@
 #include "Window.h"
 
-#include <iostream>
-
 #include "../Utility/Error.h"
+
+#include <iostream>
 
 Window::Window()
 {
@@ -12,11 +12,6 @@ Window::Window()
 Window::~Window()
 {
 	glfwTerminate();
-}
-
-void Window::Clear()
-{
-	GL(glClear(GL_COLOR_BUFFER_BIT));
 }
 
 void Window::SwapBuffers()
@@ -47,13 +42,13 @@ int Window::Init()
 	}
 
 	glfwMakeContextCurrent(m_pWindow);
-
+		
 	GLenum error = glewInit();
 	if (error != GLEW_OK)
 		std::cout << "Error!" << std::endl;
 
-	glfwSwapInterval(1); // VSync
-
 	std::cout << glGetString(GL_VERSION) << std::endl;
+
+	glfwSwapInterval(1); // VSync
 	return 0;
 }

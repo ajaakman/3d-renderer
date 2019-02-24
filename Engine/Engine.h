@@ -1,5 +1,6 @@
 #pragma once
 #include "IO/Window.h"
+#include "Graphics/Renderer.h"
 #include "Graphics/SimpleRenderable.h"
 
 class Engine
@@ -8,7 +9,8 @@ public:
 
 	Engine();
 
-	Window* window;
+	Window*   p_Window;
+	Renderer* p_Renderer;
 
 	virtual ~Engine() = 0;
 

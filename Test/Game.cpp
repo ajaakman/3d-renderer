@@ -2,14 +2,12 @@
 
 Game::Game()
 {
-	window = new Window();
 	Init();
 	Loop();
 }
 
 Game::~Game()
-{
-	delete window;
+{	
 }
 
 void Game::Init()
@@ -18,20 +16,22 @@ void Game::Init()
 
 void Game::Loop()
 {
-	SimpleRenderable renderable(  0.0f,  0.2f, 1.0f, 0.2f, 1);
-	SimpleRenderable renderable2( 0.0f, -0.1f, 0.2f, 0.2f, 1);
+	SimpleRenderable r1(  0.0f,  0.0f, 1.0f, 0.2f, 1);
+	SimpleRenderable r2( 0.0f, -0.3f, 0.2f, 0.2f, 1);
+	SimpleRenderable r3(-1.0f, -1.0f, 0.2f, 0.2f);
 	
 	float col = 0.0f;
 	float increment = 0.01f;
-	while (window->ShouldNotClose()) 
+	while (p_Window->ShouldNotClose()) 
 	{
-		window->Clear();
+		p_Renderer->Clear();
 
-		renderable.SetColor(col, 0.0f, 1.0f, 1.0f);
-		renderable2.SetColor(0.0f, col, 1.0f, 1.0f);
+		r1.SetColor(col, 0.0f, 1.0f, 1.0f);
+		r2.SetColor(0.0f, col, 1.0f, 1.0f);
 
-		renderable.Draw();
-		renderable2.Draw();
+		r1.Draw();
+		r2.Draw();
+		r3.Draw();
 
 		if (col > 1.0f)
 			increment = -0.05f;
@@ -40,7 +40,7 @@ void Game::Loop()
 
 		col += increment;
 
-		window->SwapBuffers();
-		window->PollEvents();
+		p_Window->SwapBuffers();
+		p_Window->PollEvents();
 	}
 }

@@ -34,7 +34,7 @@ SimpleRenderable::SimpleRenderable(float positionX, float positionY, float sizeX
 
 	p_Program = new Program("../Resources/Shaders/Basic.shader");
 	p_Program->Bind();
-	p_Program->SetUniform4f("u_Color", 0.8f, 0.4f, 0.8f, 1.0f);
+	p_Program->SetUniform4f("u_Color", 1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 void SimpleRenderable::Draw()

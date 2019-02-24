@@ -1,6 +1,10 @@
 #include "Game.h"
+#include <iostream>
 
 int main()
 {
-	Game g;	
+	{
+		Game g;	
+	}
+	std::cin.get();
 }

@@ -8,7 +8,6 @@ public:
 	Window();
 	~Window();
 
-	void Clear();
 	void SwapBuffers();
 	void PollEvents();
 	bool ShouldNotClose();
