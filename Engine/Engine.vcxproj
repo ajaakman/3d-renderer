@@ -143,6 +143,8 @@
     <ClInclude Include="Graphics\Buffer.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Graphics\Program.h" />
+    <ClInclude Include="Graphics\Renderer.h" />
+    <ClInclude Include="Graphics\SimpleRenderable.h" />
     <ClInclude Include="Utility\Error.h" />
     <ClInclude Include="IO\Window.h" />
     <ClInclude Include="Graphics\Vertex.h" />
@@ -153,10 +155,15 @@
     <ClCompile Include="Graphics\Buffer.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Graphics\Program.cpp" />
+    <ClCompile Include="Graphics\Renderer.cpp" />
+    <ClCompile Include="Graphics\SimpleRenderable.cpp" />
     <ClCompile Include="Utility\Error.cpp" />
     <ClCompile Include="IO\Window.cpp" />
     <ClCompile Include="Graphics\Vertex.cpp" />
     <ClCompile Include="Graphics\VertexArray.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Shaders\Basic.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
