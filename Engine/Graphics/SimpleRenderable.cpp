@@ -1,13 +1,13 @@
 #include "SimpleRenderable.h"
 
 
-SimpleRenderable::SimpleRenderable(float positionX)
+SimpleRenderable::SimpleRenderable(float positionX, float positionY)
 {
 	float positions[8] = {
-			-0.1f + positionX, -0.1f,
-			 0.1f + positionX, -0.1f,
-			 0.1f + positionX,  0.1f,
-			-0.1f + positionX,  0.1f,
+			-0.1f + positionX, -0.1f + positionY,
+			 0.1f + positionX, -0.1f + positionY,
+			 0.1f + positionX,  0.1f + positionY,
+			-0.1f + positionX,  0.1f + positionY
 	};
 
 	unsigned int indices[6] = {
@@ -17,10 +17,12 @@ SimpleRenderable::SimpleRenderable(float positionX)
 
 	p_VertexArray = new VertexArray;
 	p_Buffer = new Buffer(positions, 4 * 2 * sizeof(float));
+	//Buffer buffer(positions, 4 * 2 * sizeof(float));
 
 	Vertex vertex;
 	vertex.PushFloat(2);
 	p_VertexArray->AddBuffer(*p_Buffer, vertex);
+	//p_VertexArray->AddBuffer(buffer, vertex);
 
 	p_ElementArrayBuffer = new ElementArrayBuffer(indices, 6);
 
@@ -41,11 +43,8 @@ SimpleRenderable::~SimpleRenderable()
 {
 }
 
-void SimpleRenderable::UpdateUniforms(float color)
+void SimpleRenderable::SetColor(float r, float b, float g, float a)
 {
 	p_Program->Bind();
-	p_Program->SetUniform4f("u_Color", color, 0.4f, 0.8f, 1.0f);
-
-	p_VertexArray->Bind();
-	p_ElementArrayBuffer->Bind();
+	p_Program->SetUniform4f("u_Color", r, g, b, a);
 }

@@ -18,27 +18,27 @@ void Game::Init()
 
 void Game::Loop()
 {
-	SimpleRenderable renderable(0.2);
-	SimpleRenderable renderable2(-0.2);
+	SimpleRenderable renderable(0.2f, 0.2f);
+	SimpleRenderable renderable2(-0.2f, 0.3f);
 	
-	float r = 0.0f;
-	float increment = 0.05f;
+	float col = 0.0f;
+	float increment = 0.01f;
 	while (window->ShouldNotClose()) 
 	{
 		window->Clear();
 
-		renderable.UpdateUniforms(r);
-		renderable2.UpdateUniforms(r);
+		renderable.SetColor(col, 0.0f, 1.0f, 1.0f);
+		renderable2.SetColor(0.0f, col, 1.0f, 1.0f);
 
 		renderable.Draw();
 		renderable2.Draw();
 
-		if (r > 1.0f)
+		if (col > 1.0f)
 			increment = -0.05f;
-		else if (r < 0.0f)
+		else if (col < 0.0f)
 			increment = 0.05f;
 
-		r += increment;
+		col += increment;
 
 		window->SwapBuffers();
 		window->PollEvents();

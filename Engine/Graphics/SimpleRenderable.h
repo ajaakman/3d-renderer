@@ -7,10 +7,10 @@
 class SimpleRenderable
 {
 public:
-	SimpleRenderable(float positionX);
+	SimpleRenderable(float positionX, float positionY);
 	~SimpleRenderable();
 
-	void UpdateUniforms(float color);
+	void SetColor(float r, float b, float g, float a);
 	void Draw();
 private:
 
