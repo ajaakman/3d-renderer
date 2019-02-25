@@ -1,4 +1,5 @@
 #pragma once
+
 #include "IO/Window.h"
 #include "Graphics/Renderer.h"
 #include "Graphics/SimpleRenderable.h"

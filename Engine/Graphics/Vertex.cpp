@@ -1,6 +1,5 @@
 #include "Vertex.h"
 
-
 Vertex::Vertex()
 	: m_Stride(0) {}
 

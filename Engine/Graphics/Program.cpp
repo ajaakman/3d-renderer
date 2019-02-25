@@ -1,11 +1,16 @@
 #include "Program.h"
 
+#ifdef EMSCRIPTEN
+#define GLFW_INCLUDE_ES3
+#include <GLFW/glfw3.h>
+#else
+#include <GL/glew.h>
+#endif
+
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
-
-#include "GL/glew.h"
 
 #include "../Utility/Error.h"
 

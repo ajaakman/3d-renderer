@@ -1,8 +1,13 @@
 #include "Error.h"
 
-#include <iostream>
+#ifdef EMSCRIPTEN
+#define GLFW_INCLUDE_ES3
+#include <GLFW/glfw3.h>
+#else
+#include <GL/glew.h>
+#endif
 
-#include "GL/glew.h"
+#include <iostream>
 
 void GLClearError()
 {

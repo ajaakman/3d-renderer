@@ -1,5 +1,14 @@
 #include "Game.h"
 
+#ifdef EMSCRIPTEN
+#include <emscripten/emscripten.h>
+static void dispatch_main(void* fp)
+{
+	std::function<void()>* func = (std::function<void()>*)fp;
+	(*func)();
+}
+#endif
+
 Game::Game()
 {
 	Init();
@@ -22,7 +31,11 @@ void Game::Loop()
 	
 	float col = 0.0f;
 	float increment = 0.01f;
+#ifdef EMSCRIPTEN
+	std::function<void()> mainLoop = [&]()
+#else
 	while (p_Window->ShouldNotClose()) 
+#endif 
 	{
 		p_Renderer->Clear();
 
@@ -43,4 +56,7 @@ void Game::Loop()
 		p_Window->SwapBuffers();
 		p_Window->PollEvents();
 	}
+#ifdef EMSCRIPTEN
+	; emscripten_set_main_loop_arg(dispatch_main, &mainLoop, 0, 1);
+#endif
 }

@@ -1,8 +1,9 @@
 #include "Window.h"
 
+#include <iostream>
+
 #include "../Utility/Error.h"
 
-#include <iostream>
 
 Window::Window()
 {
@@ -42,11 +43,11 @@ int Window::Init()
 	}
 
 	glfwMakeContextCurrent(m_pWindow);
-		
+#ifndef EMSCRIPTEN
 	GLenum error = glewInit();
 	if (error != GLEW_OK)
 		std::cout << "Error!" << std::endl;
-
+#endif
 	std::cout << glGetString(GL_VERSION) << std::endl;
 
 	glfwSwapInterval(1); // VSync

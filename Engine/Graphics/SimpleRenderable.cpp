@@ -1,6 +1,5 @@
 #include "SimpleRenderable.h"
 
-
 SimpleRenderable::SimpleRenderable(float positionX, float positionY, float sizeX, float sizeY, int centered)
 {
 	if (centered)
@@ -32,7 +31,11 @@ SimpleRenderable::SimpleRenderable(float positionX, float positionY, float sizeX
 
 	p_ElementArrayBuffer = new ElementArrayBuffer(indices, 6);
 
+#ifdef EMSCRIPTEN
+	p_Program = new Program("Resources/EmShaders/Basic.shader");
+#else
 	p_Program = new Program("../Resources/Shaders/Basic.shader");
+#endif
 	p_Program->Bind();
 	p_Program->SetUniform4f("u_Color", 1.0f, 1.0f, 1.0f, 1.0f);
 }
