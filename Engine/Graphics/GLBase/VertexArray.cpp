@@ -7,7 +7,7 @@
 #include <GL/glew.h>
 #endif
 
-#include "../Utility/Error.h"
+#include "../../Utility/Error.h"
 
 
 VertexArray::VertexArray()

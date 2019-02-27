@@ -9,7 +9,7 @@
 
 #include <vector>
 
-#include "../Utility/Error.h"
+#include "../../Utility/Error.h"
 
 class Vertex
 {

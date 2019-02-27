@@ -25,9 +25,9 @@ void Game::Init()
 
 void Game::Loop()
 {
-	SimpleRenderable r1(  0.0f,  0.0f, 1.0f, 0.2f, 1);
-	SimpleRenderable r2( 0.0f, -0.3f, 0.2f, 0.2f, 1);
-	SimpleRenderable r3(-1.0f, -1.0f, 0.2f, 0.2f);
+	SimpleRenderable r1( glm::vec2( 0.0f,  0.0f), glm::vec2( 1.0f, 0.2f), 1);
+	SimpleRenderable r2( glm::vec2( 0.0f, -0.3f), glm::vec2( 0.2f, 0.2f), 1);
+	SimpleRenderable r3( glm::vec2(-1.0f, -1.0f), glm::vec2( 0.2f, 0.2f));
 	
 	float col = 0.0f;
 	float increment = 0.01f;
@@ -39,8 +39,8 @@ void Game::Loop()
 	{
 		p_Renderer->Clear();
 
-		r1.SetColor(col, 0.0f, 1.0f, 1.0f);
-		r2.SetColor(0.0f, col, 1.0f, 1.0f);
+		r1.SetColor(glm::vec4(col, 1.0f, 0.0f, 1.0f));
+		r2.SetColor(glm::vec4(0.0f, 1.0f, col, 1.0f));
 
 		r1.Draw();
 		r2.Draw();

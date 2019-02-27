@@ -1,17 +1,18 @@
 #pragma once
 
-#include "ElementArrayBuffer.h"
-#include "Buffer.h"
-#include "VertexArray.h"
-#include "Program.h"
+#include "GLBase/ElementArrayBuffer.h"
+#include "GLBase/Buffer.h"
+#include "GLBase/VertexArray.h"
+#include "GLBase/Program.h"
+#include "../Libraries/glm/glm.hpp"
 
 class SimpleRenderable
 {
 public:
-	SimpleRenderable(float positionX, float positionY, float sizeX, float sizeY, int centered = 0);
+	SimpleRenderable(glm::vec2 position, glm::vec2 size, int centered = 0);
 	~SimpleRenderable();
 
-	void SetColor(float r, float b, float g, float a);
+	void SetColor(glm::vec4 color);
 	void Draw();
 private:
 

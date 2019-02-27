@@ -1,18 +1,18 @@
 #include "SimpleRenderable.h"
 
-SimpleRenderable::SimpleRenderable(float positionX, float positionY, float sizeX, float sizeY, int centered)
+SimpleRenderable::SimpleRenderable(glm::vec2 position, glm::vec2 size, int centered)
 {
 	if (centered)
 	{
-		positionX -= sizeX / 2;
-		positionY -= sizeY / 2;
+		position.x -= size.x / 2;
+		position.y -= size.y / 2;
 	}
 
 	float positions[8] = {
-			        positionX,         positionY,
-			sizeX + positionX,         positionY,
-			sizeX + positionX, sizeY + positionY,
-			        positionX, sizeY + positionY
+					 position.x,          position.y,
+			size.x + position.x,          position.y,
+			size.x + position.x, size.y + position.y,
+				 	 position.x, size.y + position.y
 	};
 
 	unsigned int indices[6] = {
@@ -37,7 +37,7 @@ SimpleRenderable::SimpleRenderable(float positionX, float positionY, float sizeX
 	p_Program = new Program("../Resources/Shaders/Basic.shader");
 #endif
 	p_Program->Bind();
-	p_Program->SetUniform4f("u_Color", 1.0f, 1.0f, 1.0f, 1.0f);
+	p_Program->SetUniform4f("u_Color", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 }
 
 void SimpleRenderable::Draw()
@@ -52,8 +52,8 @@ SimpleRenderable::~SimpleRenderable()
 {
 }
 
-void SimpleRenderable::SetColor(float r, float b, float g, float a)
+void SimpleRenderable::SetColor(glm::vec4 color)
 {
 	p_Program->Bind();
-	p_Program->SetUniform4f("u_Color", r, g, b, a);
+	p_Program->SetUniform4f("u_Color", color);
 }

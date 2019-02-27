@@ -2,6 +2,7 @@
 
 #include <string>
 #include <unordered_map>
+#include "../../Libraries/glm/glm.hpp"
 
 class Program
 {
@@ -11,7 +12,7 @@ class Program
 
 		void Bind() const;
 
-		void SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3);
+		void SetUniform4f(const std::string& name, glm::vec4 vector);
 	private:
 
 		struct ShaderProgramSource

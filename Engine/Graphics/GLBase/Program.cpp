@@ -12,7 +12,7 @@
 #include <string>
 #include <sstream>
 
-#include "../Utility/Error.h"
+#include "../../Utility/Error.h"
 
 Program::Program(const std::string & filepath)
 	: m_FilePath(filepath), m_ShaderID(0)
@@ -101,9 +101,9 @@ void Program::Bind() const
 	GL(glUseProgram(m_ShaderID));
 }
 
-void Program::SetUniform4f(const std::string & name, float v0, float v1, float v2, float v3)
+void Program::SetUniform4f(const std::string & name, glm::vec4 vector)
 {
-	GL(glUniform4f(GetUniformLocation(name), v0, v1, v2, v3));
+	GL(glUniform4f(GetUniformLocation(name), vector.x, vector.y, vector.z, vector.w));
 }
 
 int Program::GetUniformLocation(const std::string & name)
