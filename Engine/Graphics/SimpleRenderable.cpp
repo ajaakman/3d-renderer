@@ -2,18 +2,21 @@
 #include "../Libraries/glm/gtc/matrix_transform.hpp"
 
 SimpleRenderable::SimpleRenderable(glm::vec2 position, glm::vec2 size, int centered)
+	: m_Position(position), m_Rotation(glm::vec3(0.0f, 0.0f, 0.0f)), m_Color(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f))
 {
+	float originX = 0;
+	float originY = 0;
 	if (centered)
 	{
-		position.x -= size.x / 2;
-		position.y -= size.y / 2;
+		originX -= size.x / 2;
+		originY -= size.y / 2;
 	}
 
 	float positions[8] = {
-					 position.x,          position.y,
-			size.x + position.x,          position.y,
-			size.x + position.x, size.y + position.y,
-				 	 position.x, size.y + position.y
+					 originX,          originY,
+			size.x + originX,          originY,
+			size.x + originX, size.y + originY,
+					 originX, size.y + originY
 	};
 
 	unsigned int indices[6] = {
@@ -37,11 +40,8 @@ SimpleRenderable::SimpleRenderable(glm::vec2 position, glm::vec2 size, int cente
 	p_Program = new Program("../Resources/Shaders/Basic.shader");
 #endif
 	p_Program->Bind();
-	p_Program->SetUniform4f("u_Color", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-
-	glm::mat4 Projection = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
-	//glm::mat4 Projection = glm::perspective(35.0f, 1.77f, 0.1f, 100.0f);
-	p_Program->SetUniformMat4f("u_MVP", Projection);
+	p_Program->SetUniform4f("u_Color", m_Color);
+	p_Program->SetUniformMat4f("u_MVP", glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f));
 }
 
 void SimpleRenderable::Draw()
@@ -49,6 +49,20 @@ void SimpleRenderable::Draw()
 	p_Program->Bind();
 	p_VertexArray->Bind();
 	p_ElementArrayBuffer->Bind();
+
+	glm::mat4 Projection = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
+	glm::mat4 View = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+
+	glm::mat4 Translation = glm::translate(glm::mat4(), glm::vec3(m_Position.x, m_Position.y, 0.0f));
+	glm::mat4 Rotation = glm::rotate(glm::mat4(), m_Rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
+
+	glm::mat4 Model = Translation * Rotation;
+
+	glm::mat4 MVP = Projection * View * Model;
+
+	p_Program->SetUniform4f("u_Color", m_Color);
+	p_Program->SetUniformMat4f("u_MVP", MVP);
+
 	GL(glDrawElements(GL_TRIANGLES, p_ElementArrayBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
 }
 
@@ -58,26 +72,15 @@ SimpleRenderable::~SimpleRenderable()
 
 void SimpleRenderable::SetColor(glm::vec4 color)
 {
-	p_Program->Bind();
-	p_Program->SetUniform4f("u_Color", color);
+	m_Color = color;
 }
 
 void SimpleRenderable::SetPosition(glm::vec2 position)
 {
-	p_Program->Bind();
-	glm::mat4 Projection = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
-	//glm::mat4 Projection = glm::perspective(90.0f, 1.77f, 0.1f, 1.0f);
-	glm::mat4 View = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
-	glm::mat4 Model = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0));
-	glm::mat4 MVP = Projection * View * Model;
-	p_Program->SetUniformMat4f("u_MVP", MVP);
+	m_Position = position;
 }
 
-void SimpleRenderable::SetRotation(float angle)
+void SimpleRenderable::SetRotation(glm::vec3 rotation)
 {
-	glm::mat4 Projection = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
-	glm::mat4 Rotation = glm::rotate(glm::mat4(), angle, glm::vec3(0.0f, 1.0f, 0.0f));
-	glm::mat4 res = Rotation * Projection;
-	//glm::mat4 Projection = glm::perspective(35.0f, 1.77f, 0.1f, 100.0f);
-	p_Program->SetUniformMat4f("u_MVP", res);
+	m_Rotation = rotation;
 }
