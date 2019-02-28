@@ -14,6 +14,7 @@ public:
 
 	void SetColor(glm::vec4 color);
 	void SetPosition(glm::vec2 position);
+	void SetRotation(float angle);
 	void Draw();
 private:
 

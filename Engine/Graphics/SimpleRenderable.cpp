@@ -40,6 +40,7 @@ SimpleRenderable::SimpleRenderable(glm::vec2 position, glm::vec2 size, int cente
 	p_Program->SetUniform4f("u_Color", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 
 	glm::mat4 Projection = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
+	//glm::mat4 Projection = glm::perspective(35.0f, 1.77f, 0.1f, 100.0f);
 	p_Program->SetUniformMat4f("u_MVP", Projection);
 }
 
@@ -65,8 +66,18 @@ void SimpleRenderable::SetPosition(glm::vec2 position)
 {
 	p_Program->Bind();
 	glm::mat4 Projection = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
-	glm::mat4 View = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
+	//glm::mat4 Projection = glm::perspective(90.0f, 1.77f, 0.1f, 1.0f);
+	glm::mat4 View = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 	glm::mat4 Model = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0));
 	glm::mat4 MVP = Projection * View * Model;
 	p_Program->SetUniformMat4f("u_MVP", MVP);
+}
+
+void SimpleRenderable::SetRotation(float angle)
+{
+	glm::mat4 Projection = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
+	glm::mat4 Rotation = glm::rotate(glm::mat4(), angle, glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::mat4 res = Rotation * Projection;
+	//glm::mat4 Projection = glm::perspective(35.0f, 1.77f, 0.1f, 100.0f);
+	p_Program->SetUniformMat4f("u_MVP", res);
 }

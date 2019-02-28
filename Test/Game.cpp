@@ -30,6 +30,7 @@ void Game::Loop()
 	SimpleRenderable r3( glm::vec2( 0.0f, 0.0f), glm::vec2( 100.0f, 100.0f));	
 
 	float col = 0.0f;
+	float rot = 0.0f;
 	float increment = 0.02f;
 #ifdef EMSCRIPTEN
 	std::function<void()> mainLoop = [&]()
@@ -43,6 +44,7 @@ void Game::Loop()
 		r1.SetPosition(glm::vec2(col*200-100, 0.0f));
 
 		r2.SetColor(glm::vec4(0.0f, 1.0f, col, 1.0f));
+		r2.SetRotation(rot);
 
 		r1.Draw();
 		r2.Draw();
@@ -54,6 +56,7 @@ void Game::Loop()
 			increment *= -1.0f;
 
 		col += increment;
+		rot += 0.02f;
 
 		p_Window->SwapBuffers();
 		p_Window->PollEvents();
