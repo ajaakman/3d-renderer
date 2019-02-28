@@ -5,7 +5,8 @@
 #include "../Utility/Error.h"
 
 
-Window::Window()
+Window::Window(int width, int height, const char * name)
+	: m_nWidth(width), m_nHeight(height), m_Name(name)
 {
 	Init();
 }
@@ -35,7 +36,7 @@ int Window::Init()
 	if (!glfwInit())
 		return -1;
 		
-	m_pWindow = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+	m_pWindow = glfwCreateWindow(m_nWidth, m_nHeight, m_Name, NULL, NULL);
 	if (!m_pWindow)
 	{
 		glfwTerminate();

@@ -2,7 +2,7 @@
 
 Engine::Engine()
 {
-	p_Window = new Window();
+	p_Window = new Window(960, 540, "GLWindow");
 	p_Renderer = new Renderer();
 }
 

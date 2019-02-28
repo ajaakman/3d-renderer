@@ -13,6 +13,7 @@ public:
 	~SimpleRenderable();
 
 	void SetColor(glm::vec4 color);
+	void SetPosition(glm::vec2 position);
 	void Draw();
 private:
 

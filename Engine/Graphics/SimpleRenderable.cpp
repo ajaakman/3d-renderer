@@ -1,4 +1,5 @@
 #include "SimpleRenderable.h"
+#include "../Libraries/glm/gtc/matrix_transform.hpp"
 
 SimpleRenderable::SimpleRenderable(glm::vec2 position, glm::vec2 size, int centered)
 {
@@ -30,7 +31,6 @@ SimpleRenderable::SimpleRenderable(glm::vec2 position, glm::vec2 size, int cente
 	//p_VertexArray->AddBuffer(buffer, vertex);
 
 	p_ElementArrayBuffer = new ElementArrayBuffer(indices, 6);
-
 #ifdef EMSCRIPTEN
 	p_Program = new Program("Resources/EmShaders/Basic.shader");
 #else
@@ -38,6 +38,9 @@ SimpleRenderable::SimpleRenderable(glm::vec2 position, glm::vec2 size, int cente
 #endif
 	p_Program->Bind();
 	p_Program->SetUniform4f("u_Color", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+
+	glm::mat4 Projection = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
+	p_Program->SetUniformMat4f("u_MVP", Projection);
 }
 
 void SimpleRenderable::Draw()
@@ -56,4 +59,14 @@ void SimpleRenderable::SetColor(glm::vec4 color)
 {
 	p_Program->Bind();
 	p_Program->SetUniform4f("u_Color", color);
+}
+
+void SimpleRenderable::SetPosition(glm::vec2 position)
+{
+	p_Program->Bind();
+	glm::mat4 Projection = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
+	glm::mat4 View = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
+	glm::mat4 Model = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y, 0));
+	glm::mat4 MVP = Projection * View * Model;
+	p_Program->SetUniformMat4f("u_MVP", MVP);
 }

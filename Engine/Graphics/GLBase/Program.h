@@ -13,6 +13,7 @@ class Program
 		void Bind() const;
 
 		void SetUniform4f(const std::string& name, glm::vec4 vector);
+		void SetUniformMat4f(const std::string& name, const glm::mat4& matrix);
 	private:
 
 		struct ShaderProgramSource
