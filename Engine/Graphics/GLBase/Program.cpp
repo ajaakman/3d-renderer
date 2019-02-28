@@ -14,6 +14,53 @@
 
 #include "../../Utility/Error.h"
 
+Program::Program()
+	:m_ShaderID(0)
+{
+#ifdef EMSCRIPTEN
+	std::string vertex =
+		"attribute highp vec4 position;\n"
+		"uniform mat4 u_MVP;\n"
+		"\n"
+		"void main()\n"
+		"{\n"
+		"	gl_Position = u_MVP * position;\n"
+		"}\n";
+	std::string fragment =
+		"precision highp float;\n"
+		"\n"
+		"uniform vec4 u_Color;\n"
+		"\n"
+		"void main()\n"
+		"{\n"
+		"	gl_FragColor = u_Color;\n"
+		"}\n";
+#else
+	std::string vertex =
+		"#version 330 core\n"
+		"\n"
+		"layout(location = 0) in vec4 position;\n"
+		"uniform mat4 u_MVP;\n"
+		"\n"
+		"void main()\n"
+		"{\n"
+		"	gl_Position = u_MVP * position;\n"
+		"};\n";
+	std::string fragment =
+		"#version 330 core\n"
+		"\n"
+		"layout(location = 0) out vec4 color;\n"
+		"\n"
+		"uniform vec4 u_Color;\n"
+		"\n"
+		"void main()\n"
+		"{\n"
+		"	color = u_Color;\n"
+		"};\n";
+#endif
+	m_ShaderID = CreateShader(vertex, fragment);
+}
+
 Program::Program(const std::string & filepath)
 	: m_FilePath(filepath), m_ShaderID(0)
 {
@@ -101,7 +148,7 @@ void Program::Bind() const
 	GL(glUseProgram(m_ShaderID));
 }
 
-void Program::SetUniform4f(const std::string & name, glm::vec4 vector)
+void Program::SetUniform4f(const std::string & name, const glm::vec4 & vector)
 {
 	GL(glUniform4f(GetUniformLocation(name), vector.x, vector.y, vector.z, vector.w));
 }

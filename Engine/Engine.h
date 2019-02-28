@@ -11,8 +11,8 @@ public:
 
 	Engine();
 
-	Window*   p_Window;
-	Renderer* p_Renderer;
+	Window* p_Window;
+	Renderer  p_Renderer;
 
 	virtual ~Engine() = 0;
 

@@ -22,7 +22,7 @@ Game::~Game()
 void Game::Init()
 {	
 }
-#include <iostream>
+
 void Game::Loop()
 {
 	SimpleRenderable r1( glm::vec2( 0.0f, 0.0f), glm::vec2( 300.0f, 50.0f), 1);
@@ -38,7 +38,7 @@ void Game::Loop()
 	while (p_Window->ShouldNotClose()) 
 #endif 
 	{
-		p_Renderer->Clear();
+		p_Renderer.Clear();
 
 		r1.SetColor(glm::vec4(col, 1.0f, 0.0f, 1.0f));
 		r1.SetPosition(glm::vec2(col*200+380, 270.0f));
@@ -50,11 +50,11 @@ void Game::Loop()
 		r1.Draw();
 		r2.Draw();
 		r3.Draw();
+
 		if (col > 1.0f)
 			increment *= -1.0f;
 		else if (col < 0.0f)
 			increment *= -1.0f;
-
 
 		col += increment;
 		rot += 0.02f;
