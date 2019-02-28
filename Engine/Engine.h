@@ -12,12 +12,14 @@ public:
 	Engine();
 
 	Window* p_Window;
-	Renderer  p_Renderer;
+	Renderer* p_Renderer;
 
 	virtual ~Engine() = 0;
 
-	virtual void Init() = 0;
+	virtual void Begin() = 0;
 
-	virtual void Loop() = 0;
+	virtual void Tick() = 0;
+
+	void Loop();
 };
 

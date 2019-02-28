@@ -7,7 +7,11 @@ class Game : Engine
 public:
 	Game();
 	~Game() override;
-	void Init() override;
-	void Loop() override;
+	void Begin() override;
+	void Tick() override;
+private:
+	float col = 0.0f;
+	float rot = 0.0f;
+	float increment = 0.02f;
 };
 

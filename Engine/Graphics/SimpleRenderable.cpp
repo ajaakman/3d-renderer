@@ -23,19 +23,23 @@ SimpleRenderable::SimpleRenderable(glm::vec2 position, glm::vec2 size, int cente
 	};
 
 	p_VertexArray = new VertexArray;
-	p_Buffer = new Buffer(positions, 4 * 2 * sizeof(float));
+	p_Buffer = new Buffer(positions, 4 * 2 * sizeof(float), GL_DYNAMIC_DRAW);
 
 	Vertex vertex;
 	vertex.PushFloat(2);
 	p_VertexArray->AddBuffer(*p_Buffer, vertex);
 
-	p_ElementArrayBuffer = new ElementArrayBuffer(indices, 6);
+	p_ElementArrayBuffer = new ElementArrayBuffer(indices, 6, GL_DYNAMIC_DRAW);
 
 	p_Program = new Program();
 }
 
 SimpleRenderable::~SimpleRenderable()
 {
+	delete p_ElementArrayBuffer;
+	delete p_VertexArray;
+	delete p_Program;
+	delete p_Buffer;
 }
 
 void SimpleRenderable::Draw()

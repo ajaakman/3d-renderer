@@ -1,22 +1,15 @@
 #include "ElementArrayBuffer.h"
 
-#ifdef EMSCRIPTEN
-#define GLFW_INCLUDE_ES3
-#include <GLFW/glfw3.h>
-#else
-#include <GL/glew.h>
-#endif
-
 #include "../../Utility/Error.h"
 
-ElementArrayBuffer::ElementArrayBuffer(const unsigned int * data, unsigned int count)
+ElementArrayBuffer::ElementArrayBuffer(const unsigned int * data, unsigned int count, GLenum usage)
 	: m_Count(count)
 {
 	ASSERT(sizeof(unsigned int) == sizeof(GLuint));
 
 	GL(glGenBuffers(1, &m_ArrayBufferID));
 	GL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ArrayBufferID));
-	GL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(unsigned int), data, GL_STATIC_DRAW));
+	GL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(unsigned int), data, usage));
 }
 
 ElementArrayBuffer::~ElementArrayBuffer()

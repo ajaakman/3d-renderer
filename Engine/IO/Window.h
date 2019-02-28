@@ -22,6 +22,5 @@ private:
 	int m_nHeight;
 	const char * m_Name;
 	GLFWwindow* m_pWindow;
-	int Init();
 };
 

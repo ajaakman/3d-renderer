@@ -7,6 +7,8 @@
 #include <GL/glew.h>
 #endif
 
+#include <iostream>
+
 #include "../Utility/Error.h"
 
 Renderer::Renderer()
@@ -20,4 +22,26 @@ Renderer::~Renderer()
 void Renderer::Clear()
 {
 	GL(glClear(GL_COLOR_BUFFER_BIT));
+}
+
+void Renderer::Draw()
+{
+	for (auto & simpleRenderable : m_SimpleRenderables)	
+		simpleRenderable.second->Draw();	
+}
+
+bool Renderer::CreateSimpleRenderable(const std::string & name, const glm::vec2 & position, const glm::vec2 & size, const int & centered)
+{
+	if (!(m_SimpleRenderables.emplace(name, new SimpleRenderable(position, size, centered)).second))
+	{
+		std::cout << "Failed to create SimpleRenderable. Renderable with this name " << name << " already exists.\n";
+		return false;
+	}
+
+	return true;
+}
+
+SimpleRenderable* Renderer::GetSimpleRenderable(const std::string & name)
+{
+	return m_SimpleRenderables.find(name)->second;
 }

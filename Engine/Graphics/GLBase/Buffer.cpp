@@ -1,19 +1,12 @@
 #include "Buffer.h"
 
-#ifdef EMSCRIPTEN
-#define GLFW_INCLUDE_ES3
-#include <GLFW/glfw3.h>
-#else
-#include <GL/glew.h>
-#endif
-
 #include "../../Utility/Error.h"
 
-Buffer::Buffer(const void * data, unsigned int size)
+Buffer::Buffer(const void * data, unsigned int size, GLenum usage)
 {
 	GL(glGenBuffers(1, &m_BufferID));
 	GL(glBindBuffer(GL_ARRAY_BUFFER, m_BufferID));
-	GL(glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW));
+	GL(glBufferData(GL_ARRAY_BUFFER, size, data, usage));
 }
 
 Buffer::~Buffer()
