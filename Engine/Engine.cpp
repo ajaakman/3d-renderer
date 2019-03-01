@@ -26,10 +26,9 @@ Engine::~Engine()
 
 void Engine::Loop()
 {
-	double time = 0.0;
-	auto previousTime = std::chrono::high_resolution_clock::now();
-	auto currentTime = std::chrono::high_resolution_clock::now();
-	double deltaTime = 0.0;
+	int nCount = 0, nBuff = 0;
+	float fTime = 0.0f, fFrames = 0.0f, fDeltaTime = 0.0f, fHighestDelta = 0.0f;
+	auto previousTime = std::chrono::high_resolution_clock::now(), currentTime = previousTime;
 #ifdef EMSCRIPTEN
 	std::function<void()> mainLoop = [&]()
 #else
@@ -40,19 +39,28 @@ void Engine::Loop()
 
 		p_Renderer->Clear();
 
-		Tick(deltaTime);
+		Tick(fDeltaTime);
 
 		p_Renderer->Draw();
 		p_Window->SwapBuffers();
 		p_Window->PollEvents();
 
-		time += deltaTime;
-		if (time > 1000.0)
+		fTime += fDeltaTime;
+		fFrames += fDeltaTime;
+		++nCount;
+		
+		if (fDeltaTime > fHighestDelta)
+			fHighestDelta = fDeltaTime;
+
+		if (fTime > 1000.0f)
 		{
-			std::cout << "FPS: " << (int)(1000.0/deltaTime) << "\n";
-			time -= 1000.0;
+			std::cout << "FPS: " << (int)(1000.0f/(fFrames/(float)nCount)) << "  Lowest: " << (int)(1000.0f/ fHighestDelta) << "\n";
+			fTime -= 1000.0f;
+			nCount = 0;
+			fFrames = 0.0f;
+			fHighestDelta = 0.0f;
 		}
-		deltaTime = std::chrono::duration<double, std::milli>(currentTime - previousTime).count();
+		fDeltaTime = std::chrono::duration<float, std::milli>(currentTime - previousTime).count();
 		previousTime = currentTime;
 	}
 #ifdef EMSCRIPTEN

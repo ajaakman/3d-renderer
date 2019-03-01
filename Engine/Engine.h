@@ -19,7 +19,7 @@ public:
 
 	virtual void Begin() = 0;
 
-	virtual void Tick(double deltaTime) = 0;
+	virtual void Tick(float fDeltaTime) = 0;
 
 	void Loop();
 };

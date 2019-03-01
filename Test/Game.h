@@ -8,7 +8,7 @@ public:
 	Game();
 	~Game() override;
 	void Begin() override;
-	void Tick(double deltaTime) override;
+	void Tick(float deltaTime) override;
 private:
 	float col = 0.0f;
 	float rot = 0.0f;
