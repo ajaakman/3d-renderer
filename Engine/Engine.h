@@ -2,6 +2,7 @@
 
 #include "IO/Window.h"
 #include "Libraries/glm/glm.hpp"
+#include "Graphics/BatchRenderer2D.h"
 #include "Graphics/Renderer.h"
 #include "Graphics/SimpleRenderable.h"
 
@@ -18,7 +19,7 @@ public:
 
 	virtual void Begin() = 0;
 
-	virtual void Tick() = 0;
+	virtual void Tick(double deltaTime) = 0;
 
 	void Loop();
 };

@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Graphics\BatchRenderer2D.h" />
     <ClInclude Include="Graphics\GLBase\ElementArrayBuffer.h" />
     <ClInclude Include="Graphics\GLBase\Buffer.h" />
     <ClInclude Include="Engine.h" />
@@ -391,6 +392,7 @@
     <ClInclude Include="Graphics\GLBase\VertexArray.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Graphics\BatchRenderer2D.cpp" />
     <ClCompile Include="Graphics\GLBase\ElementArrayBuffer.cpp" />
     <ClCompile Include="Graphics\GLBase\Buffer.cpp" />
     <ClCompile Include="Engine.cpp" />

@@ -69,7 +69,6 @@ void SimpleRenderable::Draw()
 		
 	p_Program->SetUniformMat4f("u_MVP", MVP);
 	p_Program->SetUniform4f("u_Color", m_Color);
-
 	GL(glDrawElements(GL_TRIANGLES, p_ElementArrayBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
 }
 
@@ -87,3 +86,4 @@ void SimpleRenderable::SetRotation(glm::vec3 rotation)
 {
 	m_Rotation = rotation;
 }
+

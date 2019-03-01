@@ -26,7 +26,7 @@ Window::Window(int width, int height, const char * name)
 #endif
 	std::cout << glGetString(GL_VERSION) << std::endl;
 
-	glfwSwapInterval(1); // VSync
+	glfwSwapInterval(0); // VSync
 }
 
 Window::~Window()

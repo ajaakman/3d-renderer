@@ -21,7 +21,7 @@ void Game::Begin()
 	p_Renderer->CreateSimpleRenderable("r3", glm::vec2(0.0f, 0.0f), glm::vec2(100.0f, 100.0f));
 }
 
-void Game::Tick()
+void Game::Tick(double deltaTime)
 { 	
 	p_Renderer->GetSimpleRenderable("r1")->SetColor(glm::vec4(col, 1.0f, 0.0f, 1.0f));
 	p_Renderer->GetSimpleRenderable("r1")->SetPosition(glm::vec2(col*200+380, 270.0f));
@@ -40,6 +40,6 @@ void Game::Tick()
 	else if (col < 0.0f)
 		increment *= -1.0f;
 
-	col += increment;
-	rot += 0.02f;
+	col += increment * (float)deltaTime;
+	rot += 0.0015f * (float)deltaTime;
 }

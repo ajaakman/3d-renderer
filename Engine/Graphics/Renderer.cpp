@@ -26,8 +26,8 @@ void Renderer::Clear()
 
 void Renderer::Draw()
 {
-	for (auto & simpleRenderable : m_SimpleRenderables)	
-		simpleRenderable.second->Draw();	
+	for (auto & simpleRenderable : m_SimpleRenderables)
+		simpleRenderable.second->Draw();
 }
 
 bool Renderer::CreateSimpleRenderable(const std::string & name, const glm::vec2 & position, const glm::vec2 & size, const int & centered)

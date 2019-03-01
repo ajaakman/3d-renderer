@@ -8,10 +8,10 @@ public:
 	Game();
 	~Game() override;
 	void Begin() override;
-	void Tick() override;
+	void Tick(double deltaTime) override;
 private:
 	float col = 0.0f;
 	float rot = 0.0f;
-	float increment = 0.02f;
+	float increment = 0.0015f;
 };
 
