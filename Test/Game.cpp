@@ -12,12 +12,13 @@ Game::~Game()
 
 void Game::Begin()
 {	
+	for (int i = 0; i < 30; ++i)
+		for (int j = 0; j < 15; ++j)
+			p_Renderer->CreateSimpleRenderable("rend" + std::to_string(i) + "j" + std::to_string(j), glm::vec2(50.0f + i * 30.0f, 50.0f + j * 30.0f), glm::vec2(20.0f, 20.0f), 1);
+
 	p_Renderer->CreateSimpleRenderable("r1", glm::vec2(0.0f, 0.0f), glm::vec2(300.0f, 50.0f), 1);
 	p_Renderer->CreateSimpleRenderable("r2", glm::vec2(480.0f, 170.0f), glm::vec2(50.0f, 50.0f), 1);
 	p_Renderer->CreateSimpleRenderable("r3", glm::vec2(0.0f, 0.0f), glm::vec2(100.0f, 100.0f));
-
-	for (int i = 0; i < 8; ++i)	
-		p_Renderer->CreateSimpleRenderable("rend" + std::to_string(i), glm::vec2(100.0f + i * 100.0f, 400.0f), glm::vec2(20.0f, 20.0f), 1);	
 }
 
 void Game::Tick()
@@ -30,8 +31,9 @@ void Game::Tick()
 
 	p_Renderer->GetSimpleRenderable("r3")->SetRotation(glm::vec3(0.0f, 0.0f, rot));
 
-	for (int i = 0; i < 8; ++i)
-		p_Renderer->GetSimpleRenderable("rend" + std::to_string(i))->SetRotation(glm::vec3(0.0f, 0.0f, rot));
+	for (int i = 0; i < 30; ++i)
+		for (int j = 0; j < 15; ++j)
+		 p_Renderer->GetSimpleRenderable("rend" + std::to_string(i) + "j" + std::to_string(j))->SetRotation(glm::vec3(0.0f, 0.0f, rot));
 	
 	if (col > 1.0f)
 		increment *= -1.0f;

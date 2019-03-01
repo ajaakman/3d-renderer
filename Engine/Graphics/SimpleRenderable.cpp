@@ -1,4 +1,5 @@
 #include "SimpleRenderable.h"
+
 #include "../Libraries/glm/gtc/matrix_transform.hpp"
 
 SimpleRenderable::SimpleRenderable(glm::vec2 position, glm::vec2 size, int centered)

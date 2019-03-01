@@ -37,11 +37,12 @@ bool Renderer::CreateSimpleRenderable(const std::string & name, const glm::vec2 
 		std::cout << "Failed to create SimpleRenderable. Renderable with this name " << name << " already exists.\n";
 		return false;
 	}
-
 	return true;
 }
 
 SimpleRenderable* Renderer::GetSimpleRenderable(const std::string & name)
 {
-	return m_SimpleRenderables.find(name)->second;
+	auto result = m_SimpleRenderables.find(name);
+	// TODO Fatal error if wrong name is used.
+	return result == m_SimpleRenderables.end() ? nullptr : m_SimpleRenderables.find(name)->second;
 }
