@@ -16,6 +16,7 @@
 Renderer::Renderer(Window* window)
 	:m_pWindow(window)
 {	
+	GL(glClearColor(0.1f, 0.1f, 0.1f, 1.0f));
 }
 
 Renderer::~Renderer()
@@ -24,7 +25,7 @@ Renderer::~Renderer()
 
 void Renderer::Clear()
 {
-	GL(glClear(GL_COLOR_BUFFER_BIT));
+	GL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT));
 }
 
 void Renderer::Draw()

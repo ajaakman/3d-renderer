@@ -35,8 +35,7 @@ void Game::Tick(float fDeltaTime)
 
 	for (int i = 0; i < 30; ++i)
 		for (int j = 0; j < 15; ++j)
-			p_Renderer->GetSimpleRenderable("rend" + std::to_string(i) + "j" + std::to_string(j))->SetRotation(glm::vec3(0.0f, 0.0f, rot));
-	
+			p_Renderer->GetSimpleRenderable("rend" + std::to_string(i) + "j" + std::to_string(j))->SetRotation(glm::vec3(0.0f, 0.0f, rot));	
 
 	if (col > 1.0f)
 		increment = -0.0015f;

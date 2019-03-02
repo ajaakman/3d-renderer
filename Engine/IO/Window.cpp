@@ -11,6 +11,10 @@ Window::Window(int width, int height, const char * name)
 	if (!glfwInit())
 		std::cout << "GLFW Failed To Initialize!" << std::endl;
 
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 	m_pWindow = glfwCreateWindow(m_nWidth, m_nHeight, m_Name, NULL, NULL);
 	if (!m_pWindow)
 	{
@@ -18,12 +22,16 @@ Window::Window(int width, int height, const char * name)
 		std::cout << "No Window. GLFW Terminating..." << std::endl;
 	}	
 
-	glfwSetWindowUserPointer(m_pWindow, this);
+	int nFrameBufferWidth, nFrameBufferHeight;
+	glfwGetFramebufferSize(m_pWindow, &nFrameBufferWidth, &nFrameBufferHeight);
+	glViewport(0, 0, nFrameBufferWidth, nFrameBufferHeight);
 
+	glfwSetWindowUserPointer(m_pWindow, this);
 	glfwSetWindowSizeCallback(m_pWindow, WindowSizeCallback);
 
 	glfwMakeContextCurrent(m_pWindow);
 #ifndef EMSCRIPTEN
+	glewExperimental = GL_TRUE;
 	GLenum error = glewInit();
 	if (error != GLEW_OK)
 		std::cout << "GLEW Failed to Initialize!" << std::endl;
@@ -65,6 +73,11 @@ const int & Window::GetHeight()
 
 void WindowSizeCallback(GLFWwindow* window, int width, int height)
 {
-	static_cast<Window*>(glfwGetWindowUserPointer(window))->m_nWidth = width;
-	static_cast<Window*>(glfwGetWindowUserPointer(window))->m_nHeight = height;
+	Window* w = static_cast<Window*>(glfwGetWindowUserPointer(window));
+	w->m_nWidth = width;
+	w->m_nHeight = height;
+
+	int nFrameBufferWidth, nFrameBufferHeight;
+	glfwGetFramebufferSize(w->m_pWindow, &nFrameBufferWidth, &nFrameBufferHeight);
+	glViewport(0, 0, nFrameBufferWidth, nFrameBufferHeight);
 }

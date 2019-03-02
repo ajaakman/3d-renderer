@@ -38,12 +38,12 @@ void Engine::Loop()
 		currentTime = std::chrono::high_resolution_clock::now();
 
 		p_Renderer->Clear();
+		p_Window->PollEvents();
 
 		Tick(fDeltaTime);
 
 		p_Renderer->Draw();
 		p_Window->SwapBuffers();
-		p_Window->PollEvents();
 
 		fTime += fDeltaTime;
 		fFrames += fDeltaTime;
