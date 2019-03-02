@@ -388,8 +388,7 @@
     <ClInclude Include="Libraries\glm\vector_relational.hpp" />
     <ClInclude Include="Utility\Error.h" />
     <ClInclude Include="IO\Window.h" />
-    <ClInclude Include="Graphics\GLBase\Vertex.h" />
-    <ClInclude Include="Graphics\GLBase\VertexArray.h" />
+    <ClInclude Include="Graphics\Vertex.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Graphics\BatchRenderer2D.cpp" />
@@ -401,8 +400,7 @@
     <ClCompile Include="Graphics\SimpleRenderable.cpp" />
     <ClCompile Include="Utility\Error.cpp" />
     <ClCompile Include="IO\Window.cpp" />
-    <ClCompile Include="Graphics\GLBase\Vertex.cpp" />
-    <ClCompile Include="Graphics\GLBase\VertexArray.cpp" />
+    <ClCompile Include="Graphics\Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Libraries\glm\detail\func_common.inl" />

@@ -4,6 +4,8 @@
 
 #include "../Libraries/glm/gtc/matrix_transform.hpp"
 
+#include "Vertex.h"
+
 #define RENDERABLES 2
 
 BatchRenderer2D::BatchRenderer2D()
@@ -33,22 +35,17 @@ BatchRenderer2D::BatchRenderer2D()
 		6, 7, 4
 	};
 
-	p_VertexArray = new VertexArray;
-	p_Buffer = new Buffer(positions, 4 * 2 * sizeof(float) * RENDERABLES, GL_DYNAMIC_DRAW);
-
 	Vertex vertex;
 	vertex.PushFloat(2);
-	p_VertexArray->AddBuffer(*p_Buffer, vertex);
 
-	p_ElementArrayBuffer = new ElementArrayBuffer(indices, 6 * RENDERABLES, GL_DYNAMIC_DRAW);
-
+	p_Buffer = new Buffer(positions, 4 * 2 * sizeof(float), vertex, GL_DYNAMIC_DRAW);
+	p_ElementArrayBuffer = new ElementArrayBuffer(indices, 6, GL_DYNAMIC_DRAW);
 	p_Program = new Program();
 }
 
 BatchRenderer2D::~BatchRenderer2D()
 {
 	delete p_ElementArrayBuffer;
-	delete p_VertexArray;
 	delete p_Program;
 	delete p_Buffer;
 }
@@ -61,7 +58,7 @@ void BatchRenderer2D::Clear()
 void BatchRenderer2D::Draw()
 {
 	p_Program->Bind();
-	p_VertexArray->Bind();
+	p_Buffer->Bind();
 	p_ElementArrayBuffer->Bind();
 	// TODO
 	for (auto & renderable : m_SimpleRenderables)

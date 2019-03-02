@@ -4,7 +4,6 @@
 
 #include "GLBase/ElementArrayBuffer.h"
 #include "GLBase/Buffer.h"
-#include "GLBase/VertexArray.h"
 #include "GLBase/Program.h"
 
 #include <unordered_map>
@@ -37,7 +36,6 @@ public:
 	SimpleBatchRenderable* GetSimpleRenderable(const std::string & name);
 private:
 	ElementArrayBuffer* p_ElementArrayBuffer;
-	VertexArray* p_VertexArray;
 	Program* p_Program;
 	Buffer* p_Buffer;
 
