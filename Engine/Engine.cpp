@@ -15,13 +15,13 @@ static void dispatch_main(void* fp)
 Engine::Engine()
 {
 	p_Window = new Window(960, 540, "GLWindow");
-	p_Renderer = new Renderer;
+	p_Renderer = new Renderer(p_Window);
 }
 
 Engine::~Engine()
 {
-	delete p_Window;
 	delete p_Renderer;
+	delete p_Window;
 }
 
 void Engine::Loop()

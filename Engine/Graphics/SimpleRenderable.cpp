@@ -43,7 +43,7 @@ SimpleRenderable::~SimpleRenderable()
 	delete p_Buffer;
 }
 
-void SimpleRenderable::Draw()
+void SimpleRenderable::Draw(const glm::mat4 & view_projection)
 {
 	p_Program->Bind();
 	p_VertexArray->Bind();
@@ -54,14 +54,7 @@ void SimpleRenderable::Draw()
 	(
 		glm::translate
 		(
-			glm::translate
-			(
-				glm::ortho
-				(	
-					0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f // Projection
-				), 
-				glm::vec3(0.0f, 0.0f, 0.0f) // View
-			), 
+			view_projection, 
 			glm::vec3(m_Position.x, m_Position.y, 0.0f) // Model Location
 		),
 		m_Rotation.z, glm::vec3(0.0f, 0.0f, 1.0f) // Model Rotation

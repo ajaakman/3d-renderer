@@ -9,9 +9,12 @@
 
 #include <iostream>
 
+#include "../Libraries/glm/gtc/matrix_transform.hpp"
+
 #include "../Utility/Error.h"
 
-Renderer::Renderer()
+Renderer::Renderer(Window* window)
+	:m_pWindow(window)
 {	
 }
 
@@ -26,8 +29,18 @@ void Renderer::Clear()
 
 void Renderer::Draw()
 {
+	glm::mat4 ViewProjection =
+	glm::translate
+	(
+		glm::ortho
+		(
+			0.0f, (float)m_pWindow->GetWidth(), 0.0f, (float)m_pWindow->GetHeight(), -1.0f, 1.0f // Projection
+		),
+		glm::vec3(0.0f, 0.0f, 0.0f) // View
+	);
+
 	for (auto & simpleRenderable : m_SimpleRenderables)
-		simpleRenderable.second->Draw();
+		simpleRenderable.second->Draw(ViewProjection);
 }
 
 bool Renderer::CreateSimpleRenderable(const std::string & name, const glm::vec2 & position, const glm::vec2 & size, const int & centered)

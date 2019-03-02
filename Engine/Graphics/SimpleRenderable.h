@@ -15,7 +15,7 @@ public:
 	void SetColor(glm::vec4 color);
 	void SetPosition(glm::vec2 position);
 	void SetRotation(glm::vec3 rotation);
-	void Draw();
+	void Draw(const glm::mat4 & view_projection);
 private:
 	ElementArrayBuffer* p_ElementArrayBuffer;
 	VertexArray* p_VertexArray;

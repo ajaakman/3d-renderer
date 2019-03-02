@@ -16,7 +16,11 @@ Window::Window(int width, int height, const char * name)
 	{
 		glfwTerminate();
 		std::cout << "No Window. GLFW Terminating..." << std::endl;
-	}
+	}	
+
+	glfwSetWindowUserPointer(m_pWindow, this);
+
+	glfwSetWindowSizeCallback(m_pWindow, WindowSizeCallback);
 
 	glfwMakeContextCurrent(m_pWindow);
 #ifndef EMSCRIPTEN
@@ -49,3 +53,18 @@ bool Window::ShouldNotClose()
 	return !glfwWindowShouldClose(m_pWindow);
 }
 
+const int & Window::GetWidth()
+{
+	return m_nWidth;
+}
+
+const int & Window::GetHeight()
+{
+	return m_nHeight;
+}
+
+void WindowSizeCallback(GLFWwindow* window, int width, int height)
+{
+	static_cast<Window*>(glfwGetWindowUserPointer(window))->m_nWidth = width;
+	static_cast<Window*>(glfwGetWindowUserPointer(window))->m_nHeight = height;
+}
