@@ -36,5 +36,6 @@ void Buffer::Bind() const
 
 void Buffer::ModifyBuffer(const void * data, int offset, unsigned int size)
 {
+	GL(glBindBuffer(GL_ARRAY_BUFFER, m_BufferID));
 	GL(glBufferSubData(GL_ARRAY_BUFFER, offset, size, data));
 }

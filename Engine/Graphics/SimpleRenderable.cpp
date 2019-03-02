@@ -69,7 +69,7 @@ void SimpleRenderable::SetRotation(const glm::vec3 & rotation)
 	m_Rotation = rotation;
 }
 
-void SimpleRenderable::ModifyBuffer(glm::vec2 position, glm::vec2 size, int centered)
+void SimpleRenderable::ModifyBuffer(glm::vec2 position, glm::vec2 size, int centered) // Can use to change root point.
 {
 	float rootX = position.x, rootY = position.y;
 	if (centered)
@@ -82,7 +82,6 @@ void SimpleRenderable::ModifyBuffer(glm::vec2 position, glm::vec2 size, int cent
 			size.x + rootX,          rootY,
 			size.x + rootX, size.y + rootY,
 					 rootX, size.y + rootY
-	};
-
+	};	
 	p_Buffer->ModifyBuffer(positions, 0, 4 * 2 * sizeof(float));
 }
