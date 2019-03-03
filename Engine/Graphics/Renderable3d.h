@@ -6,19 +6,18 @@
 
 #include "../Libraries/glm/glm.hpp"
 
-class SimpleRenderable
+class Renderable3d
 {
 public:
-	SimpleRenderable(glm::vec2 position, glm::vec2 size, int centered = 0);
-	~SimpleRenderable();
+	Renderable3d(glm::vec3 position, glm::vec3 size);
+	~Renderable3d();
 
 	void Draw(const glm::mat4 & view_projection);
 
-	glm::vec2 Position;
+	glm::vec3 Position;
 	glm::vec3 Rotation;
 	glm::vec4 Color;
 
-	void ModifyBuffer(glm::vec2 position, glm::vec2 size, int centered);
 private:
 	ElementArrayBuffer* p_ElementArrayBuffer;
 	Program* p_Program;
