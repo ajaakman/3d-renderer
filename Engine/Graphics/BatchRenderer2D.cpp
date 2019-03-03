@@ -15,7 +15,7 @@ BatchRenderer2D::BatchRenderer2D()
 	rootX -= 50 / 2;
 	rootY -= 50 / 2;
 	
-	float positions[8 * RENDERABLES] = {
+	float vertices[8 * RENDERABLES] = {
 					 rootX,          rootY,
 				50 + rootX,          rootY,
 				50 + rootX,		50 + rootY,
@@ -38,7 +38,7 @@ BatchRenderer2D::BatchRenderer2D()
 	Vertex vertex;
 	vertex.PushFloat(2);
 
-	p_Buffer = new Buffer(positions, 4 * 2 * sizeof(float), vertex, GL_DYNAMIC_DRAW);
+	p_Buffer = new Buffer(vertices, 4 * 2 * sizeof(float), vertex, GL_DYNAMIC_DRAW);
 	p_ElementArrayBuffer = new ElementArrayBuffer(indices, 6, GL_DYNAMIC_DRAW);
 	p_Program = new Program();
 }

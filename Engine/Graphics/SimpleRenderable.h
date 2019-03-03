@@ -9,12 +9,13 @@
 class SimpleRenderable
 {
 public:
-	SimpleRenderable(glm::vec2 position, glm::vec2 size, int centered = 0);
+	SimpleRenderable(glm::vec2 position, glm::vec2 scale, int centered = 0);
 	~SimpleRenderable();
 
 	void Draw(const glm::mat4 & view_projection);
 
 	glm::vec2 Position;
+	glm::vec2 Scale;
 	glm::vec3 Rotation;
 	glm::vec4 Color;
 

@@ -23,7 +23,7 @@ void Game::Begin()
 	{
 		for (int j = 0; j < 4; ++j)
 		{
-			p_Renderer->CreateRenderable3d("3d" + std::to_string(i) + "j" + std::to_string(j), glm::vec3(-900.0f + 300 * i, 450.0f + -300.0f * j, -3000.0f), glm::vec3(50.0f, 50.0f, 50.0f));
+			p_Renderer->CreateRenderable3d("3d" + std::to_string(i) + "j" + std::to_string(j), glm::vec3(-900.0f + 300 * i, 450.0f + -300.0f * j, -3000.0f), glm::vec3(70.0f, 70.0f, 70.0f));
 			p_Renderer->GetRenderable3d("3d" + std::to_string(i) + "j" + std::to_string(j))->Color = glm::vec4(0.8f, 0.0f, 1.0f, 1.0f);
 		}
 
@@ -43,14 +43,9 @@ void Game::Tick(float fDeltaTime)
 	//p_Renderer->GetSimpleRenderable("r3")->Rotation.z = rot;
 	//p_Renderer->GetSimpleRenderable("r1")->ModifyBuffer(glm::vec2(50.0f*col, 25.0f*col), glm::vec2(300.0f, 50.0f), 1);
 
-	for (int i = 0; i < 7; ++i)
-	{
-		for (int j = 0; j < 4; ++j)
-		{
-			p_Renderer->GetRenderable3d("3d" + std::to_string(i) + "j" + std::to_string(j))->Rotation.z = rot;
-		}
-
-	}
+	for (int i = 0; i < 7; ++i)	
+		for (int j = 0; j < 4; ++j)		
+			p_Renderer->GetRenderable3d("3d" + std::to_string(i) + "j" + std::to_string(j))->Rotation.z = rot;		
 
 	//for (int i = 0; i < 30; ++i)
 	//	for (int j = 0; j < 15; ++j)

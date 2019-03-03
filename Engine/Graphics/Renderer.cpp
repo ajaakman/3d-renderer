@@ -17,6 +17,17 @@ Renderer::Renderer(Window* window)
 	:m_pWindow(window)
 {	
 	GL(glClearColor(0.1f, 0.1f, 0.1f, 1.0f));
+	GL(glEnable(GL_DEPTH_TEST));
+	GL(glEnable(GL_CULL_FACE));
+
+	GL(glEnable(GL_BLEND));
+	GL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+
+	GL(glCullFace(GL_BACK));
+	GL(glFrontFace(GL_CCW));
+#ifndef EMSCRIPTEN
+	GL(glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)); // GL_FILL
+#endif
 }
 
 Renderer::~Renderer()

@@ -9,12 +9,13 @@
 class Renderable3d
 {
 public:
-	Renderable3d(glm::vec3 position, glm::vec3 size);
+	Renderable3d(glm::vec3 position, glm::vec3 scale);
 	~Renderable3d();
 
 	void Draw(const glm::mat4 & view_projection);
 
 	glm::vec3 Position;
+	glm::vec3 Scale;
 	glm::vec3 Rotation;
 	glm::vec4 Color;
 
