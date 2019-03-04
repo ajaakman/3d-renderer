@@ -16,8 +16,8 @@ public:
 
 	glm::vec2 Position;
 	glm::vec2 Scale;
-	glm::vec3 Rotation;
 	glm::vec4 Color;
+	float Rotation;
 
 	void ModifyBuffer(glm::vec2 position, glm::vec2 size, int centered);
 private:

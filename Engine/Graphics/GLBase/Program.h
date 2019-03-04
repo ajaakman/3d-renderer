@@ -7,12 +7,13 @@
 class Program
 {
 	public:
-		Program();
+		Program(const int& type = 0);
 		Program(const std::string& filepath);
 		~Program();
 
 		void Bind() const;
 
+		void SetUniform1i(const std::string& name, const int value);
 		void SetUniform4f(const std::string& name, const glm::vec4& vector);
 		void SetUniformMat4f(const std::string& name, const glm::mat4& matrix);
 	private:

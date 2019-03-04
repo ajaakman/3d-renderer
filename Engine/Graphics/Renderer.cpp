@@ -26,7 +26,7 @@ Renderer::Renderer(Window* window)
 	GL(glCullFace(GL_BACK));
 	GL(glFrontFace(GL_CCW));
 #ifndef EMSCRIPTEN
-	GL(glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)); // GL_FILL
+	GL(glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)); // GL_FILL GL_LINE
 #endif
 }
 
@@ -51,8 +51,11 @@ void Renderer::Draw()
 		glm::vec3(0.0f, 0.0f, 0.0f) // View
 	);
 
-	for (auto & simpleRenderable : m_SimpleRenderables)
-		simpleRenderable.second->Draw(ViewProjection);
+	for (auto & renderable : m_SimpleRenderables)
+		renderable.second->Draw(ViewProjection);
+
+	for (auto & sprite : m_Sprites2D)
+		sprite.second->Draw(ViewProjection);
 
 	ViewProjection =
 		glm::translate
@@ -62,25 +65,35 @@ void Renderer::Draw()
 			glm::vec3(0.0f, 0.0f, -200.0f)
 		);
 
-	for (auto & Renderable3d : m_Renderables3d)
-		Renderable3d.second->Draw(ViewProjection);
+	for (auto & renderable : m_Renderables3D)
+		renderable.second->Draw(ViewProjection);
 }
 
 bool Renderer::CreateSimpleRenderable(const std::string & name, const glm::vec2 & position, const glm::vec2 & size, const int & centered)
 {
 	if (!(m_SimpleRenderables.emplace(name, new SimpleRenderable(position, size, centered)).second))
 	{
-		std::cout << "Failed to create SimpleRenderable. Renderable with this name " << name << " already exists.\n";
+		std::cout << "Failed to create SimpleRenderable. Renderable with name " << name << " already exists.\n";
 		return false;
 	}
 	return true;
 }
 
-bool Renderer::CreateRenderable3d(const std::string & name, const glm::vec3 & position, const glm::vec3 & size)
+bool Renderer::CreateSprite2D(const std::string & name, const glm::vec2 & position, const glm::vec2 & size, const int & centered)
 {
-	if (!(m_Renderables3d.emplace(name, new Renderable3d(position, size)).second))
+	if (!(m_Sprites2D.emplace(name, new Sprite2D(position, size, centered)).second))
 	{
-		std::cout << "Failed to create Renderable3d. Renderable with this name " << name << " already exists.\n";
+		std::cout << "Failed to create Sprite2D. Sprite with name " << name << " already exists.\n";
+		return false;
+	}
+	return true;
+}
+
+bool Renderer::CreateRenderable3D(const std::string & name, const glm::vec3 & position, const glm::vec3 & size)
+{
+	if (!(m_Renderables3D.emplace(name, new Renderable3D(position, size)).second))
+	{
+		std::cout << "Failed to create Renderable3d. Renderable with name " << name << " already exists.\n";
 		return false;
 	}
 	return true;
@@ -93,9 +106,16 @@ SimpleRenderable* Renderer::GetSimpleRenderable(const std::string & name)
 	return result == m_SimpleRenderables.end() ? nullptr : m_SimpleRenderables.find(name)->second;
 }
 
-Renderable3d * Renderer::GetRenderable3d(const std::string & name)
+Sprite2D * Renderer::GetSprite2D(const std::string & name)
 {
-	auto result = m_Renderables3d.find(name);
+	auto result = m_Sprites2D.find(name);
 	// TODO Fatal error if wrong name is used.
-	return result == m_Renderables3d.end() ? nullptr : m_Renderables3d.find(name)->second;
+	return result == m_Sprites2D.end() ? nullptr : m_Sprites2D.find(name)->second;
+}
+
+Renderable3D * Renderer::GetRenderable3D(const std::string & name)
+{
+	auto result = m_Renderables3D.find(name);
+	// TODO Fatal error if wrong name is used.
+	return result == m_Renderables3D.end() ? nullptr : m_Renderables3D.find(name)->second;
 }

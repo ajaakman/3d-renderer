@@ -386,7 +386,9 @@
     <ClInclude Include="Libraries\glm\vec3.hpp" />
     <ClInclude Include="Libraries\glm\vec4.hpp" />
     <ClInclude Include="Libraries\glm\vector_relational.hpp" />
-    <ClInclude Include="Graphics\Renderable3d.h" />
+    <ClInclude Include="Graphics\Renderable3D.h" />
+    <ClInclude Include="Graphics\Sprite2D.h" />
+    <ClInclude Include="Graphics\GLBase\Texture.h" />
     <ClInclude Include="Utility\Error.h" />
     <ClInclude Include="IO\Window.h" />
     <ClInclude Include="Graphics\Vertex.h" />
@@ -399,7 +401,9 @@
     <ClCompile Include="Graphics\GLBase\Program.cpp" />
     <ClCompile Include="Graphics\Renderer.cpp" />
     <ClCompile Include="Graphics\SimpleRenderable.cpp" />
-    <ClCompile Include="Graphics\Renderable3d.cpp" />
+    <ClCompile Include="Graphics\Renderable3D.cpp" />
+    <ClCompile Include="Graphics\Sprite2D.cpp" />
+    <ClCompile Include="Graphics\GLBase\Texture.cpp" />
     <ClCompile Include="Utility\Error.cpp" />
     <ClCompile Include="IO\Window.cpp" />
     <ClCompile Include="Graphics\Vertex.cpp" />

@@ -14,50 +14,117 @@
 
 #include "../../Utility/Error.h"
 
-Program::Program()
+Program::Program(const int& type)
 	:m_ShaderID(0)
 {
+	std::string vertex, fragment;
+	if (type == 0)
+	{
 #ifdef EMSCRIPTEN
-	std::string vertex =
-		"attribute highp vec4 position;\n"
-		"uniform mat4 u_MVP;\n"
-		"\n"
-		"void main()\n"
-		"{\n"
-		"	gl_Position = u_MVP * position;\n"
-		"}\n";
-	std::string fragment =
-		"precision highp float;\n"
-		"\n"
-		"uniform vec4 u_Color;\n"
-		"\n"
-		"void main()\n"
-		"{\n"
-		"	gl_FragColor = u_Color;\n"
-		"}\n";
+		vertex =
+			"attribute highp vec4 position;\n"
+			"uniform mat4 u_MVP;\n"
+			"\n"
+			"void main()\n"
+			"{\n"
+			"	gl_Position = u_MVP * position;\n"
+			"}\n";
+		fragment =
+			"precision highp float;\n"
+			"\n"
+			"uniform vec4 u_Color;\n"
+			"\n"
+			"void main()\n"
+			"{\n"
+			"	gl_FragColor = u_Color;\n"
+			"}\n";
 #else
-	std::string vertex =
-		"#version 330 core\n"
-		"\n"
-		"layout(location = 0) in vec4 position;\n"
-		"uniform mat4 u_MVP;\n"
-		"\n"
-		"void main()\n"
-		"{\n"
-		"	gl_Position = u_MVP * position;\n"
-		"};\n";
-	std::string fragment =
-		"#version 330 core\n"
-		"\n"
-		"layout(location = 0) out vec4 color;\n"
-		"\n"
-		"uniform vec4 u_Color;\n"
-		"\n"
-		"void main()\n"
-		"{\n"
-		"	color = u_Color;\n"
-		"};\n";
+		vertex =
+			"#version 330 core\n"
+			"\n"
+			"layout(location = 0) in vec4 position;\n"
+			"\n"
+			"uniform mat4 u_MVP;\n"
+			"\n"
+			"void main()\n"
+			"{\n"
+			"	gl_Position = u_MVP * position;\n"
+			"};\n";
+		fragment =
+			"#version 330 core\n"
+			"\n"
+			"layout(location = 0) out vec4 color;\n"
+			"\n"
+			"uniform vec4 u_Color;\n"
+			"\n"
+			"void main()\n"
+			"{\n"
+			"	color = u_Color;\n"
+			"};\n";
 #endif
+	}
+	else if (type == 1)
+	{
+#ifdef EMSCRIPTEN
+		vertex =
+			"attribute highp vec4 position;\n"
+			"attribute highp vec2 texCoord;\n"
+			"\n"
+			"uniform mat4 u_MVP;\n"
+			"\n"
+			"varying highp vec2 v_TexCoord;\n"
+			"\n"
+			"void main()\n"
+			"{\n"
+			"	gl_Position = u_MVP * position;\n"
+			"	v_TexCoord = texCoord;\n"
+			"}\n";
+		fragment =
+			"precision highp float;\n"
+			"\n"
+			"varying highp vec2 v_TexCoord;\n"
+			"\n"
+			"uniform vec4 u_Color;\n"
+			"uniform sampler2D u_Texture;\n"
+			"\n"
+			"void main()\n"
+			"{\n"
+			"	vec4 texColor = texture2D(u_Texture, v_TexCoord);\n"
+			"	gl_FragColor = texColor * u_Color;\n"
+			"}\n";
+#else
+		vertex =
+			"#version 330 core\n"
+			"\n"
+			"layout(location = 0) in vec4 position;\n"
+			"layout(location = 1) in vec2 texCoord;\n"
+			"\n"
+			"out vec2 v_TexCoord;\n"
+			"\n"
+			"uniform mat4 u_MVP;\n"
+			"\n"
+			"void main()\n"
+			"{\n"
+			"	gl_Position = u_MVP * position;\n"
+			"	v_TexCoord = texCoord;\n"
+			"};\n";
+		fragment =
+			"#version 330 core\n"
+			"\n"
+			"in vec2 v_TexCoord;"
+			"\n"
+			"layout(location = 0) out vec4 color;\n"
+			"\n"
+			"uniform vec4 u_Color;\n"
+			"uniform sampler2D u_Texture;\n"
+			"\n"
+			"void main()\n"
+			"{\n"
+			"	vec4 texColor = texture(u_Texture, v_TexCoord);\n"
+			"	color = texColor * u_Color;\n"
+			"};\n";
+#endif
+	}
 	m_ShaderID = CreateShader(vertex, fragment);
 }
 
@@ -146,6 +213,11 @@ unsigned int Program::CreateShader(const std::string& vertexShader, const std::s
 void Program::Bind() const
 {
 	GL(glUseProgram(m_ShaderID));
+}
+
+void Program::SetUniform1i(const std::string & name, const int value)
+{
+	GL(glUniform1i(GetUniformLocation(name), value));
 }
 
 void Program::SetUniform4f(const std::string & name, const glm::vec4 & vector)
