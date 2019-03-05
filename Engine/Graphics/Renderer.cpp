@@ -203,9 +203,9 @@ void Renderer::Draw()
 	m_pTexture->Unbind();
 }
 
-bool Renderer::CreateSimpleRenderable(const std::string & name, const glm::vec2 & position, const glm::vec2 & size, const int & centered)
+bool Renderer::CreateSimpleRenderable(const std::string & name, const glm::vec2 & position, const glm::vec2 & scale, const float & rotation, const glm::vec4 & color)
 {
-	if (!(m_SimpleRenderables.emplace(name, new SimpleRenderable(position, size, centered)).second))
+	if (!(m_SimpleRenderables.emplace(name, new Sprite2D(position, scale, rotation, color)).second))
 	{
 		std::cout << "Failed to create SimpleRenderable. Renderable with name " << name << " already exists.\n";
 		return false;
@@ -213,9 +213,9 @@ bool Renderer::CreateSimpleRenderable(const std::string & name, const glm::vec2 
 	return true;
 }
 
-bool Renderer::CreateSprite2D(const std::string & name, const glm::vec2 & position, const glm::vec2 & size, const int & centered)
+bool Renderer::CreateSprite2D(const std::string & name, const glm::vec2 & position, const glm::vec2 & scale, const float & rotation, const glm::vec4 & color)
 {
-	if (!(m_Sprites2D.emplace(name, new Sprite2D(position, size, centered)).second))
+	if (!(m_Sprites2D.emplace(name, new Sprite2D(position, scale, rotation, color)).second))
 	{
 		std::cout << "Failed to create Sprite2D. Sprite with name " << name << " already exists.\n";
 		return false;
@@ -233,7 +233,7 @@ bool Renderer::CreateRenderable3D(const std::string & name, const glm::vec3 & po
 	return true;
 }
 
-SimpleRenderable* Renderer::GetSimpleRenderable(const std::string & name)
+Sprite2D* Renderer::GetSimpleRenderable(const std::string & name)
 {
 	auto result = m_SimpleRenderables.find(name);
 	// TODO Fatal error if wrong name is used.

@@ -7,7 +7,7 @@
 #include <GL/glew.h>
 #endif
 
-#include "../Vertex.h"
+#include "../GUtility/Vertex.h"
 
 class Buffer
 {

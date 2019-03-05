@@ -145,7 +145,6 @@
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Graphics\GLBase\Program.h" />
     <ClInclude Include="Graphics\Renderer.h" />
-    <ClInclude Include="Graphics\SimpleRenderable.h" />
     <ClInclude Include="Libraries\glm\common.hpp" />
     <ClInclude Include="Libraries\glm\detail\compute_common.hpp" />
     <ClInclude Include="Libraries\glm\detail\compute_vector_relational.hpp" />
@@ -386,13 +385,13 @@
     <ClInclude Include="Libraries\glm\vec3.hpp" />
     <ClInclude Include="Libraries\glm\vec4.hpp" />
     <ClInclude Include="Libraries\glm\vector_relational.hpp" />
-    <ClInclude Include="Graphics\Renderable3D.h" />
-    <ClInclude Include="Graphics\Sprite2D.h" />
+    <ClInclude Include="Graphics\Renderables\Renderable3D.h" />
+    <ClInclude Include="Graphics\Renderables\Sprite2D.h" />
     <ClInclude Include="Graphics\GLBase\Texture.h" />
     <ClInclude Include="Libraries\stbi\stbi.h" />
     <ClInclude Include="Utility\Error.h" />
     <ClInclude Include="IO\Window.h" />
-    <ClInclude Include="Graphics\Vertex.h" />
+    <ClInclude Include="Graphics\GUtility\Vertex.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Graphics\BatchRenderer2D.cpp" />
@@ -401,14 +400,13 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Graphics\GLBase\Program.cpp" />
     <ClCompile Include="Graphics\Renderer.cpp" />
-    <ClCompile Include="Graphics\SimpleRenderable.cpp" />
-    <ClCompile Include="Graphics\Renderable3D.cpp" />
-    <ClCompile Include="Graphics\Sprite2D.cpp" />
+    <ClCompile Include="Graphics\Renderables\Renderable3D.cpp" />
+    <ClCompile Include="Graphics\Renderables\Sprite2D.cpp" />
     <ClCompile Include="Graphics\GLBase\Texture.cpp" />
     <ClCompile Include="Libraries\stbi\stbi.cpp" />
     <ClCompile Include="Utility\Error.cpp" />
     <ClCompile Include="IO\Window.cpp" />
-    <ClCompile Include="Graphics\Vertex.cpp" />
+    <ClCompile Include="Graphics\GUtility\Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Libraries\glm\detail\func_common.inl" />

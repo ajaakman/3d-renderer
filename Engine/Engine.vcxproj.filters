@@ -27,9 +27,6 @@
     <ClInclude Include="Graphics\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\SimpleRenderable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Libraries\glm\detail\_features.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -762,19 +759,19 @@
     <ClInclude Include="Graphics\BatchRenderer2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\Vertex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\Renderable3D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\Sprite2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\GLBase\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Libraries\stbi\stbi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Renderables\Renderable3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Renderables\Sprite2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\GUtility\Vertex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -791,9 +788,6 @@
     <ClCompile Include="Graphics\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\SimpleRenderable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics\GLBase\Buffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -806,19 +800,19 @@
     <ClCompile Include="Graphics\BatchRenderer2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\Vertex.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\Renderable3D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\Sprite2D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics\GLBase\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Libraries\stbi\stbi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Renderables\Renderable3D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Renderables\Sprite2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\GUtility\Vertex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
