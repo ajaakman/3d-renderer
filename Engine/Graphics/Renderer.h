@@ -42,7 +42,7 @@ private:
 	ElementArrayBuffer* p_SpriteElementArrayBuffer;
 	Program* p_SpriteProgram;
 	Buffer* p_SpriteBuffer;
-	Texture m_Texture;
+	Texture* m_pTexture;
 
 	ElementArrayBuffer* p_3DElementArrayBuffer;
 	Program* p_3DProgram;

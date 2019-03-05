@@ -774,6 +774,9 @@
     <ClInclude Include="Graphics\GLBase\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Libraries\stbi\stbi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -813,6 +816,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\GLBase\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\stbi\stbi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

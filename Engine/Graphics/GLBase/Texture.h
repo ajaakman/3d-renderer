@@ -1,19 +1,23 @@
 #pragma once
 
+#include <string>
+
 class Texture
 {
-private:
-	unsigned int m_TextureID;
-	int m_nWidth;
-	int m_nHeight;
 public:
-	Texture();
+	Texture(const std::string& path);
 	~Texture();
-
+	unsigned char* m_LocalBuffer;
 	void Bind(unsigned int slot = 0) const;
 	void Unbind() const;
 
 	inline int GetWidth() const { return m_nWidth; }
 	inline int GetHeight() const { return m_nHeight; }
+private:
+	unsigned int m_TextureID;
+	int m_nWidth;
+	int m_nHeight;
+	int m_nBPP;
+	std::string m_FilePath;
 };
 
