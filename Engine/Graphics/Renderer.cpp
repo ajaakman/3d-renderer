@@ -28,10 +28,97 @@ Renderer::Renderer(Window* window)
 #ifndef EMSCRIPTEN
 	GL(glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)); // GL_FILL GL_LINE
 #endif
+	{
+		float vertices[8] = {
+						  -0.5f, -0.5f,
+						   0.5f, -0.5f,
+						   0.5f,  0.5f,
+						  -0.5f,  0.5f
+		};
+
+		unsigned int indices[6] = {
+			0, 1, 2,
+			2, 3, 0
+		};
+
+		Vertex vertex;
+		vertex.PushFloat(2);
+
+		p_SimpleBuffer = new Buffer(vertices, 4 * 2 * sizeof(float), vertex, GL_STATIC_DRAW);
+		p_SimpleElementArrayBuffer = new ElementArrayBuffer(indices, 6, GL_STATIC_DRAW);
+		p_SimpleProgram = new Program();
+	}
+	{
+		float vertices[] = {
+						  -1.000000, -1.000000,  1.000000,
+						  -1.000000, -1.000000, -1.000000,
+						   1.000000, -1.000000, -1.000000,
+						   1.000000, -1.000000,  1.000000,
+						  -1.000000,  1.000000,  1.000000,
+						  -1.000000,  1.000000, -1.000000,
+						   1.000000,  1.000000, -1.000000,
+						   1.000000,  1.000000,  1.000000
+		};
+
+		unsigned int indices[] = {
+			1, 3, 0,
+			7, 5, 4,
+			4, 1, 0,
+			5, 2, 1,
+			2, 7, 3,
+			0, 7, 4,
+			1, 2, 3,
+			7, 6, 5,
+			4, 5, 1,
+			5, 6, 2,
+			2, 6, 7,
+			0, 3, 7
+		};
+
+		Vertex vertex;
+		vertex.PushFloat(3);
+
+		p_3DBuffer = new Buffer(vertices, 8 * 3 * sizeof(float), vertex, GL_STATIC_DRAW);
+		p_3DElementArrayBuffer = new ElementArrayBuffer(indices, 36, GL_STATIC_DRAW);
+		p_3DProgram = new Program();
+	}
+	{
+		
+		float vertices[] = {
+						  -0.5f, -0.5f, 0.0f, 0.0f,
+						   0.5f, -0.5f, 1.0f, 0.0f,
+						   0.5f,  0.5f, 1.0f, 1.0f,
+						  -0.5f,  0.5f, 0.0f, 1.0f
+		};
+
+		unsigned int indices[6] = {
+			0, 1, 2,
+			2, 3, 0
+		};
+
+		Vertex vertex;
+		vertex.PushFloat(2);
+		vertex.PushFloat(2);
+
+		p_SpriteBuffer = new Buffer(vertices, 4 * 4 * sizeof(float), vertex, GL_STATIC_DRAW);
+		p_SpriteElementArrayBuffer = new ElementArrayBuffer(indices, 6, GL_STATIC_DRAW);
+		p_SpriteProgram = new Program(1);
+	}
 }
 
 Renderer::~Renderer()
 {
+	delete p_SimpleElementArrayBuffer;
+	delete p_SimpleProgram;
+	delete p_SimpleBuffer;
+
+	delete p_SpriteElementArrayBuffer;
+	delete p_SpriteProgram;
+	delete p_SpriteBuffer;
+
+	delete p_3DElementArrayBuffer;
+	delete p_3DProgram;
+	delete p_3DBuffer;
 }
 
 void Renderer::Clear()
@@ -45,28 +132,68 @@ void Renderer::Draw()
 	glm::translate
 	(
 		glm::ortho
-		(
-			0.0f, (float)m_pWindow->GetWidth(), 0.0f, (float)m_pWindow->GetHeight(), -1.0f, 1.0f // Projection
-		),
+		( 0.0f, (float)m_pWindow->GetWidth(), 0.0f, (float)m_pWindow->GetHeight(), -1.0f, 1.0f),
 		glm::vec3(0.0f, 0.0f, 0.0f) // View
 	);
 
-	for (auto & renderable : m_SimpleRenderables)
-		renderable.second->Draw(ViewProjection);
+	p_SimpleBuffer->Bind();
+	p_SimpleElementArrayBuffer->Bind();
+	p_SimpleProgram->Bind();
 
+	for (auto & renderable : m_SimpleRenderables)
+	{
+		glm::mat4 LocationMat = glm::translate(ViewProjection, glm::vec3(renderable.second->Position.x, renderable.second->Position.y, 0.0f));
+		glm::mat4 RotationMat = glm::rotate(LocationMat, renderable.second->Rotation, glm::vec3(0.0f, 0.0f, 1.0f));
+		glm::mat4 ScaleMat = glm::scale(RotationMat, glm::vec3(renderable.second->Scale.x, renderable.second->Scale.y, 1.0f));
+
+		p_SimpleProgram->SetUniformMat4f("u_MVP", ScaleMat);
+		p_SimpleProgram->SetUniform4f("u_Color", renderable.second->Color);
+		GL(glDrawElements(GL_TRIANGLES, p_SimpleElementArrayBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
+	}
+
+	p_SpriteBuffer->Bind();
+	p_SpriteElementArrayBuffer->Bind();
+	p_SpriteProgram->Bind();
+	m_Texture.Bind(0);
 	for (auto & sprite : m_Sprites2D)
-		sprite.second->Draw(ViewProjection);
+	{
+
+		glm::mat4 LocationMat = glm::translate(ViewProjection, glm::vec3(sprite.second->Position.x, sprite.second->Position.y, 0.0f));
+		glm::mat4 RotationMat = glm::rotate(LocationMat, sprite.second->Rotation, glm::vec3(0.0f, 0.0f, 1.0f));
+		glm::mat4 ScaleMat = glm::scale(RotationMat, glm::vec3(sprite.second->Scale.x, sprite.second->Scale.y, 1.0f));
+
+		p_SpriteProgram->SetUniformMat4f("u_MVP", ScaleMat);
+		p_SpriteProgram->SetUniform1i("u_Texture", 0);
+		p_SpriteProgram->SetUniform4f("u_Color", sprite.second->Color);
+		GL(glDrawElements(GL_TRIANGLES, p_SpriteElementArrayBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
+
+	}
+	m_Texture.Unbind();
 
 	ViewProjection =
 		glm::translate
-		(
-			//glm::ortho ( 0.0f, (float)m_pWindow->GetWidth(), 0.0f, (float)m_pWindow->GetHeight(), 1.0f, 500.0f),
+		(			
 			glm::perspective(75.0f, (float)m_pWindow->GetWidth()/(float)m_pWindow->GetHeight(), 1.0f, 10000.0f),
 			glm::vec3(0.0f, 0.0f, -200.0f)
 		);
 
+	p_3DBuffer->Bind();
+	p_3DElementArrayBuffer->Bind();
+	p_3DProgram->Bind();
+
 	for (auto & renderable : m_Renderables3D)
-		renderable.second->Draw(ViewProjection);
+	{
+
+		glm::mat4 LocationMat = glm::translate(ViewProjection, glm::vec3(renderable.second->Position.x, renderable.second->Position.y, renderable.second->Position.z));
+		glm::mat4 RotationMatx = glm::rotate(LocationMat, renderable.second->Rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
+		glm::mat4 RotationMaty = glm::rotate(RotationMatx, renderable.second->Rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::mat4 RotationMatz = glm::rotate(RotationMaty, renderable.second->Rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
+		glm::mat4 ScaleMat = glm::scale(RotationMatz, glm::vec3(renderable.second->Scale.x, renderable.second->Scale.y, renderable.second->Scale.z));
+
+		p_3DProgram->SetUniformMat4f("u_MVP", ScaleMat);
+		p_3DProgram->SetUniform4f("u_Color", renderable.second->Color);
+		GL(glDrawElements(GL_TRIANGLES, p_3DElementArrayBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
+	}
 }
 
 bool Renderer::CreateSimpleRenderable(const std::string & name, const glm::vec2 & position, const glm::vec2 & size, const int & centered)

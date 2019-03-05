@@ -2,9 +2,7 @@
 
 #include "IO/Window.h"
 #include "Libraries/glm/glm.hpp"
-#include "Graphics/BatchRenderer2D.h"
 #include "Graphics/Renderer.h"
-#include "Graphics/SimpleRenderable.h"
 
 class Engine
 {
