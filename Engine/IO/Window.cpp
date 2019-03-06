@@ -6,7 +6,7 @@
 
 
 Window::Window(int width, int height, const char * name)
-	: m_nWidth(width), m_nHeight(height), m_Name(name), m_bKeyW(false), m_bKeyA(false), m_bKeyS(false), m_bKeyD(false)
+	: m_nWidth(width), m_nHeight(height), m_Name(name), m_bKeyW(false), m_bKeyA(false), m_bKeyS(false), m_bKeyD(false), m_bMouseR(false), m_bMouseL(false)
 {
 	if (!glfwInit())
 		std::cout << "GLFW Failed To Initialize!" << std::endl;
@@ -29,6 +29,8 @@ Window::Window(int width, int height, const char * name)
 	glfwSetWindowUserPointer(m_pWindow, this);
 	glfwSetWindowSizeCallback(m_pWindow, WindowSizeCallback); 
 	glfwSetKeyCallback(m_pWindow, KeyCallback);
+	glfwSetCursorPosCallback(m_pWindow, CursorCallback);
+	glfwSetMouseButtonCallback(m_pWindow, MouseClickCallback);
 
 	glfwMakeContextCurrent(m_pWindow);
 #ifndef EMSCRIPTEN
@@ -62,7 +64,7 @@ bool Window::Open()
 	return !glfwWindowShouldClose(m_pWindow);
 }
 
-const bool & Window::IsKeyPressed(const char& key)
+const bool Window::IsKeyPressed(const char& key)
 {
 	if (key == 'W')
 		return m_bKeyW;
@@ -72,6 +74,16 @@ const bool & Window::IsKeyPressed(const char& key)
 		return m_bKeyS;
 	else if (key == 'D')
 		return m_bKeyD;
+	return false;
+}
+
+const bool Window::IsMouseClicked(const char & button)
+{
+	if (button == 'L' || button == '1')
+		return m_bMouseL;
+	else if (button == 'R' || button == '2')
+		return m_bMouseR;
+	return false;
 }
 
 void WindowSizeCallback(GLFWwindow* window, int width, int height)
@@ -83,6 +95,29 @@ void WindowSizeCallback(GLFWwindow* window, int width, int height)
 	int nFrameBufferWidth, nFrameBufferHeight;
 	glfwGetFramebufferSize(w->m_pWindow, &nFrameBufferWidth, &nFrameBufferHeight);
 	glViewport(0, 0, nFrameBufferWidth, nFrameBufferHeight);
+}
+
+void CursorCallback(GLFWwindow* window, double xpos, double ypos)
+{
+	Window* w = static_cast<Window*>(glfwGetWindowUserPointer(window));
+	w->m_nMousePosX = xpos;
+	int v = (ypos - w->m_nHeight);
+	int const mask = v >> (sizeof(int) * CHAR_BIT - 1);
+	int r = (v + mask) ^ mask;
+	w->m_nMousePosY = r;
+}
+
+void MouseClickCallback(GLFWwindow* window, int button, int action, int mods)
+{
+	Window* w = static_cast<Window*>(glfwGetWindowUserPointer(window));
+	if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
+		w->m_bMouseR = true;
+	else if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_RELEASE)
+		w->m_bMouseR = false;
+	else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+		w->m_bMouseL = true;
+	else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
+		w->m_bMouseL = false;
 }
 
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)

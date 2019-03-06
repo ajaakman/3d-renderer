@@ -20,7 +20,12 @@ public:
 
 	inline const int & GetWidth()   { return m_nWidth; }
 	inline const int & GetHeight()  { return m_nHeight;}
-	const bool & IsKeyPressed(const char& key);
+
+	inline const int & GetMouseX() { return m_nMousePosX; }
+	inline const int & GetMouseY() { return m_nMousePosY; }
+
+	const bool IsKeyPressed(const char& key);
+	const bool IsMouseClicked(const char& button);
 private:
 	int m_nWidth;
 	int m_nHeight;
@@ -31,10 +36,18 @@ private:
 	bool m_bKeyA;
 	bool m_bKeyS;
 	bool m_bKeyD;
+	bool m_bMouseL;
+	bool m_bMouseR;
+	int m_nMousePosX;
+	int m_nMousePosY;
 
 	friend void WindowSizeCallback(GLFWwindow* window, int width, int height);
+	friend void CursorCallback(GLFWwindow* window, double xpos, double ypos);
+	friend void MouseClickCallback(GLFWwindow* window, int button, int action, int mods);
 	friend void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 };
 
 extern void WindowSizeCallback(GLFWwindow* window, int width, int height);
+extern void CursorCallback(GLFWwindow* window, double xpos, double ypos);
+extern void MouseClickCallback(GLFWwindow* window, int button, int action, int mods);
 extern void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);

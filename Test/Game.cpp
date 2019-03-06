@@ -46,9 +46,10 @@ void Game::Tick(float fDeltaTime)
 	if (KeyPressed('A'))
 		p_Renderer->GetSprite2D("s1")->Position.x -= 0.15f * fDeltaTime;
 
-	p_Renderer->GetSprite2D("s2")->Position = (glm::vec2(GetWidth() / 2+35, GetHeight() / 2+35));
 	p_Renderer->GetSprite2D("s1")->Color = (glm::vec4(col, 1.0f, 0.0f, 1.0f));
 	
+	if (MouseClicked('L'))
+		p_Renderer->GetSprite2D("s2")->Position = (glm::vec2(MouseX(), MouseY()));
 
 	for (int i = 0; i < 7; ++i)
 	{
