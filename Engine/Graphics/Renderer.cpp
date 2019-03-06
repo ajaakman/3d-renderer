@@ -102,8 +102,6 @@ Renderer::Renderer(Window* window)
 		p_SpriteBuffer = new Buffer(vertices, 4 * 4 * sizeof(float), vertex, GL_STATIC_DRAW);
 		p_SpriteElementArrayBuffer = new ElementArrayBuffer(indices, 6, GL_STATIC_DRAW);
 		p_SpriteProgram = new Program(1);
-
-		m_pTexture = new Texture("Resources/Textures/logo.png");
 	}
 }
 
@@ -120,8 +118,6 @@ Renderer::~Renderer()
 	delete p_3DElementArrayBuffer;
 	delete p_3DProgram;
 	delete p_3DBuffer;
-
-	delete m_pTexture;
 }
 
 void Renderer::Clear()
@@ -142,10 +138,10 @@ void Renderer::Draw()
 	p_SpriteBuffer->Bind();
 	p_SpriteElementArrayBuffer->Bind();
 	p_SpriteProgram->Bind();
-	m_pTexture->Bind(0);
 
 	for (auto & sprite : m_Sprites2D)
 	{
+		sprite.second->Texture->Bind(0);
 		glm::mat4 LocationMat = glm::translate(ViewProjection, glm::vec3(sprite.second->Position.x, sprite.second->Position.y, 0.0f));
 		glm::mat4 RotationMat = glm::rotate(LocationMat, sprite.second->Rotation, glm::vec3(0.0f, 0.0f, 1.0f));
 		glm::mat4 ScaleMat = glm::scale(RotationMat, glm::vec3(sprite.second->Scale.x, sprite.second->Scale.y, 1.0f));
@@ -154,9 +150,7 @@ void Renderer::Draw()
 		p_SpriteProgram->SetUniform1i("u_Texture", 0);
 		p_SpriteProgram->SetUniform4f("u_Color", sprite.second->Color);
 		GL(glDrawElements(GL_TRIANGLES, p_SpriteElementArrayBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
-
 	}
-	m_pTexture->Unbind();
 
 	p_SimpleBuffer->Bind();
 	p_SimpleElementArrayBuffer->Bind();
@@ -184,11 +178,9 @@ void Renderer::Draw()
 	p_3DBuffer->Bind();
 	p_3DElementArrayBuffer->Bind();
 	p_3DProgram->Bind();
-	m_pTexture->Bind(0);
 
 	for (auto & renderable : m_Renderables3D)
 	{
-
 		glm::mat4 LocationMat = glm::translate(ViewProjection, glm::vec3(renderable.second->Position.x, renderable.second->Position.y, renderable.second->Position.z));
 		glm::mat4 RotationMatx = glm::rotate(LocationMat, renderable.second->Rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
 		glm::mat4 RotationMaty = glm::rotate(RotationMatx, renderable.second->Rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -200,7 +192,7 @@ void Renderer::Draw()
 		p_3DProgram->SetUniform4f("u_Color", renderable.second->Color);
 		GL(glDrawElements(GL_TRIANGLES, p_3DElementArrayBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
 	}
-	m_pTexture->Unbind();
+
 }
 
 bool Renderer::CreateSimpleRenderable(const std::string & name, const glm::vec2 & position, const glm::vec2 & scale, const float & rotation, const glm::vec4 & color)
@@ -213,9 +205,9 @@ bool Renderer::CreateSimpleRenderable(const std::string & name, const glm::vec2 
 	return true;
 }
 
-bool Renderer::CreateSprite2D(const std::string & name, const glm::vec2 & position, const glm::vec2 & scale, const float & rotation, const glm::vec4 & color)
+bool Renderer::CreateSprite2D(const std::string & name, const glm::vec2 & position, const glm::vec2 & scale, const std::string & path, const float & rotation, const glm::vec4 & color)
 {
-	if (!(m_Sprites2D.emplace(name, new Sprite2D(position, scale, rotation, color)).second))
+	if (!(m_Sprites2D.emplace(name, new Sprite2D(position, scale, path, rotation, color)).second))
 	{
 		std::cout << "Failed to create Sprite2D. Sprite with name " << name << " already exists.\n";
 		return false;

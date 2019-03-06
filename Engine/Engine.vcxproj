@@ -389,6 +389,7 @@
     <ClInclude Include="Graphics\Renderables\Sprite2D.h" />
     <ClInclude Include="Graphics\GLBase\Texture.h" />
     <ClInclude Include="Libraries\stbi\stbi.h" />
+    <ClInclude Include="Graphics\GUtility\TextureCache.h" />
     <ClInclude Include="Utility\Error.h" />
     <ClInclude Include="IO\Window.h" />
     <ClInclude Include="Graphics\GUtility\Vertex.h" />
@@ -404,6 +405,7 @@
     <ClCompile Include="Graphics\Renderables\Sprite2D.cpp" />
     <ClCompile Include="Graphics\GLBase\Texture.cpp" />
     <ClCompile Include="Libraries\stbi\stbi.cpp" />
+    <ClCompile Include="Graphics\GUtility\TextureCache.cpp" />
     <ClCompile Include="Utility\Error.cpp" />
     <ClCompile Include="IO\Window.cpp" />
     <ClCompile Include="Graphics\GUtility\Vertex.cpp" />

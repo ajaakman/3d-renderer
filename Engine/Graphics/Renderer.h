@@ -20,7 +20,7 @@ public:
 	void Draw();
 
 	bool CreateSimpleRenderable(const std::string & name, const glm::vec2 & position, const glm::vec2 & scale, const float & rotation = 0.0f, const glm::vec4 & color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-	bool CreateSprite2D(const std::string & name, const glm::vec2 & position, const glm::vec2 & scale, const float & rotation = 0.0f, const glm::vec4 & color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	bool CreateSprite2D(const std::string & name, const glm::vec2 & position, const glm::vec2 & scale, const std::string & path, const float & rotation = 0.0f, const glm::vec4 & color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 	bool CreateRenderable3D(const std::string & name, const glm::vec3 & position, const glm::vec3 & scale);
 
 	Sprite2D* GetSimpleRenderable(const std::string & name);
@@ -41,7 +41,6 @@ private:
 	ElementArrayBuffer* p_SpriteElementArrayBuffer;
 	Program* p_SpriteProgram;
 	Buffer* p_SpriteBuffer;
-	Texture* m_pTexture;
 
 	ElementArrayBuffer* p_3DElementArrayBuffer;
 	Program* p_3DProgram;
