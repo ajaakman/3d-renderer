@@ -27,7 +27,7 @@ Engine::~Engine()
 void Engine::Loop()
 {
 	int nCount = 0, nBuff = 0;
-	float fTime = 0.0f, fFrames = 0.0f, fDeltaTime = 0.0f, fHighestDelta = 0.0f;
+	float fTime = 0.f, fFrames = 0.f, fDeltaTime = 0.f, fHighestDelta = 0.f;
 	auto previousTime = std::chrono::high_resolution_clock::now(), currentTime = previousTime;
 #ifdef EMSCRIPTEN
 	std::function<void()> mainLoop = [&]()
@@ -52,13 +52,13 @@ void Engine::Loop()
 		if (fDeltaTime > fHighestDelta)
 			fHighestDelta = fDeltaTime;
 
-		if (fTime > 1000.0f)
+		if (fTime > 1000.f)
 		{
-			std::cout << "FPS: " << (int)(1000.0f/(fFrames/(float)nCount)) << "  Lowest: " << (int)(1000.0f/ fHighestDelta) << "\n";
-			fTime -= 1000.0f;
+			std::cout << "FPS: " << (int)(1000.f/(fFrames/(float)nCount)) << "  Lowest: " << (int)(1000.f/ fHighestDelta) << "\n";
+			fTime -= 1000.f;
 			nCount = 0;
-			fFrames = 0.0f;
-			fHighestDelta = 0.0f;
+			fFrames = 0.f;
+			fHighestDelta = 0.f;
 		}
 		fDeltaTime = std::chrono::duration<float, std::milli>(currentTime - previousTime).count();
 		previousTime = currentTime;

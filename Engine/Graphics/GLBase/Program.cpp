@@ -85,11 +85,12 @@ Program::Program(const int& type)
 			"varying highp vec2 v_TexCoord;\n"
 			"\n"
 			"uniform vec4 u_Color;\n"
-			"uniform sampler2D u_Texture;\n"
+			"uniform sampler2D u_Texture0;\n"
+			"uniform sampler2D u_Texture1;\n"
 			"\n"
 			"void main()\n"
 			"{\n"
-			"	vec4 texColor = texture2D(u_Texture, v_TexCoord);\n"
+			"	vec4 texColor = texture2D(u_Texture0, v_TexCoord);\n"
 			"	gl_FragColor = texColor * u_Color;\n"
 			"}\n";
 #else
@@ -116,11 +117,12 @@ Program::Program(const int& type)
 			"layout(location = 0) out vec4 color;\n"
 			"\n"
 			"uniform vec4 u_Color;\n"
-			"uniform sampler2D u_Texture;\n"
+			"uniform sampler2D u_Texture0;\n"
+			"uniform sampler2D u_Texture1;\n"
 			"\n"
 			"void main()\n"
 			"{\n"
-			"	vec4 texColor = texture(u_Texture, v_TexCoord);\n"
+			"	vec4 texColor = texture(u_Texture0, v_TexCoord);\n"
 			"	color = texColor * u_Color;\n"
 			"};\n";
 #endif
