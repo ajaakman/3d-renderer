@@ -37,19 +37,19 @@ void Game::Tick(float fDeltaTime)
 	p_Renderer->GetSimpleRenderable("r1")->Position = (glm::vec2(GetWidth() / 2 + col * 50, GetHeight() / 10));	
 	p_Renderer->GetSimpleRenderable("r1")->Rotation = rot;
 		
-	if (KeyPressed('W'))
+	if (IsKeyPressed('W'))
 		p_Renderer->GetSprite2D("s1")->Position.y += 0.15f * fDeltaTime;
-	if (KeyPressed('S'))
+	if (IsKeyPressed('S'))
 		p_Renderer->GetSprite2D("s1")->Position.y -= 0.15f * fDeltaTime;
-	if (KeyPressed('D'))
+	if (IsKeyPressed('D'))
 		p_Renderer->GetSprite2D("s1")->Position.x += 0.15f * fDeltaTime;
-	if (KeyPressed('A'))
+	if (IsKeyPressed('A'))
 		p_Renderer->GetSprite2D("s1")->Position.x -= 0.15f * fDeltaTime;
 
 	p_Renderer->GetSprite2D("s1")->Color = (glm::vec4(col, 1.0f, 0.0f, 1.0f));
 	
-	if (MouseClicked('L'))
-		p_Renderer->GetSprite2D("s2")->Position = (glm::vec2(MouseX(), MouseY()));
+	if (IsMouseClicked('L'))
+		p_Renderer->GetSprite2D("s2")->Position = (glm::vec2(GetMouseX(), GetMouseY()));
 
 	for (int i = 0; i < 7; ++i)
 	{

@@ -21,12 +21,12 @@ protected:
 
 	void Loop();
 
-	inline const bool KeyPressed  (const char & key)    { return p_Window->IsKeyPressed(key); }
-	inline const bool MouseClicked(const char & button) { return p_Window->IsMouseClicked(button); }
+	inline const bool IsKeyPressed   (const char & key)    { return p_Window->IsKeyPressed(key); }
+	inline const bool IsMouseClicked (const char & button) { return p_Window->IsMouseClicked(button); }
 	inline const int & GetWidth()    { return p_Window->GetWidth();  }
 	inline const int & GetHeight()   { return p_Window->GetHeight(); }
-	inline const int & MouseX()      { return p_Window->GetMouseX(); }
-	inline const int & MouseY()      { return p_Window->GetMouseY(); }
+	inline const int & GetMouseX()      { return p_Window->GetMouseX(); }
+	inline const int & GetMouseY()      { return p_Window->GetMouseY(); }
 
 private:
 	Window* p_Window;

@@ -74,6 +74,7 @@ const bool Window::IsKeyPressed(const char& key)
 		return m_bKeyS;
 	else if (key == 'D')
 		return m_bKeyD;
+	std::cout << "Error: Invalid key input binding!\n";
 	return false;
 }
 
@@ -83,6 +84,7 @@ const bool Window::IsMouseClicked(const char & button)
 		return m_bMouseL;
 	else if (button == 'R' || button == '2')
 		return m_bMouseR;
+	std::cout << "Error: Invalid mouse input binding!\n";
 	return false;
 }
 
