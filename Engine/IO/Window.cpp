@@ -62,6 +62,18 @@ bool Window::Open()
 	return !glfwWindowShouldClose(m_pWindow);
 }
 
+const bool & Window::IsKeyPressed(const char& key)
+{
+	if (key == 'W')
+		return m_bKeyW;
+	else if (key == 'A')
+		return m_bKeyA;
+	else if (key == 'S')
+		return m_bKeyS;
+	else if (key == 'D')
+		return m_bKeyD;
+}
+
 void WindowSizeCallback(GLFWwindow* window, int width, int height)
 {
 	Window* w = static_cast<Window*>(glfwGetWindowUserPointer(window));

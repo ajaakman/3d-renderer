@@ -21,10 +21,7 @@ protected:
 
 	void Loop();
 
-	inline const bool & IsPressedW() { return p_Window->IsPressedW(); }
-	inline const bool & IsPressedA() { return p_Window->IsPressedA(); }
-	inline const bool & IsPressedS() { return p_Window->IsPressedS(); }
-	inline const bool & IsPressedD() { return p_Window->IsPressedD(); }
+	inline const bool & KeyPressed(const char & key) { return p_Window->IsKeyPressed(key); }
 	inline const int & GetWidth()    { return p_Window->GetWidth();   }
 	inline const int & GetHeight()   { return p_Window->GetHeight();  }
 

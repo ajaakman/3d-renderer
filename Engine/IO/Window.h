@@ -20,10 +20,7 @@ public:
 
 	inline const int & GetWidth()   { return m_nWidth; }
 	inline const int & GetHeight()  { return m_nHeight;}
-	inline const bool & IsPressedW() { return m_bKeyW; }
-	inline const bool & IsPressedA() { return m_bKeyA; }
-	inline const bool & IsPressedS() { return m_bKeyS; }
-	inline const bool & IsPressedD() { return m_bKeyD; }
+	const bool & IsKeyPressed(const char& key);
 private:
 	int m_nWidth;
 	int m_nHeight;
