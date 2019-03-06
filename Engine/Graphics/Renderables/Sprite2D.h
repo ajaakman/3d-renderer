@@ -11,6 +11,6 @@ public:
 	glm::vec2 Position;
 	glm::vec2 Scale;
 	float Rotation;
-	glm::vec4 Color;	
+	glm::vec4 Color;
 };
 

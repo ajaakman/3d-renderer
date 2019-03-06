@@ -17,9 +17,9 @@ void Game::Begin()
 	//	for (int j = 0; j < 15; ++j)
 	//		p_Renderer->CreateSimpleRenderable("rend" + std::to_string(i) + "j" + std::to_string(j), glm::vec2(50.0f + i * 30.0f, 50.0f + j * 30.0f), glm::vec2(20.0f, 20.0f), 1);
 
-	p_Renderer->CreateSimpleRenderable("r1", glm::vec2(p_Window->GetWidth() / 2, p_Window->GetHeight() / 2), glm::vec2(50.0f, 50.0f));
-	p_Renderer->CreateSprite2D("s1", glm::vec2(p_Window->GetWidth() / 2, p_Window->GetHeight() / 2), glm::vec2(70.0f, 100.0f));
-	p_Renderer->CreateSprite2D("s2", glm::vec2(p_Window->GetWidth()/2+35, p_Window->GetHeight()/2+35), glm::vec2(70.0f, 70.0f));
+	p_Renderer->CreateSimpleRenderable("r1", glm::vec2(GetWidth() / 2, GetHeight() / 2), glm::vec2(50.0f, 50.0f));
+	p_Renderer->CreateSprite2D("s1", glm::vec2(GetWidth() / 2, GetHeight() / 2), glm::vec2(70.0f, 100.0f));
+	p_Renderer->CreateSprite2D("s2", glm::vec2(GetWidth()/2+35, GetHeight()/2+35), glm::vec2(70.0f, 70.0f));
 
 	for (int i = 0; i < 7; ++i)
 	{
@@ -34,13 +34,22 @@ void Game::Begin()
 void Game::Tick(float fDeltaTime)
 { 	
 	p_Renderer->GetSimpleRenderable("r1")->Color = (glm::vec4(col, 1.0f, 0.0f, 1.0f));
-	p_Renderer->GetSimpleRenderable("r1")->Position = (glm::vec2(p_Window->GetWidth() / 2 + col * 50, p_Window->GetHeight() / 10));
+	p_Renderer->GetSimpleRenderable("r1")->Position = (glm::vec2(GetWidth() / 2 + col * 50, GetHeight() / 10));	
 	p_Renderer->GetSimpleRenderable("r1")->Rotation = rot;
+		
+	if (IsPressedW())
+		p_Renderer->GetSprite2D("s1")->Position.y += 0.15f * fDeltaTime;
+	if (IsPressedS())
+		p_Renderer->GetSprite2D("s1")->Position.y -= 0.15f * fDeltaTime;
+	if (IsPressedD())
+		p_Renderer->GetSprite2D("s1")->Position.x += 0.15f * fDeltaTime;
+	if (IsPressedA())
+		p_Renderer->GetSprite2D("s1")->Position.x -= 0.15f * fDeltaTime;
 
-	p_Renderer->GetSprite2D("s1")->Position = (glm::vec2(p_Window->GetWidth() / 2, p_Window->GetHeight() / 2));
-	p_Renderer->GetSprite2D("s2")->Position = (glm::vec2(p_Window->GetWidth() / 2+35, p_Window->GetHeight() / 2+35));
+	p_Renderer->GetSprite2D("s2")->Position = (glm::vec2(GetWidth() / 2+35, GetHeight() / 2+35));
 	p_Renderer->GetSprite2D("s1")->Color = (glm::vec4(col, 1.0f, 0.0f, 1.0f));
 	
+
 	for (int i = 0; i < 7; ++i)
 	{
 		for (int j = 0; j < 4; ++j)		
@@ -59,6 +68,9 @@ void Game::Tick(float fDeltaTime)
 		increment = -0.0015f;
 	else if (col < 0.0f)
 		increment = 0.0015f;
+
+	if (rot > 3 && !p_Renderer->GetSprite2D("lateload"))
+		p_Renderer->CreateSprite2D("lateload", glm::vec2(GetWidth() / 10, GetHeight() / 10), glm::vec2(70.0f, 70.0f));
 
 	col += increment * fDeltaTime;
 	rot += 0.0015f * fDeltaTime;

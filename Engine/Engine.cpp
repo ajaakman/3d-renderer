@@ -32,7 +32,7 @@ void Engine::Loop()
 #ifdef EMSCRIPTEN
 	std::function<void()> mainLoop = [&]()
 #else
-	while (p_Window->ShouldNotClose())
+	while (p_Window->Open())
 #endif 
 	{
 		currentTime = std::chrono::high_resolution_clock::now();

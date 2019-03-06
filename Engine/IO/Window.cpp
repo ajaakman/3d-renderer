@@ -6,7 +6,7 @@
 
 
 Window::Window(int width, int height, const char * name)
-	: m_nWidth(width), m_nHeight(height), m_Name(name)
+	: m_nWidth(width), m_nHeight(height), m_Name(name), m_bKeyW(false), m_bKeyA(false), m_bKeyS(false), m_bKeyD(false)
 {
 	if (!glfwInit())
 		std::cout << "GLFW Failed To Initialize!" << std::endl;
@@ -27,7 +27,8 @@ Window::Window(int width, int height, const char * name)
 	glViewport(0, 0, nFrameBufferWidth, nFrameBufferHeight);
 
 	glfwSetWindowUserPointer(m_pWindow, this);
-	glfwSetWindowSizeCallback(m_pWindow, WindowSizeCallback);
+	glfwSetWindowSizeCallback(m_pWindow, WindowSizeCallback); 
+	glfwSetKeyCallback(m_pWindow, KeyCallback);
 
 	glfwMakeContextCurrent(m_pWindow);
 #ifndef EMSCRIPTEN
@@ -56,19 +57,9 @@ void Window::PollEvents()
 	glfwPollEvents();
 }
 
-bool Window::ShouldNotClose()
+bool Window::Open()
 {
 	return !glfwWindowShouldClose(m_pWindow);
-}
-
-const int & Window::GetWidth()
-{
-	return m_nWidth;
-}
-
-const int & Window::GetHeight()
-{
-	return m_nHeight;
 }
 
 void WindowSizeCallback(GLFWwindow* window, int width, int height)
@@ -80,4 +71,25 @@ void WindowSizeCallback(GLFWwindow* window, int width, int height)
 	int nFrameBufferWidth, nFrameBufferHeight;
 	glfwGetFramebufferSize(w->m_pWindow, &nFrameBufferWidth, &nFrameBufferHeight);
 	glViewport(0, 0, nFrameBufferWidth, nFrameBufferHeight);
+}
+
+void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	Window* w = static_cast<Window*>(glfwGetWindowUserPointer(window));
+	if (key == GLFW_KEY_W && action == GLFW_PRESS)	
+		w->m_bKeyW = true;	
+	else if (key == GLFW_KEY_W && action == GLFW_RELEASE)	
+		w->m_bKeyW = false;
+	else if (key == GLFW_KEY_A && action == GLFW_PRESS)
+		w->m_bKeyA = true;
+	else if (key == GLFW_KEY_A && action == GLFW_RELEASE)
+		w->m_bKeyA = false;
+	else if (key == GLFW_KEY_S && action == GLFW_PRESS)
+		w->m_bKeyS = true;
+	else if (key == GLFW_KEY_S && action == GLFW_RELEASE)
+		w->m_bKeyS = false;
+	else if (key == GLFW_KEY_D && action == GLFW_PRESS)
+		w->m_bKeyD = true;
+	else if (key == GLFW_KEY_D && action == GLFW_RELEASE)
+		w->m_bKeyD = false;
 }
