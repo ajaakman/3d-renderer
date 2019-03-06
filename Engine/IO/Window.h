@@ -36,6 +36,8 @@ private:
 	bool m_bKeyA;
 	bool m_bKeyS;
 	bool m_bKeyD;
+	bool m_bKeyQ;
+	bool m_bKeyE;
 	bool m_bMouseL;
 	bool m_bMouseR;
 	int m_nMousePosX;

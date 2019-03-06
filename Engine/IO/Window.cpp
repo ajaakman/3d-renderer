@@ -6,7 +6,7 @@
 
 
 Window::Window(int width, int height, const char * name)
-	: m_nWidth(width), m_nHeight(height), m_Name(name), m_bKeyW(false), m_bKeyA(false), m_bKeyS(false), m_bKeyD(false), m_bMouseR(false), m_bMouseL(false)
+	: m_nWidth(width), m_nHeight(height), m_Name(name), m_bKeyW(false), m_bKeyA(false), m_bKeyS(false), m_bKeyD(false), m_bKeyQ(false), m_bKeyE(false), m_bMouseR(false), m_bMouseL(false)
 {
 	if (!glfwInit())
 		std::cout << "GLFW Failed To Initialize!" << std::endl;
@@ -66,23 +66,27 @@ bool Window::Open()
 
 const bool Window::IsKeyPressed(const char& key)
 {
-	if (key == 'W')
+	if (key == 'W' || key == 'w')
 		return m_bKeyW;
-	else if (key == 'A')
+	else if (key == 'A' || key == 'a')
 		return m_bKeyA;
-	else if (key == 'S')
+	else if (key == 'S' || key == 's')
 		return m_bKeyS;
-	else if (key == 'D')
+	else if (key == 'D' || key == 'd')
 		return m_bKeyD;
+	else if (key == 'Q' || key == 'q')
+		return m_bKeyQ;
+	else if (key == 'E' || key == 'e')
+		return m_bKeyE;
 	std::cout << "Error: Invalid key input binding!\n";
 	return false;
 }
 
 const bool Window::IsMouseClicked(const char & button)
 {
-	if (button == 'L' || button == '1')
+	if (button == 'L' || button == 'l' || button == '1')
 		return m_bMouseL;
-	else if (button == 'R' || button == '2')
+	else if (button == 'R' || button == 'r' || button == '2')
 		return m_bMouseR;
 	std::cout << "Error: Invalid mouse input binding!\n";
 	return false;
@@ -141,4 +145,12 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		w->m_bKeyD = true;
 	else if (key == GLFW_KEY_D && action == GLFW_RELEASE)
 		w->m_bKeyD = false;
+	else if (key == GLFW_KEY_Q && action == GLFW_PRESS)
+		w->m_bKeyQ = true;
+	else if (key == GLFW_KEY_Q && action == GLFW_RELEASE)
+		w->m_bKeyQ = false;
+	else if (key == GLFW_KEY_E && action == GLFW_PRESS)
+		w->m_bKeyE = true;
+	else if (key == GLFW_KEY_E && action == GLFW_RELEASE)
+		w->m_bKeyE = false;
 }

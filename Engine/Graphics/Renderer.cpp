@@ -14,7 +14,7 @@
 #include "../Utility/Error.h"
 
 Renderer::Renderer(Window* window)
-	:m_pWindow(window)
+	:m_pWindow(window), Camera(glm::vec3(0.0f, 0.0f, -200.0f))
 {	
 	GL(glClearColor(0.1f, 0.1f, 0.1f, 1.0f));
 	//GL(glEnable(GL_DEPTH_TEST));
@@ -132,7 +132,7 @@ void Renderer::Draw()
 	(
 		glm::ortho
 		( 0.0f, (float)m_pWindow->GetWidth(), 0.0f, (float)m_pWindow->GetHeight(), -1.0f, 1.0f),
-		glm::vec3(0.0f, 0.0f, 0.0f) // View
+		glm::vec3(-Camera.x/10, -Camera.y/10, 0.0f) // View
 	);
 
 	p_SpriteBuffer->Bind();
@@ -172,7 +172,7 @@ void Renderer::Draw()
 		glm::translate
 		(			
 			glm::perspective(75.0f, (float)m_pWindow->GetWidth()/(float)m_pWindow->GetHeight(), 1.0f, 10000.0f),
-			glm::vec3(0.0f, 0.0f, -200.0f)
+			Camera
 		);
 
 	p_3DBuffer->Bind();

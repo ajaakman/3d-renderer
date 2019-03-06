@@ -27,6 +27,8 @@ public:
 	Sprite2D* GetSprite2D(const std::string & name);
 	Renderable3D* GetRenderable3D(const std::string & name);
 
+	glm::vec3 Camera;
+
 private:
 	Window* m_pWindow;
 

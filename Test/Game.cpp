@@ -38,13 +38,17 @@ void Game::Tick(float fDeltaTime)
 	p_Renderer->GetSimpleRenderable("r1")->Rotation = rot;
 		
 	if (IsKeyPressed('W'))
-		p_Renderer->GetSprite2D("s1")->Position.y += 0.15f * fDeltaTime;
+		p_Renderer->Camera.y += 0.5f * fDeltaTime;
 	if (IsKeyPressed('S'))
-		p_Renderer->GetSprite2D("s1")->Position.y -= 0.15f * fDeltaTime;
+		p_Renderer->Camera.y -= 0.5f * fDeltaTime;
 	if (IsKeyPressed('D'))
-		p_Renderer->GetSprite2D("s1")->Position.x += 0.15f * fDeltaTime;
+		p_Renderer->Camera.x += 0.5f * fDeltaTime;
 	if (IsKeyPressed('A'))
-		p_Renderer->GetSprite2D("s1")->Position.x -= 0.15f * fDeltaTime;
+		p_Renderer->Camera.x -= 0.5f * fDeltaTime;
+	if (IsKeyPressed('Q'))
+		p_Renderer->Camera.z += 0.5f * fDeltaTime;
+	if (IsKeyPressed('E'))
+		p_Renderer->Camera.z -= 0.5f * fDeltaTime;
 
 	p_Renderer->GetSprite2D("s1")->Color = (glm::vec4(col, 1.0f, 0.0f, 1.0f));
 	
