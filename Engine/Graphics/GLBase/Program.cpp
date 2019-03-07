@@ -99,31 +99,45 @@ Program::Program(const int& type)
 			"\n"
 			"layout(location = 0) in vec4 position;\n"
 			"layout(location = 1) in vec2 texCoord;\n"
+			"layout(location = 2) in vec3 normal;\n"
 			"\n"
 			"out vec2 v_TexCoord;\n"
+			"out vec3 v_Normal;\n"
+			"out vec3 v_Position;\n"
 			"\n"
 			"uniform mat4 u_MVP;\n"
+			"uniform mat4 u_Model;\n"
 			"\n"
 			"void main()\n"
 			"{\n"
 			"	gl_Position = u_MVP * position;\n"
+			"	v_Normal = mat3(u_Model) * normal;\n"
 			"	v_TexCoord = texCoord;\n"
+			"	v_Position = vec4(u_Model * position).xyz;\n"
 			"};\n";
 		fragment =
 			"#version 330 core\n"
 			"\n"
 			"in vec2 v_TexCoord;"
+			"in vec3 v_Normal;"
+			"in vec3 v_Position;"
 			"\n"
 			"layout(location = 0) out vec4 color;\n"
 			"\n"
 			"uniform vec4 u_Color;\n"
+			"uniform vec3 u_Light;\n"
 			"uniform sampler2D u_Texture0;\n"
 			"uniform sampler2D u_Texture1;\n"
 			"\n"
 			"void main()\n"
 			"{\n"
 			"	vec4 texColor = texture(u_Texture0, v_TexCoord);\n"
-			"	color = texColor * u_Color;\n"
+			"	vec3 ambientLight = vec3(0.1f, 0.1f, 0.1f);\n"
+			"	vec3 posToLightDirVec = normalize(v_Position - u_Light);\n"
+			"	vec3 diffuseColor = vec3( 1.f, 1.f, 1.f );\n"
+			"	float diffuse = clamp(dot(posToLightDirVec, v_Normal), 0, 1);\n"
+			"	vec3 diffuseFinal = diffuseColor * diffuse;\n"
+			"	color = texColor * u_Color * (vec4(ambientLight, 1.0f) + vec4(diffuseFinal, 1.f));\n"
 			"};\n";
 #endif
 	}
@@ -225,6 +239,11 @@ void Program::SetUniform1i(const std::string & name, const int value)
 void Program::SetUniform4f(const std::string & name, const glm::vec4 & vector)
 {
 	GL(glUniform4f(GetUniformLocation(name), vector.x, vector.y, vector.z, vector.w));
+}
+
+void Program::SetUniform3f(const std::string & name, const glm::vec3 & vector)
+{
+	GL(glUniform3f(GetUniformLocation(name), vector.x, vector.y, vector.z));
 }
 
 void Program::SetUniformMat4f(const std::string & name, const glm::mat4 & matrix)

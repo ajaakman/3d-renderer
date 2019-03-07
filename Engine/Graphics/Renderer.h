@@ -30,6 +30,7 @@ public:
 	glm::vec3 CameraPosition;
 	glm::vec3 CameraRotation;
 
+	glm::vec3 LightPos;
 private:
 
 	glm::vec3 WorldUp;

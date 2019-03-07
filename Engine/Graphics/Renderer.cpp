@@ -14,7 +14,7 @@
 #include "../Utility/Error.h"
 
 Renderer::Renderer(Window* window)
-	:m_pWindow(window), CameraPosition(glm::vec3(0.f, 0.f, -200.f)), CameraRotation(glm::vec3(0.f, 0.f, -1.f)), WorldUp(glm::vec3(0.f, 1.f, 0.f))
+	:m_pWindow(window), CameraPosition(glm::vec3(0.f, 0.f, 0.f)), CameraRotation(glm::vec3(0.f, 0.f, -1.f)), WorldUp(glm::vec3(0.f, 1.f, 0.f))
 {	
 	GL(glClearColor(0.1f, 0.1f, 0.1f, 1.f));
 	//GL(glEnable(GL_DEPTH_TEST));
@@ -29,14 +29,14 @@ Renderer::Renderer(Window* window)
 	GL(glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)); // GL_FILL GL_LINE
 #endif
 	{
-		float vertices[8] = {
+		float vertices[] = {
 						  -0.5f, -0.5f,
 						   0.5f, -0.5f,
 						   0.5f,  0.5f,
 						  -0.5f,  0.5f
 		};
 
-		unsigned int indices[6] = {
+		unsigned int indices[] = {
 			0, 1, 2,
 			2, 3, 0
 		};
@@ -84,13 +84,13 @@ Renderer::Renderer(Window* window)
 	}
 	{		
 		float vertices[] = {
-						  -0.5f, -0.5f, 0.f, 0.f,
-						   0.5f, -0.5f, 1.f, 0.f,
-						   0.5f,  0.5f, 1.f, 1.f,
-						  -0.5f,  0.5f, 0.f, 1.f
+						  -0.5f, -0.5f, 0.f, 0.f, 0.f, 0.f, -0.f,
+						   0.5f, -0.5f, 1.f, 0.f, 0.f, 0.f, -0.f,
+						   0.5f,  0.5f, 1.f, 1.f, 0.f, 0.f, -0.f,
+						  -0.5f,  0.5f, 0.f, 1.f, 0.f, 0.f, -0.f
 		};
 
-		unsigned int indices[6] = {
+		unsigned int indices[] = {
 			0, 1, 2,
 			2, 3, 0
 		};
@@ -98,8 +98,9 @@ Renderer::Renderer(Window* window)
 		Vertex vertex;
 		vertex.PushFloat(2);
 		vertex.PushFloat(2);
+		vertex.PushFloat(3);
 
-		p_SpriteBuffer = new Buffer(vertices, 4 * 4 * sizeof(float), vertex, GL_STATIC_DRAW);
+		p_SpriteBuffer = new Buffer(vertices, 4 * 7 * sizeof(float), vertex, GL_STATIC_DRAW);
 		p_SpriteElementArrayBuffer = new ElementArrayBuffer(indices, 6, GL_STATIC_DRAW);
 		p_SpriteProgram = new Program(1);
 	}
@@ -127,47 +128,7 @@ void Renderer::Clear()
 
 void Renderer::Draw()
 {
-	glm::mat4 ViewProjection =
-	glm::translate
-	(
-		glm::ortho
-		( 0.f, (float)m_pWindow->GetWidth(), 0.f, (float)m_pWindow->GetHeight(), -1.f, 1.f),
-		glm::vec3(CameraPosition.x/20, CameraPosition.y/20, 0.f) // View
-	);
-
-	p_SpriteBuffer->Bind();
-	p_SpriteElementArrayBuffer->Bind();
-	p_SpriteProgram->Bind();
-
-	for (auto & sprite : m_Sprites2D)
-	{
-		sprite.second->Texture->Bind(0);
-		glm::mat4 LocationMat = glm::translate(ViewProjection, glm::vec3(sprite.second->Position.x, sprite.second->Position.y, 0.f));
-		glm::mat4 RotationMat = glm::rotate(LocationMat, sprite.second->Rotation, glm::vec3(0.f, 0.f, 1.f));
-		glm::mat4 ScaleMat = glm::scale(RotationMat, glm::vec3(sprite.second->Scale.x, sprite.second->Scale.y, 1.f));
-
-		p_SpriteProgram->SetUniformMat4f("u_MVP", ScaleMat);
-		p_SpriteProgram->SetUniform1i("u_Texture0", 0);
-		p_SpriteProgram->SetUniform4f("u_Color", sprite.second->Color);
-		GL(glDrawElements(GL_TRIANGLES, p_SpriteElementArrayBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
-	}
-
-	p_SimpleBuffer->Bind();
-	p_SimpleElementArrayBuffer->Bind();
-	p_SimpleProgram->Bind();
-
-	for (auto & renderable : m_SimpleRenderables)
-	{
-		glm::mat4 LocationMat = glm::translate(ViewProjection, glm::vec3(renderable.second->Position.x, renderable.second->Position.y, 0.f));
-		glm::mat4 RotationMat = glm::rotate(LocationMat, renderable.second->Rotation, glm::vec3(0.f, 0.f, 1.f));
-		glm::mat4 ScaleMat = glm::scale(RotationMat, glm::vec3(renderable.second->Scale.x, renderable.second->Scale.y, 1.f));
-
-		p_SimpleProgram->SetUniformMat4f("u_MVP", ScaleMat);
-		p_SimpleProgram->SetUniform4f("u_Color", renderable.second->Color);
-		GL(glDrawElements(GL_TRIANGLES, p_SimpleElementArrayBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
-	}
-
-	glm::mat4 Projection = glm::perspective(75.f, (float)m_pWindow->GetWidth() / (float)m_pWindow->GetHeight(), 1.f, 10000.f);
+	glm::mat4 Projection = glm::perspective(80.f, (float)m_pWindow->GetWidth() / (float)m_pWindow->GetHeight(), 1.f, 10000.f);
 	glm::mat4 View = (glm::lookAt(CameraPosition, CameraPosition + CameraRotation, WorldUp));
 
 	p_3DBuffer->Bind();
@@ -188,6 +149,51 @@ void Renderer::Draw()
 		GL(glDrawElements(GL_TRIANGLES, p_3DElementArrayBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
 	}
 
+	glm::mat4 ViewProjection =
+	glm::translate
+	(
+		glm::ortho
+		( 0.f, (float)m_pWindow->GetWidth(), 0.f, (float)m_pWindow->GetHeight(), -100.f, 100.f),
+		glm::vec3(CameraPosition.x, CameraPosition.y, 0.f) // View
+	);
+
+	p_SpriteBuffer->Bind();
+	p_SpriteElementArrayBuffer->Bind();
+	p_SpriteProgram->Bind();
+	LightPos = (glm::vec3((float)m_pWindow->GetWidth(), (float)m_pWindow->GetHeight(), 0.f));
+	for (auto & sprite : m_Sprites2D)
+	{
+		sprite.second->Texture->Bind(0);
+		glm::mat4 LocationMat = glm::translate(ViewProjection, glm::vec3(sprite.second->Position.x, sprite.second->Position.y, 0.f));
+		glm::mat4 RotationMat = glm::rotate(LocationMat, sprite.second->Rotation, glm::vec3(0.f, 1.f, 0.f));
+		glm::mat4 ScaleMat = glm::scale(RotationMat, glm::vec3(sprite.second->Scale.x, sprite.second->Scale.y, 1.f));
+
+		glm::mat4 LocationMat1 = glm::translate(glm::mat4(1.f), glm::vec3(sprite.second->Position.x, sprite.second->Position.y, 0.f));
+		glm::mat4 RotationMat1 = glm::rotate(LocationMat1, sprite.second->Rotation, glm::vec3(0.f, 1.f, 0.f));
+		glm::mat4 Model = glm::scale(RotationMat1, glm::vec3(sprite.second->Scale.x, sprite.second->Scale.y, 1.f));
+
+		p_SpriteProgram->SetUniformMat4f("u_MVP", ScaleMat);
+		p_SpriteProgram->SetUniformMat4f("u_Model", Model);
+		p_SpriteProgram->SetUniform3f("u_Light", LightPos);
+		p_SpriteProgram->SetUniform1i("u_Texture0", 0);
+		p_SpriteProgram->SetUniform4f("u_Color", sprite.second->Color);
+		GL(glDrawElements(GL_TRIANGLES, p_SpriteElementArrayBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
+	}
+
+	p_SimpleBuffer->Bind();
+	p_SimpleElementArrayBuffer->Bind();
+	p_SimpleProgram->Bind();
+
+	for (auto & renderable : m_SimpleRenderables)
+	{
+		glm::mat4 LocationMat = glm::translate(ViewProjection, glm::vec3(renderable.second->Position.x, renderable.second->Position.y, 0.f));
+		glm::mat4 RotationMat = glm::rotate(LocationMat, renderable.second->Rotation, glm::vec3(0.f, 0.f, 1.f));
+		glm::mat4 ScaleMat = glm::scale(RotationMat, glm::vec3(renderable.second->Scale.x, renderable.second->Scale.y, 1.f));
+				
+		p_SimpleProgram->SetUniformMat4f("u_MVP", ScaleMat);
+		p_SimpleProgram->SetUniform4f("u_Color", renderable.second->Color);
+		GL(glDrawElements(GL_TRIANGLES, p_SimpleElementArrayBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
+	}
 }
 
 bool Renderer::CreateSimpleRenderable(const std::string & name, const glm::vec2 & position, const glm::vec2 & scale, const float & rotation, const glm::vec4 & color)
