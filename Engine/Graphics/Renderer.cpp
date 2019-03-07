@@ -84,10 +84,10 @@ Renderer::Renderer(Window* window)
 	}
 	{		
 		float vertices[] = {
-						  -0.5f, -0.5f, 0.f, 0.f, 0.f, 0.f, -0.f,
-						   0.5f, -0.5f, 1.f, 0.f, 0.f, 0.f, -0.f,
-						   0.5f,  0.5f, 1.f, 1.f, 0.f, 0.f, -0.f,
-						  -0.5f,  0.5f, 0.f, 1.f, 0.f, 0.f, -0.f
+						  -0.5f, -0.5f, 0.f, 0.f, 0.f, 0.f, -1.f,
+						   0.5f, -0.5f, 1.f, 0.f, 0.f, 0.f, -1.f,
+						   0.5f,  0.5f, 1.f, 1.f, 0.f, 0.f, -1.f,
+						  -0.5f,  0.5f, 0.f, 1.f, 0.f, 0.f, -1.f
 		};
 
 		unsigned int indices[] = {
@@ -160,16 +160,16 @@ void Renderer::Draw()
 	p_SpriteBuffer->Bind();
 	p_SpriteElementArrayBuffer->Bind();
 	p_SpriteProgram->Bind();
-	LightPos = (glm::vec3((float)m_pWindow->GetWidth(), (float)m_pWindow->GetHeight(), 0.f));
+	LightPos = (glm::vec3((float)m_pWindow->GetWidth()/2, (float)m_pWindow->GetHeight()/2, 10.f));
 	for (auto & sprite : m_Sprites2D)
 	{
 		sprite.second->Texture->Bind(0);
 		glm::mat4 LocationMat = glm::translate(ViewProjection, glm::vec3(sprite.second->Position.x, sprite.second->Position.y, 0.f));
-		glm::mat4 RotationMat = glm::rotate(LocationMat, sprite.second->Rotation, glm::vec3(0.f, 1.f, 0.f));
+		glm::mat4 RotationMat = glm::rotate(LocationMat, sprite.second->Rotation, glm::vec3(0.f, 0.f, 1.f));
 		glm::mat4 ScaleMat = glm::scale(RotationMat, glm::vec3(sprite.second->Scale.x, sprite.second->Scale.y, 1.f));
 
 		glm::mat4 LocationMat1 = glm::translate(glm::mat4(1.f), glm::vec3(sprite.second->Position.x, sprite.second->Position.y, 0.f));
-		glm::mat4 RotationMat1 = glm::rotate(LocationMat1, sprite.second->Rotation, glm::vec3(0.f, 1.f, 0.f));
+		glm::mat4 RotationMat1 = glm::rotate(LocationMat1, sprite.second->Rotation, glm::vec3(0.f, 0.f, 1.f));
 		glm::mat4 Model = glm::scale(RotationMat1, glm::vec3(sprite.second->Scale.x, sprite.second->Scale.y, 1.f));
 
 		p_SpriteProgram->SetUniformMat4f("u_MVP", ScaleMat);
