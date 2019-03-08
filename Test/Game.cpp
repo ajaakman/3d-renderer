@@ -12,14 +12,9 @@ Game::~Game()
 }
 
 void Game::Begin()
-{	
-	//for (int i = 0; i < 30; ++i)
-	//	for (int j = 0; j < 15; ++j)
-	//		p_Renderer->CreateSimpleRenderable("rend" + std::to_string(i) + "j" + std::to_string(j), glm::vec2(50.f + i * 30.f, 50.f + j * 30.f), glm::vec2(20.f, 20.f), 1);
-
-	p_Renderer->CreateSimpleRenderable("r1", glm::vec2(GetWidth() / 2, GetHeight() / 2), glm::vec2(50.f, 50.f));
-	p_Renderer->CreateSprite2D("s1", glm::vec2(GetWidth() / 2, GetHeight() / 2), glm::vec2(70.f, 100.f), "Resources/Textures/logo.png");
-	p_Renderer->CreateSprite2D("s2", glm::vec2(GetWidth()/2+35, GetHeight()/2+35), glm::vec2(70.f, 70.f), "Resources/Textures/logo1.png");
+{		
+	p_Renderer->CreateSprite2D("s1", glm::vec3(GetWidth() / 2, GetHeight() / 2, 0.f), glm::vec3(70.f, 100.f, 0.f), "Resources/Textures/logo.png");
+	p_Renderer->CreateSprite2D("s2", glm::vec3(GetWidth()/2+35, GetHeight()/2+35, 0.f), glm::vec3(70.f, 70.f, 0.f), "Resources/Textures/logo1.png");
 
 	for (int i = 0; i < 7; ++i)
 	{
@@ -32,11 +27,7 @@ void Game::Begin()
 }
 
 void Game::Tick(float fDeltaTime)
-{ 	
-	p_Renderer->GetSimpleRenderable("r1")->Color = (glm::vec4(col, 1.f, 0.f, 1.f));
-	p_Renderer->GetSimpleRenderable("r1")->Position = (glm::vec2(GetWidth() / 2 + col * 50, GetHeight() / 10));	
-	p_Renderer->GetSimpleRenderable("r1")->Rotation = rot;
-		
+{ 			
 	if (IsKeyPressed('W'))
 		p_Renderer->CameraPosition += p_Renderer->CameraRotation * 1.f * fDeltaTime;
 	if (IsKeyPressed('S'))
@@ -51,10 +42,12 @@ void Game::Tick(float fDeltaTime)
 		p_Renderer->CameraPosition -= (p_Renderer->CameraRotation + glm::vec3(3.14f, 0.f, -1.f)) * 1.f * fDeltaTime;
 
 	p_Renderer->GetSprite2D("s1")->Color = (glm::vec4(col, 1.f, 0.f, 1.f));
-	p_Renderer->GetSprite2D("s2")->Rotation = rot;
+	p_Renderer->GetSprite2D("s2")->Rotation.x = rot;
+	p_Renderer->GetSprite2D("s2")->Rotation.z = rot;
+	p_Renderer->GetSprite2D("s2")->Rotation.y = rot;
 	
 	if (IsMouseClicked('L'))
-		p_Renderer->GetSprite2D("s2")->Position = (glm::vec2(GetMouseX() - p_Renderer->CameraPosition.x, GetMouseY() - p_Renderer->CameraPosition.y));
+		p_Renderer->GetSprite2D("s2")->Position = (glm::vec3(GetMouseX() - p_Renderer->CameraPosition.x, GetMouseY() - p_Renderer->CameraPosition.y, 0.f));
 
 	for (int i = 0; i < 7; ++i)
 	{
@@ -66,17 +59,13 @@ void Game::Tick(float fDeltaTime)
 		}
 	}
 
-	//for (int i = 0; i < 30; ++i)
-	//	for (int j = 0; j < 15; ++j)
-	//		p_Renderer->GetSimpleRenderable("rend" + std::to_string(i) + "j" + std::to_string(j))->Rotation += 0.0015f * fDeltaTime;
-
 	if (col > 1.f)
 		increment = -0.0015f;
 	else if (col < 0.f)
 		increment = 0.0015f;
 
 	if (rot > 3 && !p_Renderer->GetSprite2D("lateload"))
-		p_Renderer->CreateSprite2D("lateload", glm::vec2(GetWidth() / 10, GetHeight() / 10), glm::vec2(70.f, 70.f), "Resources/Textures/logo.png");
+		p_Renderer->CreateSprite2D("lateload", glm::vec3(GetWidth() / 10, GetHeight() / 10, 0.f), glm::vec3(70.f, 70.f, 0.f), "Resources/Textures/logo.png");
 
 	col += increment * fDeltaTime;
 	rot += 0.0015f * fDeltaTime;

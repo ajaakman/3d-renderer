@@ -1,22 +1,43 @@
 #shader vertex
-#version 330 core
+attribute highp vec4 position;
+attribute highp vec2 texCoord;
+attribute highp vec3 normal;
 
-layout(location = 0) in vec4 position;
+varying highp vec2 v_TexCoord;
+varying highp vec3 v_Normal;
+varying highp vec3 v_Position;
+
 uniform mat4 u_MVP;
+uniform mat4 u_Model;
 
 void main()
 {
 	gl_Position = u_MVP * position;
-};
+    v_Normal = mat3(u_Model) * normal;
+    v_TexCoord = texCoord;
+    v_Position = vec4(u_Model * position).xyz;
+}
 
 #shader fragment
-#version 330 core
+precision highp float;
 
-layout(location = 0) out vec4 color;
+varying highp vec3 v_Position;
+varying highp vec2 v_TexCoord;
+varying highp vec3 v_Normal;
 
 uniform vec4 u_Color;
+uniform vec3 u_Light;
+
+uniform sampler2D u_Texture0;
+uniform sampler2D u_Texture1;
 
 void main()
 {
-	color = u_Color;
-};
+	vec4 texColor = texture2D(u_Texture0, v_TexCoord);
+	vec3 ambientLight = vec3(0.1, 0.1, 0.1);
+    vec3 posToLightDirVec = normalize(v_Position - u_Light);
+    vec3 diffuseColor = vec3( 1.0, 1.0, 1.0);
+    float diffuse = clamp(dot(posToLightDirVec, v_Normal), 0.0, 1.0);
+    vec3 diffuseFinal = diffuseColor * diffuse;
+	gl_FragColor  = texColor * u_Color * (vec4(ambientLight, 1.0) + vec4(diffuseFinal, 1.0));
+}

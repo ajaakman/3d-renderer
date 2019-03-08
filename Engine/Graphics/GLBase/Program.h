@@ -7,7 +7,7 @@
 class Program
 {
 	public:
-		Program(const int& type = 0);
+		Program();
 		Program(const std::string& filepath);
 		~Program();
 

@@ -14,133 +14,37 @@
 
 #include "../../Utility/Error.h"
 
-Program::Program(const int& type)
+Program::Program()
 	:m_ShaderID(0)
 {
 	std::string vertex, fragment;
-	if (type == 0)
-	{
 #ifdef EMSCRIPTEN
-		vertex =
-			"attribute highp vec4 position;\n"
-			"uniform mat4 u_MVP;\n"
-			"\n"
-			"void main()\n"
-			"{\n"
-			"	gl_Position = u_MVP * position;\n"
-			"}\n";
-		fragment =
-			"precision highp float;\n"
-			"\n"
-			"uniform vec4 u_Color;\n"
-			"\n"
-			"void main()\n"
-			"{\n"
-			"	gl_FragColor = u_Color;\n"
-			"}\n";
+	vertex =
+		"attribute highp vec4 position;\n"
+		"uniform mat4 u_MVP;\n"
+		"void main(){\n"
+		"	gl_Position = u_MVP * position;\n"
+		"}\n";
+	fragment =
+		"precision highp float;\n"
+		"void main(){\n"
+		"	gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0);\n"
+		"}\n";
 #else
-		vertex =
-			"#version 330 core\n"
-			"\n"
-			"layout(location = 0) in vec4 position;\n"
-			"\n"
-			"uniform mat4 u_MVP;\n"
-			"\n"
-			"void main()\n"
-			"{\n"
-			"	gl_Position = u_MVP * position;\n"
-			"};\n";
-		fragment =
-			"#version 330 core\n"
-			"\n"
-			"layout(location = 0) out vec4 color;\n"
-			"\n"
-			"uniform vec4 u_Color;\n"
-			"\n"
-			"void main()\n"
-			"{\n"
-			"	color = u_Color;\n"
-			"};\n";
+	vertex =
+		"#version 330 core\n"
+		"layout(location = 0) in vec4 position;\n"
+		"uniform mat4 u_MVP;\n"
+		"void main(){\n"
+		"	gl_Position = u_MVP * position;\n"
+		"};\n";
+	fragment =
+		"#version 330 core\n"
+		"layout(location = 0) out vec4 color;\n"
+		"void main(){\n"
+		"	color = vec4(1.f ,0.f ,1.f ,1.f);\n"
+		"};\n";
 #endif
-	}
-	else if (type == 1)
-	{
-#ifdef EMSCRIPTEN
-		vertex =
-			"attribute highp vec4 position;\n"
-			"attribute highp vec2 texCoord;\n"
-			"\n"
-			"uniform mat4 u_MVP;\n"
-			"\n"
-			"varying highp vec2 v_TexCoord;\n"
-			"\n"
-			"void main()\n"
-			"{\n"
-			"	gl_Position = u_MVP * position;\n"
-			"	v_TexCoord = texCoord;\n"
-			"}\n";
-		fragment =
-			"precision highp float;\n"
-			"\n"
-			"varying highp vec2 v_TexCoord;\n"
-			"\n"
-			"uniform vec4 u_Color;\n"
-			"uniform sampler2D u_Texture0;\n"
-			"uniform sampler2D u_Texture1;\n"
-			"\n"
-			"void main()\n"
-			"{\n"
-			"	vec4 texColor = texture2D(u_Texture0, v_TexCoord);\n"
-			"	gl_FragColor = texColor * u_Color;\n"
-			"}\n";
-#else
-		vertex =
-			"#version 330 core\n"
-			"\n"
-			"layout(location = 0) in vec4 position;\n"
-			"layout(location = 1) in vec2 texCoord;\n"
-			"layout(location = 2) in vec3 normal;\n"
-			"\n"
-			"out vec2 v_TexCoord;\n"
-			"out vec3 v_Normal;\n"
-			"out vec3 v_Position;\n"
-			"\n"
-			"uniform mat4 u_MVP;\n"
-			"uniform mat4 u_Model;\n"
-			"\n"
-			"void main()\n"
-			"{\n"
-			"	gl_Position = u_MVP * position;\n"
-			"	v_Normal = mat3(u_Model) * normal;\n"
-			"	v_TexCoord = texCoord;\n"
-			"	v_Position = vec4(u_Model * position).xyz;\n"
-			"};\n";
-		fragment =
-			"#version 330 core\n"
-			"\n"
-			"in vec2 v_TexCoord;"
-			"in vec3 v_Normal;"
-			"in vec3 v_Position;"
-			"\n"
-			"layout(location = 0) out vec4 color;\n"
-			"\n"
-			"uniform vec4 u_Color;\n"
-			"uniform vec3 u_Light;\n"
-			"uniform sampler2D u_Texture0;\n"
-			"uniform sampler2D u_Texture1;\n"
-			"\n"
-			"void main()\n"
-			"{\n"
-			"	vec4 texColor = texture(u_Texture0, v_TexCoord);\n"
-			"	vec3 ambientLight = vec3(0.1f, 0.1f, 0.1f);\n"
-			"	vec3 posToLightDirVec = normalize(v_Position - u_Light);\n"
-			"	vec3 diffuseColor = vec3( 1.f, 1.f, 1.f );\n"
-			"	float diffuse = clamp(dot(posToLightDirVec, v_Normal), 0, 1);\n"
-			"	vec3 diffuseFinal = diffuseColor * diffuse;\n"
-			"	color = texColor * u_Color * (vec4(ambientLight, 1.0f) + vec4(diffuseFinal, 1.f));\n"
-			"};\n";
-#endif
-	}
 	m_ShaderID = CreateShader(vertex, fragment);
 }
 

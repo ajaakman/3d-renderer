@@ -765,16 +765,13 @@
     <ClInclude Include="Libraries\stbi\stbi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\Renderables\Renderable3D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics\Renderables\Sprite2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\GUtility\Vertex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Graphics\GUtility\TextureCache.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Renderables\Renderable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -809,16 +806,13 @@
     <ClCompile Include="Libraries\stbi\stbi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\Renderables\Renderable3D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics\Renderables\Sprite2D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics\GUtility\Vertex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Graphics\GUtility\TextureCache.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Renderables\Renderable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

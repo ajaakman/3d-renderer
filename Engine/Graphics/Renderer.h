@@ -6,8 +6,7 @@
 #include "GLBase/ElementArrayBuffer.h"
 #include "GLBase/Program.h"
 #include "GLBase/Texture.h"
-#include "Renderables/Renderable3D.h"
-#include "Renderables/Sprite2D.h"
+#include "Renderables/Renderable.h"
 #include "../IO/Window.h"
 
 class Renderer
@@ -19,13 +18,11 @@ public:
 	void Clear();
 	void Draw();
 
-	bool CreateSimpleRenderable(const std::string & name, const glm::vec2 & position, const glm::vec2 & scale, const float & rotation = 0.f, const glm::vec4 & color = glm::vec4(1.f, 1.f, 1.f, 1.f));
-	bool CreateSprite2D(const std::string & name, const glm::vec2 & position, const glm::vec2 & scale, const std::string & path, const float & rotation = 0.f, const glm::vec4 & color = glm::vec4(1.f, 1.f, 1.f, 1.f));
+	bool CreateSprite2D(const std::string & name, const glm::vec3 & position, const glm::vec3 & scale, const std::string & path, const glm::vec3 & rotation = glm::vec3(0.f, 0.f, 0.f), const glm::vec4 & color = glm::vec4(1.f, 1.f, 1.f, 1.f));
 	bool CreateRenderable3D(const std::string & name, const glm::vec3 & position, const glm::vec3 & scale);
 
-	Sprite2D* GetSimpleRenderable(const std::string & name);
-	Sprite2D* GetSprite2D(const std::string & name);
-	Renderable3D* GetRenderable3D(const std::string & name);
+	Renderable* GetSprite2D(const std::string & name);
+	Renderable* GetRenderable3D(const std::string & name);
 		
 	glm::vec3 CameraPosition;
 	glm::vec3 CameraRotation;
@@ -37,13 +34,8 @@ private:
 
 	Window* m_pWindow;
 
-	std::unordered_map<std::string, Sprite2D*> m_SimpleRenderables;
-	std::unordered_map<std::string, Sprite2D*> m_Sprites2D;
-	std::unordered_map<std::string, Renderable3D*> m_Renderables3D;
-
-	ElementArrayBuffer* p_SimpleElementArrayBuffer;
-	Program* p_SimpleProgram;
-	Buffer* p_SimpleBuffer;
+	std::unordered_map<std::string, Renderable*> m_Sprites2D;
+	std::unordered_map<std::string, Renderable*> m_Renderables3D;
 
 	ElementArrayBuffer* p_SpriteElementArrayBuffer;
 	Program* p_SpriteProgram;
