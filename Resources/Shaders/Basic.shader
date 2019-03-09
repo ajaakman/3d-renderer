@@ -27,6 +27,8 @@ varying highp vec3 v_Normal;
 
 uniform vec4 u_Color;
 uniform vec3 u_Light;
+uniform vec3 u_Camera;
+uniform float u_SpecularStrength;
 
 uniform sampler2D u_Texture0;
 uniform sampler2D u_Texture1;
@@ -34,10 +36,19 @@ uniform sampler2D u_Texture1;
 void main()
 {
 	vec4 texColor = texture2D(u_Texture0, v_TexCoord);
+
 	vec3 ambientLight = vec3(0.1, 0.1, 0.1);
+
     vec3 posToLightDirVec = normalize(v_Position - u_Light);
     vec3 diffuseColor = vec3( 1.0, 1.0, 1.0);
     float diffuse = clamp(dot(posToLightDirVec, v_Normal), 0.0, 1.0);
     vec3 diffuseFinal = diffuseColor * diffuse;
-	gl_FragColor  = texColor * u_Color * (vec4(ambientLight, 1.0) + vec4(diffuseFinal, 1.0));
+
+    vec3 lightToPosDirVec = normalize(u_Light - v_Position);
+	vec3 reflectDirVec = normalize(reflect(lightToPosDirVec, normalize(v_Normal)));
+	vec3 posToViewDirVec = normalize(v_Position - u_Camera);
+	float specularConstant = pow(max(dot(posToViewDirVec, reflectDirVec), 0.0), u_SpecularStrength);
+	vec3 specularFinal = vec3(1.0, 1.0, 1.0) * specularConstant;
+
+	gl_FragColor  = texColor * u_Color * (vec4(ambientLight, 1.0) + vec4(diffuseFinal, 1.0) + vec4(specularFinal, 1.0));
 }

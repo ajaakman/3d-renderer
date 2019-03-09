@@ -149,6 +149,8 @@ void Renderer::Draw()
 		p_SpriteProgram->SetUniformMat4f("u_MVP", MVP);
 		p_SpriteProgram->SetUniformMat4f("u_Model", Model);
 		p_SpriteProgram->SetUniform3f("u_Light", LightPos);
+		p_SpriteProgram->SetUniform3f("u_Camera", CameraPosition);
+		p_SpriteProgram->SetUniform1f("u_SpecularStrength", 100);
 		p_SpriteProgram->SetUniform1i("u_Texture0", 0);
 		p_SpriteProgram->SetUniform4f("u_Color", sprite.second->Color);
 		GL(glDrawElements(GL_TRIANGLES, p_SpriteElementArrayBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));

@@ -140,6 +140,11 @@ void Program::SetUniform1i(const std::string & name, const int value)
 	GL(glUniform1i(GetUniformLocation(name), value));
 }
 
+void Program::SetUniform1f(const std::string & name, const float value)
+{
+	GL(glUniform1f(GetUniformLocation(name), value));
+}
+
 void Program::SetUniform4f(const std::string & name, const glm::vec4 & vector)
 {
 	GL(glUniform4f(GetUniformLocation(name), vector.x, vector.y, vector.z, vector.w));

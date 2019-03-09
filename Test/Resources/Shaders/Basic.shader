@@ -31,6 +31,8 @@ layout(location = 0) out vec4 color;
 
 uniform vec4 u_Color;
 uniform vec3 u_Light;
+uniform vec3 u_Camera;
+uniform float u_SpecularStrength;
 
 uniform sampler2D u_Texture0;
 uniform sampler2D u_Texture1;
@@ -38,10 +40,19 @@ uniform sampler2D u_Texture1;
 void main()
 {
     vec4 texColor = texture(u_Texture0, v_TexCoord);
+
     vec3 ambientLight = vec3(0.1f, 0.1f, 0.1f);
+
     vec3 posToLightDirVec = normalize(v_Position - u_Light);
     vec3 diffuseColor = vec3( 1.f, 1.f, 1.f );
     float diffuse = clamp(dot(posToLightDirVec, v_Normal), 0.f, 1.f);
     vec3 diffuseFinal = diffuseColor * diffuse;
-    color = texColor * u_Color * (vec4(ambientLight, 1.0f) + vec4(diffuseFinal, 1.f));
+
+	vec3 lightToPosDirVec = normalize(u_Light - v_Position);
+	vec3 reflectDirVec = normalize(reflect(lightToPosDirVec, normalize(v_Normal)));
+	vec3 posToViewDirVec = normalize(v_Position - u_Camera);
+	float specularConstant = pow(max(dot(posToViewDirVec, reflectDirVec), 0.f), u_SpecularStrength);
+	vec3 specularFinal = vec3(1.f, 1.f, 1.f) * specularConstant;
+
+    color = texColor * u_Color * (vec4(ambientLight, 1.0f) + vec4(diffuseFinal, 1.f) + vec4(specularFinal, 1.f));
 };;
