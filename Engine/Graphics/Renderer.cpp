@@ -14,7 +14,7 @@
 #include "../Utility/Error.h"
 
 Renderer::Renderer(Window* window)
-	:m_pWindow(window), CameraPosition(glm::vec3(0.f, 0.f, 0.f)), CameraRotation(glm::vec3(0.f, 0.f, -1.f)), WorldUp(glm::vec3(0.f, 1.f, 0.f)),	LightPos(glm::vec3(540.f, 270.f, 10.f))
+	:m_pWindow(window), CameraPosition(glm::vec3(0.f, 0.f, 0.f)), CameraRotation(glm::vec3(0.f, 0.f, -1.f)), WorldUp(glm::vec3(0.f, 1.f, 0.f)),	LightPos(glm::vec3(540.f, -540.f, 10.f))
 {	
 	GL(glClearColor(0.1f, 0.1f, 0.1f, 1.f));
 	//GL(glEnable(GL_DEPTH_TEST));
@@ -30,14 +30,14 @@ Renderer::Renderer(Window* window)
 #endif	
 	{
 		std::vector<float> vertices = {
-						  -1.000000, -1.000000,  1.000000,
-						  -1.000000, -1.000000, -1.000000,
-						   1.000000, -1.000000, -1.000000,
-						   1.000000, -1.000000,  1.000000,
-						  -1.000000,  1.000000,  1.000000,
-						  -1.000000,  1.000000, -1.000000,
-						   1.000000,  1.000000, -1.000000,
-						   1.000000,  1.000000,  1.000000
+						  -0.5f, -0.5f,  0.5f,
+						  -0.5f, -0.5f, -0.5f,
+						   0.5f, -0.5f, -0.5f,
+						   0.5f, -0.5f,  0.5f,
+						  -0.5f,  0.5f,  0.5f,
+						  -0.5f,  0.5f, -0.5f,
+						   0.5f,  0.5f, -0.5f,
+						   0.5f,  0.5f,  0.5f
 		};
 
 		std::vector<unsigned> indices = {
@@ -66,18 +66,32 @@ Renderer::Renderer(Window* window)
 	}
 	{		
 		std::vector<float> vertices = {
-						  -0.5f, -0.5f, 0.f, 0.f, 0.f, 0.f, 1.f,
-						   0.5f, -0.5f, 1.f, 0.f, 0.f, 0.f, 1.f,
-						   0.5f,  0.5f, 1.f, 1.f, 0.f, 0.f, 1.f,
-						  -0.5f,  0.5f, 0.f, 1.f, 0.f, 0.f, 1.f
+						  -0.5f, -0.5f,  0.5f,  0.f,  0.f, -0.5f, -0.5f,  0.5f,
+						   0.5f, -0.5f,  0.5f,  1.f,  0.f,  0.5f, -0.5f,  0.5f,
+						   0.5f,  0.5f,  0.5f,  1.f,  1.f,  0.5f,  0.5f,  0.5f,
+						  -0.5f,  0.5f,  0.5f,  0.f,  1.f, -0.5f,  0.5f,  0.5f,
+						  -0.5f, -0.5f, -0.5f,  1.f,  0.f, -0.5f, -0.5f, -0.5f,
+						   0.5f, -0.5f, -0.5f,  1.f,  1.f,  0.5f, -0.5f, -0.5f,
+						   0.5f,  0.5f, -0.5f,  0.f,  1.f,  0.5f,  0.5f, -0.5f,
+						  -0.5f,  0.5f, -0.5f,  0.f,  0.f, -0.5f,  0.5f, -0.5f
 		};
 
 		std::vector<unsigned> indices = {
 			0, 1, 2,
-			2, 3, 0
+			0, 2, 3,
+			1, 6, 2,
+			1, 5, 6,
+			4, 7, 5,
+			7, 6, 5,
+			3, 7, 4,
+			0, 3, 4,
+			3, 2, 7,
+			7, 2, 6,
+			0, 4, 5,
+			0, 5, 1
 		};
 
-		std::vector<unsigned> layout = { 2, 2, 3 };
+		std::vector<unsigned> layout = { 3, 2, 3 };
 		VertexLayout vertex;
 		for (auto & element : layout)
 			vertex.PushFloat(element);
@@ -112,6 +126,13 @@ void Renderer::Draw()
 
 	glm::mat4 Projection = glm::perspective(80.f, (float)m_pWindow->GetWidth() / (float)m_pWindow->GetHeight(), 1.f, 10000.f);
 	glm::mat4 View = (glm::lookAt(CameraPosition, CameraPosition + CameraRotation, WorldUp));
+	glm::mat4 ProjectionView =
+	glm::translate
+	(
+		glm::ortho
+		( 0.f, (float)m_pWindow->GetWidth(), 0.f, (float)m_pWindow->GetHeight(), -100.f, 100.f),
+		glm::vec3(CameraPosition.x, CameraPosition.y, 0.f) // View
+	);
 
 	for (auto & renderable : m_Renderables3D)
 	{
@@ -129,25 +150,18 @@ void Renderer::Draw()
 	p_SpriteElementArrayBuffer->Bind();
 	p_SpriteProgram->Bind();
 
-	glm::mat4 ProjectionView =
-	glm::translate
-	(
-		glm::ortho
-		( 0.f, (float)m_pWindow->GetWidth(), 0.f, (float)m_pWindow->GetHeight(), -100.f, 100.f),
-		glm::vec3(CameraPosition.x, CameraPosition.y, 0.f) // View
-	);
 	for (auto & sprite : m_Sprites2D)
 	{
 		//sprite.second->Texture.bind();
 		sprite.second->GetMaterial()->Use(p_SpriteProgram);
 
-		glm::mat4 Location = glm::translate(glm::mat4(1.f), glm::vec3(sprite.second->Position.x, sprite.second->Position.y, 0.f));
+		glm::mat4 Location = glm::translate(glm::mat4(1.f), glm::vec3(sprite.second->Position.x, sprite.second->Position.y, sprite.second->Position.z));
 		glm::mat4 RotationX = glm::rotate(Location, sprite.second->Rotation.x, glm::vec3(1.f, 0.f, 0.f));
 		glm::mat4 RotationY = glm::rotate(RotationX, sprite.second->Rotation.y, glm::vec3(0.f, 1.f, 0.f));
 		glm::mat4 RotationZ = glm::rotate(RotationY, sprite.second->Rotation.z, glm::vec3(0.f, 0.f, 1.f));
-		glm::mat4 Model = glm::scale(RotationZ, glm::vec3(sprite.second->Scale.x, sprite.second->Scale.y, 1.f));
+		glm::mat4 Model = glm::scale(RotationZ, glm::vec3(sprite.second->Scale.x, sprite.second->Scale.y, sprite.second->Scale.z));
 
-		glm::mat4 MVP =  ProjectionView * Model;
+		glm::mat4 MVP = Projection * View * Model;
 
 		p_SpriteProgram->SetUniformMat4f("u_MVP", MVP);
 		p_SpriteProgram->SetUniformMat4f("u_Model", Model);
