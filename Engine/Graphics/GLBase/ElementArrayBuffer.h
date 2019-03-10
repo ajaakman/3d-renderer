@@ -10,14 +10,14 @@
 class ElementArrayBuffer
 {
 private:
-	unsigned int m_ArrayBufferID;
-	unsigned int m_Count;
+	unsigned m_ArrayBufferID;
+	unsigned m_Count;
 public:
-	ElementArrayBuffer(const unsigned int* data, unsigned int count, GLenum usage);
+	ElementArrayBuffer(const unsigned* data, unsigned count, GLenum usage);
 	~ElementArrayBuffer();
 
 	void Bind() const;
 
-	unsigned int GetCount() const;
+	unsigned GetCount() const;
 };
 

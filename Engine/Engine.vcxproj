@@ -145,6 +145,7 @@
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Graphics\Material.h" />
     <ClInclude Include="Graphics\GLBase\Program.h" />
+    <ClInclude Include="Graphics\Mesh.h" />
     <ClInclude Include="Graphics\Renderer.h" />
     <ClInclude Include="Libraries\glm\common.hpp" />
     <ClInclude Include="Libraries\glm\detail\compute_common.hpp" />
@@ -392,7 +393,7 @@
     <ClInclude Include="Graphics\GUtility\TextureCache.h" />
     <ClInclude Include="Utility\Error.h" />
     <ClInclude Include="IO\Window.h" />
-    <ClInclude Include="Graphics\GUtility\Vertex.h" />
+    <ClInclude Include="Graphics\GUtility\VertexLayout.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Graphics\BatchRenderer2D.cpp" />
@@ -407,7 +408,7 @@
     <ClCompile Include="Graphics\GUtility\TextureCache.cpp" />
     <ClCompile Include="Utility\Error.cpp" />
     <ClCompile Include="IO\Window.cpp" />
-    <ClCompile Include="Graphics\GUtility\Vertex.cpp" />
+    <ClCompile Include="Graphics\GUtility\VertexLayout.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Libraries\glm\detail\func_common.inl" />

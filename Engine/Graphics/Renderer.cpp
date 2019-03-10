@@ -29,7 +29,7 @@ Renderer::Renderer(Window* window)
 	GL(glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)); // GL_FILL GL_LINE
 #endif	
 	{
-		float vertices[] = {
+		std::vector<float> vertices = {
 						  -1.000000, -1.000000,  1.000000,
 						  -1.000000, -1.000000, -1.000000,
 						   1.000000, -1.000000, -1.000000,
@@ -40,7 +40,7 @@ Renderer::Renderer(Window* window)
 						   1.000000,  1.000000,  1.000000
 		};
 
-		unsigned int indices[] = {
+		std::vector<unsigned> indices = {
 			1, 3, 0,
 			7, 5, 4,
 			4, 1, 0,
@@ -55,33 +55,35 @@ Renderer::Renderer(Window* window)
 			0, 3, 7
 		};
 
-		Vertex vertex;
-		vertex.PushFloat(3);
+		std::vector<unsigned> layout = { 3 };
+		VertexLayout vertex;
+		for (auto & element : layout)
+			vertex.PushFloat(element);
 
-		p_3DBuffer = new Buffer(vertices, 8 * 3 * sizeof(float), vertex, GL_STATIC_DRAW);
-		p_3DElementArrayBuffer = new ElementArrayBuffer(indices, 36, GL_STATIC_DRAW);
+		p_3DBuffer = new Buffer(&vertices[0], vertices.size() * sizeof(float), vertex, GL_STATIC_DRAW);
+		p_3DElementArrayBuffer = new ElementArrayBuffer(&indices[0], indices.size(), GL_STATIC_DRAW);
 		p_3DProgram = new Program();
 	}
 	{		
-		float vertices[] = {
-						  -0.5f, -0.5f, 0.f, 0.f, 0.f, 0.f, -1.f,
-						   0.5f, -0.5f, 1.f, 0.f, 0.f, 0.f, -1.f,
-						   0.5f,  0.5f, 1.f, 1.f, 0.f, 0.f, -1.f,
-						  -0.5f,  0.5f, 0.f, 1.f, 0.f, 0.f, -1.f
+		std::vector<float> vertices = {
+						  -0.5f, -0.5f, 0.f, 0.f, 0.f, 0.f, 1.f,
+						   0.5f, -0.5f, 1.f, 0.f, 0.f, 0.f, 1.f,
+						   0.5f,  0.5f, 1.f, 1.f, 0.f, 0.f, 1.f,
+						  -0.5f,  0.5f, 0.f, 1.f, 0.f, 0.f, 1.f
 		};
 
-		unsigned int indices[] = {
+		std::vector<unsigned> indices = {
 			0, 1, 2,
 			2, 3, 0
 		};
 
-		Vertex vertex;
-		vertex.PushFloat(2);
-		vertex.PushFloat(2);
-		vertex.PushFloat(3);
+		std::vector<unsigned> layout = { 2, 2, 3 };
+		VertexLayout vertex;
+		for (auto & element : layout)
+			vertex.PushFloat(element);
 
-		p_SpriteBuffer = new Buffer(vertices, 4 * 7 * sizeof(float), vertex, GL_STATIC_DRAW);
-		p_SpriteElementArrayBuffer = new ElementArrayBuffer(indices, 6, GL_STATIC_DRAW);
+		p_SpriteBuffer = new Buffer(&vertices[0], vertices.size() * sizeof(float), vertex, GL_STATIC_DRAW);
+		p_SpriteElementArrayBuffer = new ElementArrayBuffer(&indices[0], indices.size(), GL_STATIC_DRAW);
 		p_SpriteProgram = new Program("Resources/Shaders/Basic.shader");
 	}
 }

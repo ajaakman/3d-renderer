@@ -45,13 +45,13 @@ void main()
 {
 	vec4 texColor = texture2D(material.diffuseTex, v_TexCoord);
 
-    vec3 posToLightDirVec = normalize(v_Position - u_Light);
+    vec3 posToLightDirVec = normalize(u_Light - v_Position);
     float diffuse = clamp(dot(posToLightDirVec, v_Normal), 0.0, 1.0);
     vec3 diffuseFinal = material.diffuse * diffuse;
 
-    vec3 lightToPosDirVec = normalize(u_Light - v_Position);
+    vec3 lightToPosDirVec = normalize(v_Position - u_Light);
 	vec3 reflectDirVec = normalize(reflect(lightToPosDirVec, normalize(v_Normal)));
-	vec3 posToViewDirVec = normalize(v_Position - u_Camera);
+	vec3 posToViewDirVec = normalize(u_Camera - v_Position);
 	float specularConstant = pow(max(dot(posToViewDirVec, reflectDirVec), 0.0), material.specularStrength);
 	vec3 specularFinal = material.specular * specularConstant;
 

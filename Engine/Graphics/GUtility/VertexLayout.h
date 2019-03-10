@@ -11,16 +11,16 @@
 
 #include "../../Utility/Error.h"
 
-class Vertex
+class VertexLayout
 {
 public:
 	struct VertexElement
 	{
-		unsigned int count;
-		unsigned int type;
+		unsigned count;
+		unsigned type;
 		unsigned char normalized;
 
-		static unsigned int GetSizeOfType(unsigned int type)
+		static unsigned GetSizeOfType(unsigned type)
 		{
 			switch (type)
 			{
@@ -33,18 +33,18 @@ public:
 		}
 	};
 
-	Vertex();
+	VertexLayout();
 	
-	void PushFloat(unsigned int count);
-	void PushUInt(unsigned int count);		
-	void PushChar(unsigned int count);
+	void PushFloat(unsigned count);
+	void PushUInt(unsigned count);		
+	void PushChar(unsigned count);
 
 	const std::vector<VertexElement> GetElements() const&;
-	unsigned int GetStride() const;
+	unsigned GetStride() const;
 
 private:
 
 	std::vector<VertexElement> m_Elements;
-	unsigned int m_Stride;
+	unsigned m_Stride;
 };
 

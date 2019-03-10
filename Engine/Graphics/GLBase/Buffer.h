@@ -7,19 +7,19 @@
 #include <GL/glew.h>
 #endif
 
-#include "../GUtility/Vertex.h"
+#include "../GUtility/VertexLayout.h"
 
 class Buffer
 {
 public:
-	Buffer(const void* data, unsigned int size, const Vertex & vertex, GLenum usage);
+	Buffer(const void* data, unsigned size, const VertexLayout & vertex, GLenum usage);
 	~Buffer();
 
-	void ModifyBuffer(const void * data, int offset, unsigned int size);
+	void ModifyBuffer(const void * data, int offset, unsigned size);
 
 	void Bind() const;
 private:
-	unsigned int m_BufferID;
-	unsigned int m_ArrayID;
+	unsigned m_BufferID;
+	unsigned m_ArrayID;
 };
 

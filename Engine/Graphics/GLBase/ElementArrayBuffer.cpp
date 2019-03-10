@@ -2,14 +2,14 @@
 
 #include "../../Utility/Error.h"
 
-ElementArrayBuffer::ElementArrayBuffer(const unsigned int * data, unsigned int count, GLenum usage)
+ElementArrayBuffer::ElementArrayBuffer(const unsigned * data, unsigned count, GLenum usage)
 	: m_Count(count)
 {
-	ASSERT(sizeof(unsigned int) == sizeof(GLuint));
+	ASSERT(sizeof(unsigned) == sizeof(GLuint));
 
 	GL(glGenBuffers(1, &m_ArrayBufferID));
 	GL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ArrayBufferID));
-	GL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(unsigned int), data, usage));
+	GL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(unsigned), data, usage));
 }
 
 ElementArrayBuffer::~ElementArrayBuffer()
@@ -22,7 +22,7 @@ void ElementArrayBuffer::Bind() const
 	GL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ArrayBufferID));
 }
 
-unsigned int ElementArrayBuffer::GetCount() const 
+unsigned ElementArrayBuffer::GetCount() const 
 { 
 	return m_Count; 
 }
