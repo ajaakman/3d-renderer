@@ -143,6 +143,7 @@
     <ClInclude Include="Graphics\GLBase\ElementArrayBuffer.h" />
     <ClInclude Include="Graphics\GLBase\Buffer.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="Graphics\Material.h" />
     <ClInclude Include="Graphics\GLBase\Program.h" />
     <ClInclude Include="Graphics\Renderer.h" />
     <ClInclude Include="Libraries\glm\common.hpp" />

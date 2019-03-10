@@ -29,7 +29,6 @@ public:
 
 	glm::vec3 LightPos;
 private:
-
 	glm::vec3 WorldUp;
 
 	Window* m_pWindow;

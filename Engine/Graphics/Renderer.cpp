@@ -136,7 +136,8 @@ void Renderer::Draw()
 	);
 	for (auto & sprite : m_Sprites2D)
 	{
-		sprite.second->Texture->Bind(0);
+		//sprite.second->Texture.bind();
+		sprite.second->GetMaterial()->Use(p_SpriteProgram);
 
 		glm::mat4 Location = glm::translate(glm::mat4(1.f), glm::vec3(sprite.second->Position.x, sprite.second->Position.y, 0.f));
 		glm::mat4 RotationX = glm::rotate(Location, sprite.second->Rotation.x, glm::vec3(1.f, 0.f, 0.f));
@@ -150,8 +151,6 @@ void Renderer::Draw()
 		p_SpriteProgram->SetUniformMat4f("u_Model", Model);
 		p_SpriteProgram->SetUniform3f("u_Light", LightPos);
 		p_SpriteProgram->SetUniform3f("u_Camera", CameraPosition);
-		p_SpriteProgram->SetUniform1f("u_SpecularStrength", 100);
-		p_SpriteProgram->SetUniform1i("u_Texture0", 0);
 		p_SpriteProgram->SetUniform4f("u_Color", sprite.second->Color);
 		GL(glDrawElements(GL_TRIANGLES, p_SpriteElementArrayBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
 	}

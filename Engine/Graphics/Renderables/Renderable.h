@@ -3,6 +3,7 @@
 #include "../../Libraries/glm/glm.hpp"
 
 #include "../GLBase/Texture.h"
+#include "../Material.h"
 
 class Renderable
 {
@@ -16,6 +17,9 @@ public:
 	glm::vec3 Rotation;
 	glm::vec4 Color;
 
-	Texture* Texture;
+	inline Material* GetMaterial() const { return p_mMaterial; }
+private:
+	Texture* p_mTexture;
+	Material* p_mMaterial;
 };
 
