@@ -27,79 +27,44 @@ Renderer::Renderer(Window* window)
 	GL(glFrontFace(GL_CCW));
 #ifndef EMSCRIPTEN
 	GL(glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)); // GL_FILL GL_LINE
-#endif	
-	{
-		std::vector<float> vertices = {
-						  -0.5f, -0.5f,  0.5f,
-						  -0.5f, -0.5f, -0.5f,
-						   0.5f, -0.5f, -0.5f,
-						   0.5f, -0.5f,  0.5f,
-						  -0.5f,  0.5f,  0.5f,
-						  -0.5f,  0.5f, -0.5f,
-						   0.5f,  0.5f, -0.5f,
-						   0.5f,  0.5f,  0.5f
-		};
+#endif		
+		
+	std::vector<float> vertices = {
+						-0.5f, -0.5f,  0.5f,     1.f, 1.f,    -0.5f, -0.5f,  0.5f,
+					 	 0.5f, -0.5f,  0.5f,     0.f, 1.f,     0.5f, -0.5f,  0.5f,
+					  	 0.5f,  0.5f,  0.5f,     0.f, 0.f,     0.5f,  0.5f,  0.5f,
+						-0.5f,  0.5f,  0.5f,     1.f, 0.f,    -0.5f,  0.5f,  0.5f,
+						-0.5f, -0.5f, -0.5f,     0.f, 1.f,    -0.5f, -0.5f, -0.5f,
+						 0.5f, -0.5f, -0.5f,     1.f, 1.f,     0.5f, -0.5f, -0.5f,
+						 0.5f,  0.5f, -0.5f,     1.f, 0.f,     0.5f,  0.5f, -0.5f,
+						-0.5f,  0.5f, -0.5f,     0.f, 0.f,    -0.5f,  0.5f, -0.5f
+	};
+		
 
-		std::vector<unsigned> indices = {
-			1, 3, 0,
-			7, 5, 4,
-			4, 1, 0,
-			5, 2, 1,
-			2, 7, 3,
-			0, 7, 4,
-			1, 2, 3,
-			7, 6, 5,
-			4, 5, 1,
-			5, 6, 2,
-			2, 6, 7,
-			0, 3, 7
-		};
+	std::vector<unsigned> indices = {
+		0, 1, 2,
+		0, 2, 3,
+		1, 6, 2,
+		1, 5, 6,
+		4, 7, 5,
+		7, 6, 5,
+		3, 7, 4,
+		0, 3, 4,
+		3, 6, 7,
+		3, 2, 6,
+		0, 4, 5,
+		0, 5, 1
+	};
 
-		std::vector<unsigned> layout = { 3 };
-		VertexLayout vertex;
-		for (auto & element : layout)
-			vertex.PushFloat(element);
+	std::vector<unsigned> layout = { 3, 2, 3 };
+	VertexLayout vertex;
+	for (auto & element : layout)
+		vertex.PushFloat(element);
 
-		p_3DBuffer = new Buffer(&vertices[0], vertices.size() * sizeof(float), vertex, GL_STATIC_DRAW);
-		p_3DElementArrayBuffer = new ElementArrayBuffer(&indices[0], indices.size(), GL_STATIC_DRAW);
-		p_3DProgram = new Program();
-	}
-	{		
-		std::vector<float> vertices = {
-						  -0.5f, -0.5f,  0.5f,  0.f,  0.f, -0.5f, -0.5f,  0.5f,
-						   0.5f, -0.5f,  0.5f,  1.f,  0.f,  0.5f, -0.5f,  0.5f,
-						   0.5f,  0.5f,  0.5f,  1.f,  1.f,  0.5f,  0.5f,  0.5f,
-						  -0.5f,  0.5f,  0.5f,  0.f,  1.f, -0.5f,  0.5f,  0.5f,
-						  -0.5f, -0.5f, -0.5f,  1.f,  0.f, -0.5f, -0.5f, -0.5f,
-						   0.5f, -0.5f, -0.5f,  1.f,  1.f,  0.5f, -0.5f, -0.5f,
-						   0.5f,  0.5f, -0.5f,  0.f,  1.f,  0.5f,  0.5f, -0.5f,
-						  -0.5f,  0.5f, -0.5f,  0.f,  0.f, -0.5f,  0.5f, -0.5f
-		};
-
-		std::vector<unsigned> indices = {
-			0, 1, 2,
-			0, 2, 3,
-			1, 6, 2,
-			1, 5, 6,
-			4, 7, 5,
-			7, 6, 5,
-			3, 7, 4,
-			0, 3, 4,
-			3, 2, 7,
-			7, 2, 6,
-			0, 4, 5,
-			0, 5, 1
-		};
-
-		std::vector<unsigned> layout = { 3, 2, 3 };
-		VertexLayout vertex;
-		for (auto & element : layout)
-			vertex.PushFloat(element);
-
-		p_SpriteBuffer = new Buffer(&vertices[0], vertices.size() * sizeof(float), vertex, GL_STATIC_DRAW);
-		p_SpriteElementArrayBuffer = new ElementArrayBuffer(&indices[0], indices.size(), GL_STATIC_DRAW);
-		p_SpriteProgram = new Program("Resources/Shaders/Basic.shader");
-	}
+	p_SpriteBuffer = new Buffer(&vertices[0], vertices.size() * sizeof(float), vertex, GL_STATIC_DRAW);
+	p_SpriteElementArrayBuffer = new ElementArrayBuffer(&indices[0], indices.size(), GL_STATIC_DRAW);
+	p_SpriteProgram = new Program("Resources/Shaders/Basic.shader");
+	
 }
 
 Renderer::~Renderer()
@@ -107,10 +72,6 @@ Renderer::~Renderer()
 	delete p_SpriteElementArrayBuffer;
 	delete p_SpriteProgram;
 	delete p_SpriteBuffer;
-
-	delete p_3DElementArrayBuffer;
-	delete p_3DProgram;
-	delete p_3DBuffer;
 }
 
 void Renderer::Clear()
@@ -120,60 +81,37 @@ void Renderer::Clear()
 
 void Renderer::Draw()
 {
-	p_3DBuffer->Bind();
-	p_3DElementArrayBuffer->Bind();
-	p_3DProgram->Bind();
-
 	glm::mat4 Projection = glm::perspective(80.f, (float)m_pWindow->GetWidth() / (float)m_pWindow->GetHeight(), 1.f, 10000.f);
 	glm::mat4 View = (glm::lookAt(CameraPosition, CameraPosition + CameraRotation, WorldUp));
-	glm::mat4 ProjectionView =
-	glm::translate
-	(
-		glm::ortho
-		( 0.f, (float)m_pWindow->GetWidth(), 0.f, (float)m_pWindow->GetHeight(), -100.f, 100.f),
-		glm::vec3(CameraPosition.x, CameraPosition.y, 0.f) // View
-	);
-
-	for (auto & renderable : m_Renderables3D)
-	{
-		glm::mat4 LocationMat = glm::translate(Projection * View, glm::vec3(renderable.second->Position.x, renderable.second->Position.y, renderable.second->Position.z));
-		glm::mat4 RotationMatx = glm::rotate(LocationMat, renderable.second->Rotation.x, glm::vec3(1.f, 0.f, 0.f));
-		glm::mat4 RotationMaty = glm::rotate(RotationMatx, renderable.second->Rotation.y, glm::vec3(0.f, 1.f, 0.f));
-		glm::mat4 RotationMatz = glm::rotate(RotationMaty, renderable.second->Rotation.z, glm::vec3(0.f, 0.f, 1.f));
-		glm::mat4 ScaleMat = glm::scale(RotationMatz, glm::vec3(renderable.second->Scale.x, renderable.second->Scale.y, renderable.second->Scale.z));
-
-		p_3DProgram->SetUniformMat4f("u_MVP", ScaleMat);
-		GL(glDrawElements(GL_TRIANGLES, p_3DElementArrayBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
-	}
+		
+	//glm::mat4 OrthoProjectionView = glm::translate (	glm::ortho ( 0.f, (float)m_pWindow->GetWidth(), 0.f, (float)m_pWindow->GetHeight(), -100.f, 100.f),	
+	//	glm::vec3(CameraPosition.x, CameraPosition.y, 0.f));	
 	
 	p_SpriteBuffer->Bind();
 	p_SpriteElementArrayBuffer->Bind();
 	p_SpriteProgram->Bind();
 
-	for (auto & sprite : m_Sprites2D)
+	for (auto & renderable : m_Sprites2D)
 	{
-		//sprite.second->Texture.bind();
-		sprite.second->GetMaterial()->Use(p_SpriteProgram);
+		glm::mat4 Location = glm::translate(glm::mat4(1.f), glm::vec3(renderable.second->Position.x, renderable.second->Position.y, renderable.second->Position.z));
+		glm::mat4 RotationX = glm::rotate(Location, renderable.second->Rotation.x, glm::vec3(1.f, 0.f, 0.f));
+		glm::mat4 RotationY = glm::rotate(RotationX, renderable.second->Rotation.y, glm::vec3(0.f, 1.f, 0.f));
+		glm::mat4 RotationZ = glm::rotate(RotationY, renderable.second->Rotation.z, glm::vec3(0.f, 0.f, 1.f));
+		glm::mat4 Model = glm::scale(RotationZ, glm::vec3(renderable.second->Scale.x, renderable.second->Scale.y, renderable.second->Scale.z));
 
-		glm::mat4 Location = glm::translate(glm::mat4(1.f), glm::vec3(sprite.second->Position.x, sprite.second->Position.y, sprite.second->Position.z));
-		glm::mat4 RotationX = glm::rotate(Location, sprite.second->Rotation.x, glm::vec3(1.f, 0.f, 0.f));
-		glm::mat4 RotationY = glm::rotate(RotationX, sprite.second->Rotation.y, glm::vec3(0.f, 1.f, 0.f));
-		glm::mat4 RotationZ = glm::rotate(RotationY, sprite.second->Rotation.z, glm::vec3(0.f, 0.f, 1.f));
-		glm::mat4 Model = glm::scale(RotationZ, glm::vec3(sprite.second->Scale.x, sprite.second->Scale.y, sprite.second->Scale.z));
+		renderable.second->GetMaterial()->Use(p_SpriteProgram);
 
-		glm::mat4 MVP = Projection * View * Model;
-
-		p_SpriteProgram->SetUniformMat4f("u_MVP", MVP);
+		p_SpriteProgram->SetUniformMat4f("u_MVP", Projection * View * Model);
 		p_SpriteProgram->SetUniformMat4f("u_Model", Model);
+		p_SpriteProgram->SetUniform4f("u_Color", renderable.second->Color);
 		p_SpriteProgram->SetUniform3f("u_Light", LightPos);
 		p_SpriteProgram->SetUniform3f("u_Camera", CameraPosition);
-		p_SpriteProgram->SetUniform4f("u_Color", sprite.second->Color);
 		GL(glDrawElements(GL_TRIANGLES, p_SpriteElementArrayBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
 	}
 	
 }
 
-bool Renderer::CreateSprite2D(const std::string & name, const glm::vec3 & position, const glm::vec3 & scale, const std::string & path, const glm::vec3 & rotation, const glm::vec4 & color)
+bool Renderer::Create(const std::string & name, const glm::vec3 & position, const glm::vec3 & scale, const std::string & path, const glm::vec3 & rotation, const glm::vec4 & color)
 {
 	if (!(m_Sprites2D.emplace(name, new Renderable(position, scale, path, rotation, color)).second))
 	{
@@ -183,26 +121,9 @@ bool Renderer::CreateSprite2D(const std::string & name, const glm::vec3 & positi
 	return true;
 }
 
-bool Renderer::CreateRenderable3D(const std::string & name, const glm::vec3 & position, const glm::vec3 & scale)
-{
-	if (!(m_Renderables3D.emplace(name, new Renderable(position, scale)).second))
-	{
-		std::cout << "Failed to create Renderable3d. Renderable with name " << name << " already exists.\n";
-		return false;
-	}
-	return true;
-}
-
-Renderable* Renderer::GetSprite2D(const std::string & name)
+Renderable* Renderer::Find(const std::string & name)
 {
 	auto result = m_Sprites2D.find(name);
 	// TODO Fatal error if wrong name is used.
 	return result == m_Sprites2D.end() ? nullptr : m_Sprites2D.find(name)->second;
-}
-
-Renderable* Renderer::GetRenderable3D(const std::string & name)
-{
-	auto result = m_Renderables3D.find(name);
-	// TODO Fatal error if wrong name is used.
-	return result == m_Renderables3D.end() ? nullptr : m_Renderables3D.find(name)->second;
 }

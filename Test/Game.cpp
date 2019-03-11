@@ -13,17 +13,11 @@ Game::~Game()
 
 void Game::Begin()
 {		
-	//p_Renderer->CreateSprite2D("s1", glm::vec3(GetWidth() / 2, GetHeight() / 2, 0.f), glm::vec3(70.f, 100.f, 0.f), "Resources/Textures/logo.png");
-
-	for (unsigned i = 0; i < 7; ++i)
-	{
-		for (unsigned j = 0; j < 4; ++j)
-		{
-			p_Renderer->CreateSprite2D("3d" + std::to_string(i) + "j" + std::to_string(j), glm::vec3(-900.f + 300 * i, 450.f + -300.f * j, -800.f), glm::vec3(140.f, 140.f, 140.f), "Resources/Textures/logo.png");
-			//p_Renderer->GetRenderable3D("3d" + std::to_string(i) + "j" + std::to_string(j))->Color = glm::vec4(0.f, 0.2f, 1.f, 1.f);
-		}
-	}
-	p_Renderer->CreateSprite2D("s2", glm::vec3(0.f, 0.f, -200.f), glm::vec3(70.f, 70.f, 70.f), "Resources/Textures/logo1.png");
+	for (unsigned i = 0; i < 7; ++i)	
+		for (unsigned j = 0; j < 4; ++j)		
+			p_Renderer->Create("3d" + std::to_string(i) + "_" + std::to_string(j), glm::vec3(-900.f + 300 * i, 450.f + -300.f * j, -800.f), glm::vec3(140.f, 140.f, 140.f), "Resources/Textures/test.png");
+	
+	p_Renderer->Create("r", glm::vec3(0.f, 0.f, -200.f), glm::vec3(70.f, 70.f, 70.f), "Resources/Textures/test1.png");
 }
 
 void Game::Tick(float fDeltaTime)
@@ -41,32 +35,31 @@ void Game::Tick(float fDeltaTime)
 	if (IsKeyPressed('E'))
 		p_Renderer->CameraPosition -= (p_Renderer->CameraRotation + glm::vec3(3.14f, 0.f, -1.f)) * 0.2f * fDeltaTime;
 
-	p_Renderer->GetSprite2D("s2")->Rotation.x = rot;
-	p_Renderer->GetSprite2D("s2")->Rotation.z = rot/1.7f;
-	//p_Renderer->GetSprite2D("s2")->Rotation.y = rot;
+	p_Renderer->Find("r")->Rotation.x = linear;
+	p_Renderer->Find("r")->Rotation.y = linear /1.3f;
 	
 	if (IsMouseClicked('L'))
-		p_Renderer->GetSprite2D("s2")->Position = (glm::vec3(GetMouseX() - p_Renderer->CameraPosition.x, GetMouseY() - p_Renderer->CameraPosition.y, 0.f));
+		p_Renderer->Find("r")->Position = (glm::vec3(p_Renderer->CameraPosition.x - GetMouseX() + GetWidth()/2, p_Renderer->CameraPosition.y - GetMouseY() + GetHeight() / 2, -200.f));
 
 	for (unsigned i = 0; i < 7; ++i)
 	{
 		for (unsigned j = 0; j < 4; ++j)
 		{
-			p_Renderer->GetSprite2D("3d" + std::to_string(i) + "j" + std::to_string(j))->Rotation.x = rot/2.f;
-			p_Renderer->GetSprite2D("3d" + std::to_string(i) + "j" + std::to_string(j))->Rotation.y = rot/1.7f;
-			p_Renderer->GetSprite2D("3d" + std::to_string(i) + "j" + std::to_string(j))->Rotation.z = rot/1.8f;
-			p_Renderer->GetSprite2D("3d" + std::to_string(i) + "j" + std::to_string(j))->Color = (glm::vec4(col, 1.f, 0.f, 1.f));
+			p_Renderer->Find("3d" + std::to_string(i) + "_" + std::to_string(j))->Rotation.x = linear /2.f;
+			p_Renderer->Find("3d" + std::to_string(i) + "_" + std::to_string(j))->Rotation.y = linear /1.7f;
+			p_Renderer->Find("3d" + std::to_string(i) + "_" + std::to_string(j))->Rotation.z = linear /1.8f;
+			p_Renderer->Find("3d" + std::to_string(i) + "_" + std::to_string(j))->Color = (glm::vec4(pendulum, 1.f, 0.f, 1.f));
 		}
 	}
 
-	if (col > 1.f)
+	if (pendulum > 1.f)
 		increment = -0.0015f;
-	else if (col < 0.f)
+	else if (pendulum < 0.f)
 		increment = 0.0015f;
 
-	if (rot > 3 && !p_Renderer->GetSprite2D("lateload"))
-		p_Renderer->CreateSprite2D("lateload", glm::vec3(GetWidth() / 10, GetHeight() / 10, 0.f), glm::vec3(70.f, 70.f, 0.f), "Resources/Textures/logo.png");
+	if (linear > 3 && !p_Renderer->Find("rl"))
+		p_Renderer->Create("rl", glm::vec3(GetWidth() / 10, GetHeight() / 10, -200.f), glm::vec3(70.f, 70.f, 0.f), "Resources/Textures/test.png");
 
-	col += increment * fDeltaTime;
-	rot += 0.0015f * fDeltaTime;
+	pendulum += increment * fDeltaTime;
+	linear += 0.0015f * fDeltaTime;
 }

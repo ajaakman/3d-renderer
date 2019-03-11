@@ -3,7 +3,7 @@
 #include "../../Libraries/glm/glm.hpp"
 
 #include "../GLBase/Texture.h"
-#include "../Material.h"
+#include "../Materials/Material.h"
 
 class Renderable
 {

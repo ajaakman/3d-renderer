@@ -139,13 +139,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Graphics\BatchRenderer2D.h" />
     <ClInclude Include="Graphics\GLBase\ElementArrayBuffer.h" />
     <ClInclude Include="Graphics\GLBase\Buffer.h" />
     <ClInclude Include="Engine.h" />
-    <ClInclude Include="Graphics\Material.h" />
+    <ClInclude Include="Graphics\Materials\Material.h" />
     <ClInclude Include="Graphics\GLBase\Program.h" />
-    <ClInclude Include="Graphics\Mesh.h" />
     <ClInclude Include="Graphics\Renderer.h" />
     <ClInclude Include="Libraries\glm\common.hpp" />
     <ClInclude Include="Libraries\glm\detail\compute_common.hpp" />
@@ -396,11 +394,11 @@
     <ClInclude Include="Graphics\GUtility\VertexLayout.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Graphics\BatchRenderer2D.cpp" />
     <ClCompile Include="Graphics\GLBase\ElementArrayBuffer.cpp" />
     <ClCompile Include="Graphics\GLBase\Buffer.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Graphics\GLBase\Program.cpp" />
+    <ClCompile Include="Graphics\Materials\Material.cpp" />
     <ClCompile Include="Graphics\Renderer.cpp" />
     <ClCompile Include="Graphics\Renderables\Renderable.cpp" />
     <ClCompile Include="Graphics\GLBase\Texture.cpp" />
