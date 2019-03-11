@@ -47,7 +47,8 @@ uniform vec3 u_Camera;
 
 void main()
 {
-    vec4 texColor = texture(material.diffuseTex, v_TexCoord);
+	vec4 texColor = texture(material.diffuseTex, v_TexCoord);
+	vec4 texColorSpec = texture(material.specularTex, v_TexCoord);
 
     vec3 posToLightDirVec = normalize(u_Light - v_Position);
     float diffuse = clamp(dot(posToLightDirVec, v_Normal), 0.f, 1.f);
