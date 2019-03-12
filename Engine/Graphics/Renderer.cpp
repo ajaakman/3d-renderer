@@ -14,7 +14,7 @@
 #include "../Utility/Error.h"
 
 Renderer::Renderer(Window* window)
-	:m_pWindow(window), CameraPosition(glm::vec3(0.f, 0.f, 0.f)), CameraRotation(glm::vec3(0.f, 0.f, -1.f)), WorldUp(glm::vec3(0.f, 1.f, 0.f)),	LightPos(glm::vec3(300.f, 300.f, -500.f))
+	:m_pWindow(window), CameraPosition(glm::vec3(0.f, 0.f, 0.f)), CameraRotation(glm::vec3(0.f, 0.f, -1.f)), WorldUp(glm::vec3(0.f, 1.f, 0.f)),	LightPos(glm::vec3(300.f, 300.f, 500.f))
 {	
 	GL(glClearColor(0.1f, 0.1f, 0.1f, 1.f));
 	//GL(glEnable(GL_DEPTH_TEST));

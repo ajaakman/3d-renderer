@@ -8,8 +8,8 @@
 class Renderable
 {
 public:
-	Renderable(glm::vec3 position, glm::vec3 scale, std::string path, std::string specularPath, glm::vec3 rotation = glm::vec3(0.f, 0.f, 0.f), glm::vec4 color = glm::vec4(1.f, 1.f, 1.f, 1.f));
-	Renderable(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation = glm::vec3(0.f, 0.f, 0.f), glm::vec4 color = glm::vec4(1.f, 1.f, 1.f, 1.f));
+	Renderable(const glm::vec3 & position, const glm::vec3 & scale, const std::string & path = "none", const std::string & specularPath = "", const glm::vec3 & rotation = glm::vec3(0.f, 0.f, 0.f), const glm::vec4& color = glm::vec4(1.f, 1.f, 1.f, 1.f));
+	Renderable(const glm::vec3 & position, const glm::vec3 & scale, const glm::vec3 & rotation = glm::vec3(0.f, 0.f, 0.f), const glm::vec4 & color = glm::vec4(1.f, 1.f, 1.f, 1.f));
 	~Renderable();
 
 	glm::vec3 Position;

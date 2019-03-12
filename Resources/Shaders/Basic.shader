@@ -26,7 +26,7 @@ struct Material
 	vec3 ambient;
 	vec3 diffuse;
 	vec3 specular;
-	float specularStrength;
+	float specularFocus;
 	sampler2D diffuseTex;
 	sampler2D specularTex;
 };
@@ -53,8 +53,8 @@ void main()
     vec3 lightToPosDirVec = normalize(v_Position - u_Light);
 	vec3 reflectDirVec = normalize(reflect(lightToPosDirVec, normalize(v_Normal)));
 	vec3 posToViewDirVec = normalize(u_Camera - v_Position);
-	float specularConstant = pow(max(dot(posToViewDirVec, reflectDirVec), 0.0), material.specularStrength);
-	vec3 specularFinal = material.specular * specularConstant;
+	float specularConstant = pow(max(dot(posToViewDirVec, reflectDirVec), 0.0), material.specularFocus);
+	vec3 specularFinal = material.specular * specularConstant * texture2D(material.specularTex, v_TexCoord).rgb;
 
 	gl_FragColor  = texColor * u_Color * (vec4(material.ambient, 1.0) + vec4(diffuseFinal, 1.0) + vec4(specularFinal, 1.0));
 }

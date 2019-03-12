@@ -4,8 +4,8 @@
 
 #include "../../Libraries/glm/gtc/matrix_transform.hpp"
 
-Material::Material(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float specularStrength, Texture* diffuseTexture, Texture* specularTexture, Renderable* parent)
-	:Ambient(ambient), Diffuse(diffuse), Specular(specular), SpecularStrength(specularStrength), 
+Material::Material(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float specularFocus, Texture* diffuseTexture, Texture* specularTexture, Renderable* parent)
+	:Ambient(ambient), Diffuse(diffuse), Specular(specular), SpecularFocus(specularFocus),
 	 p_DiffuseTexture(diffuseTexture), p_SpecularTexture(specularTexture), p_ParentRenderable(parent)
 {
 }
@@ -27,7 +27,7 @@ void Material::Use(Program* program, const glm::mat4 & projectionView, const glm
 	program->SetUniform3f("material.ambient", Ambient);
 	program->SetUniform3f("material.diffuse", Diffuse);
 	program->SetUniform3f("material.specular", Specular);
-	program->SetUniform1f("material.specularStrength", SpecularStrength);
+	program->SetUniform1f("material.specularFocus", SpecularFocus);
 	p_DiffuseTexture->Bind(0);
 	program->SetUniform1i("material.diffuseTex", 0);
 	p_SpecularTexture->Bind(1);
