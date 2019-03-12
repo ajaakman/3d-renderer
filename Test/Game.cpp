@@ -18,7 +18,7 @@ void Game::Begin()
 			p_Renderer->Create("3d" + std::to_string(i) + "_" + std::to_string(j), glm::vec3(-900.f + 300 * i, 450.f + -300.f * j, -800.f), glm::vec3(140.f, 140.f, 140.f), "Resources/Textures/test.png", "");
 	
 	p_Renderer->Create("r", glm::vec3(0.f, 0.f, -200.f), glm::vec3(70.f, 70.f, 70.f), "Resources/Textures/box.png", "Resources/Textures/boxs.png");
-	p_Renderer->Create("r1", glm::vec3(0.f, 0.f, -200.f), glm::vec3(70.f, 70.f, 70.f), "Resources/Textures/box.png", "");
+	p_Renderer->Create("r1", glm::vec3(100.f, 0.f, -200.f), glm::vec3(70.f, 70.f, 70.f), "Resources/Textures/box.png", "");
 
 	p_Renderer->CreateS("s", glm::vec3(100.f, 100.f, 0.f), glm::vec3(70.f, 70.f, 0.f), "", "");
 }
@@ -26,24 +26,36 @@ void Game::Begin()
 void Game::Tick(float fDeltaTime)
 { 			
 	if (IsKeyPressed('W'))
-		p_Renderer->CameraPosition += p_Renderer->CameraRotation * 0.2f * fDeltaTime;
+	{
+		p_Renderer->CameraPosition.z -= 0.2f * fDeltaTime;
+		p_Renderer->GetCamera()->UpdateKeyboardInput(fDeltaTime, FORWARD);
+	}
 	if (IsKeyPressed('S'))
-		p_Renderer->CameraPosition -= p_Renderer->CameraRotation * 0.2f * fDeltaTime;
-	if (IsKeyPressed('D'))
-		p_Renderer->CameraRotation.x -= 0.001f * fDeltaTime;
+	{
+		p_Renderer->CameraPosition.z += 0.2f * fDeltaTime;
+		p_Renderer->GetCamera()->UpdateKeyboardInput(fDeltaTime, BACK);
+	}
 	if (IsKeyPressed('A'))
-		p_Renderer->CameraRotation.x += 0.001f * fDeltaTime;
-	if (IsKeyPressed('Q'))
-		p_Renderer->CameraPosition += (p_Renderer->CameraRotation + glm::vec3(3.14f, 0.f, -1.f)) * 0.2f * fDeltaTime;
-	if (IsKeyPressed('E'))
-		p_Renderer->CameraPosition -= (p_Renderer->CameraRotation + glm::vec3(3.14f, 0.f, -1.f)) * 0.2f * fDeltaTime;
+	{
+		p_Renderer->CameraPosition.x += 0.2f * fDeltaTime;
+		p_Renderer->GetCamera()->UpdateKeyboardInput(fDeltaTime, LEFT);
+	}
+	if (IsKeyPressed('D'))
+	{
+		p_Renderer->CameraPosition.x -= 0.2f * fDeltaTime;
+		p_Renderer->GetCamera()->UpdateKeyboardInput(fDeltaTime, RIGHT);
 
-	//p_Renderer->Find("r")->Rotation.x = linear;
-	//p_Renderer->Find("r")->Rotation.y = linear /1.3f;
+	}
+	if (IsKeyPressed('C'))
+		p_Renderer->CameraPosition.y += 0.2f * fDeltaTime;
+	if (IsKeyPressed(' '))
+		p_Renderer->CameraPosition.y -= 0.2f * fDeltaTime;
 	
-	if (IsMouseClicked('L'))
-		p_Renderer->Find("r")->Position = (glm::vec3(p_Renderer->CameraPosition.x - GetMouseX() + GetWidth()/2, p_Renderer->CameraPosition.y - GetMouseY() + GetHeight() / 2, -200.f));
+	p_Renderer->GetCamera()->UpdateInput(fDeltaTime, -1, GetMouseOffsetX(), GetMouseOffsetY());
 
+	p_Renderer->Find("r")->Rotation.x = linear;
+	p_Renderer->Find("r")->Rotation.y = linear /1.3f;
+	
 	for (unsigned i = 0; i < 7; ++i)
 	{
 		for (unsigned j = 0; j < 4; ++j)

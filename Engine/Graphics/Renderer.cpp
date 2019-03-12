@@ -16,6 +16,8 @@
 Renderer::Renderer(Window* window)
 	:m_pWindow(window), CameraPosition(glm::vec3(0.f, 0.f, 0.f)), CameraRotation(glm::vec3(0.f, 0.f, -1.f)), WorldUp(glm::vec3(0.f, 1.f, 0.f)),	LightPos(glm::vec3(300.f, 300.f, 500.f))
 {	
+	m_pCamera = new Camera(glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 1.f, 0.f));
+
 	GL(glClearColor(0.1f, 0.1f, 0.1f, 1.f));
 	//GL(glEnable(GL_DEPTH_TEST));
 	GL(glEnable(GL_CULL_FACE));
@@ -99,6 +101,8 @@ Renderer::~Renderer()
 	delete p_SpriteElementArrayBuffer;
 	delete p_SpriteProgram;
 	delete p_SpriteBuffer;
+
+	delete m_pCamera;
 }
 
 void Renderer::Clear()
@@ -108,8 +112,9 @@ void Renderer::Clear()
 
 void Renderer::Draw()
 {	
-	glm::mat4 PerspectiveProjectionView = glm::perspective(80.f, (float)m_pWindow->GetWidth() / (float)m_pWindow->GetHeight(), 1.f, 10000.f) 
-								    	* (glm::lookAt(CameraPosition, CameraPosition + CameraRotation, WorldUp));
+	glm::mat4 PerspectiveProjectionView = glm::perspective(80.f, (float)m_pWindow->GetWidth() / (float)m_pWindow->GetHeight(), 1.f, 10000.f)
+										    	* m_pCamera->GetViewMatrix();
+		//										* (glm::lookAt(CameraPosition, CameraPosition + CameraRotation, WorldUp));
 	glm::mat4 OrthoProjectionView = glm::translate ( glm::ortho ( 0.f, (float)m_pWindow->GetWidth(), 0.f, (float)m_pWindow->GetHeight(), -100.f, 100.f),	
 													 glm::vec3(CameraPosition.x, CameraPosition.y, 0.f));	
 	
@@ -119,7 +124,7 @@ void Renderer::Draw()
 
 	for (auto & renderable : m_Renderables)
 	{
-		renderable.second->GetMaterial()->Use(p_Program, PerspectiveProjectionView, CameraPosition, LightPos);
+		renderable.second->GetMaterial()->Use(p_Program, PerspectiveProjectionView, m_pCamera->GetPosition(), LightPos);
 		GL(glDrawElements(GL_TRIANGLES, p_ElementArrayBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
 	}	
 

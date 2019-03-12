@@ -6,6 +6,7 @@
 #include "GLBase/ElementArrayBuffer.h"
 #include "GLBase/Program.h"
 #include "GLBase/Texture.h"
+#include "Camera.h"
 #include "Renderables/Renderable.h"
 #include "../IO/Window.h"
 
@@ -23,6 +24,8 @@ public:
 	Renderable* Find(const std::string & name);
 	Renderable* FindS(const std::string & name);
 		
+	inline Camera* GetCamera() const { return m_pCamera; }
+
 	glm::vec3 CameraPosition;
 	glm::vec3 CameraRotation;
 
@@ -31,6 +34,7 @@ private:
 	glm::vec3 WorldUp;
 
 	Window* m_pWindow;
+	Camera* m_pCamera;
 
 	std::unordered_map<std::string, Renderable*> m_Renderables;
 	std::unordered_map<std::string, Renderable*> m_Sprites;

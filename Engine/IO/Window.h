@@ -26,6 +26,8 @@ public:
 
 	const bool IsKeyPressed(const char& key);
 	const bool IsMouseClicked(const char& button);
+
+	void SetFocus();
 private:
 	int m_nWidth;
 	int m_nHeight;
@@ -38,6 +40,8 @@ private:
 	bool m_bKeyD;
 	bool m_bKeyQ;
 	bool m_bKeyE;
+	bool m_bKeyC;
+	bool m_bKeySpace;
 	bool m_bMouseL;
 	bool m_bMouseR;
 	int m_nMousePosX;

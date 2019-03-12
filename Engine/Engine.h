@@ -21,14 +21,21 @@ protected:
 
 	void Loop();
 
-	inline const bool IsKeyPressed   (const char & key)    { return p_Window->IsKeyPressed(key); }
+	inline const bool IsKeyPressed (const char & key)      { return p_Window->IsKeyPressed(key); }
 	inline const bool IsMouseClicked (const char & button) { return p_Window->IsMouseClicked(button); }
-	inline const int & GetWidth()    { return p_Window->GetWidth();  }
-	inline const int & GetHeight()   { return p_Window->GetHeight(); }
-	inline const int & GetMouseX()      { return p_Window->GetMouseX(); }
-	inline const int & GetMouseY()      { return p_Window->GetMouseY(); }
+	inline const int & GetWidth()  const { return p_Window->GetWidth();  }
+	inline const int & GetHeight() const { return p_Window->GetHeight(); }
+	inline const int & GetMouseX() const { return p_Window->GetMouseX(); }
+	inline const int & GetMouseY() const { return p_Window->GetMouseY(); }
+	inline const int & GetMouseOffsetX() const { return m_nMouseOffsetX; }
+	inline const int & GetMouseOffsetY() const { return m_nMouseOffsetY; }
 
 private:
 	Window* p_Window;
+
+	int m_nPreviousMouseX;
+	int m_nPreviousMouseY;
+	int m_nMouseOffsetX;
+	int m_nMouseOffsetY;
 };
 

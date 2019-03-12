@@ -6,7 +6,8 @@
 
 
 Window::Window(int width, int height, const char * name)
-	: m_nWidth(width), m_nHeight(height), m_Name(name), m_bKeyW(false), m_bKeyA(false), m_bKeyS(false), m_bKeyD(false), m_bKeyQ(false), m_bKeyE(false), m_bMouseR(false), m_bMouseL(false)
+	: m_nWidth(width), m_nHeight(height), m_Name(name), m_bKeyW(false), m_bKeyA(false), m_bKeyS(false),
+	  m_bKeyD(false), m_bKeyQ(false), m_bKeyE(false), m_bMouseR(false), m_bMouseL(false), m_bKeyC(false), m_bKeySpace(false)
 {
 	if (!glfwInit())
 		std::cout << "GLFW Failed To Initialize!" << std::endl;
@@ -31,6 +32,8 @@ Window::Window(int width, int height, const char * name)
 	glfwSetKeyCallback(m_pWindow, KeyCallback);
 	glfwSetCursorPosCallback(m_pWindow, CursorCallback);
 	glfwSetMouseButtonCallback(m_pWindow, MouseClickCallback);
+	glfwSetInputMode(m_pWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	glfwSetCursorPos(m_pWindow, m_nWidth/2, m_nHeight/2);	
 
 	glfwMakeContextCurrent(m_pWindow);
 #ifndef EMSCRIPTEN
@@ -47,6 +50,11 @@ Window::Window(int width, int height, const char * name)
 Window::~Window()
 {
 	glfwTerminate();
+}
+
+void Window::SetFocus()
+{
+	glfwSetInputMode(m_pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 void Window::SwapBuffers()
@@ -78,6 +86,10 @@ const bool Window::IsKeyPressed(const char& key)
 		return m_bKeyQ;
 	else if (key == 'E' || key == 'e')
 		return m_bKeyE;
+	else if (key == 'C' || key == 'c')
+		return m_bKeyC;
+	else if (key == ' ')
+		return m_bKeySpace;
 	std::cout << "Error: Invalid key input binding!\n";
 	return false;
 }
@@ -104,7 +116,7 @@ void WindowSizeCallback(GLFWwindow* window, int width, int height)
 }
 
 void CursorCallback(GLFWwindow* window, double xpos, double ypos)
-{
+{	
 	Window* w = static_cast<Window*>(glfwGetWindowUserPointer(window));
 	w->m_nMousePosX = xpos;
 	int v = (ypos - w->m_nHeight);
@@ -115,7 +127,8 @@ void CursorCallback(GLFWwindow* window, double xpos, double ypos)
 
 void MouseClickCallback(GLFWwindow* window, int button, int action, int mods)
 {
-	Window* w = static_cast<Window*>(glfwGetWindowUserPointer(window));
+	Window* w = static_cast<Window*>(glfwGetWindowUserPointer(window));	
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
 		w->m_bMouseR = true;
 	else if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_RELEASE)
@@ -153,4 +166,14 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		w->m_bKeyE = true;
 	else if (key == GLFW_KEY_E && action == GLFW_RELEASE)
 		w->m_bKeyE = false;
+	else if (key == GLFW_KEY_C && action == GLFW_PRESS)
+		w->m_bKeyC = true;
+	else if (key == GLFW_KEY_C && action == GLFW_RELEASE)
+		w->m_bKeyC = false;
+	else if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
+		w->m_bKeySpace = true;
+	else if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE)
+		w->m_bKeySpace = false;
+	else if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }

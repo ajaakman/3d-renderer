@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Graphics\Camera.h" />
     <ClInclude Include="Graphics\GLBase\ElementArrayBuffer.h" />
     <ClInclude Include="Graphics\GLBase\Buffer.h" />
     <ClInclude Include="Engine.h" />

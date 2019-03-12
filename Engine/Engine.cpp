@@ -13,6 +13,7 @@ static void dispatch_main(void* fp)
 #endif
 
 Engine::Engine()
+	:m_nPreviousMouseX(0), m_nPreviousMouseY(0), m_nMouseOffsetX(0), m_nMouseOffsetY(0)
 {
 	p_Window = new Window(960, 540, "GLWindow");
 	p_Renderer = new Renderer(p_Window);
@@ -27,6 +28,8 @@ Engine::~Engine()
 void Engine::Loop()
 {
 	int nCount = 0, nBuff = 0;
+
+	bool first = true;
 	float fTime = 0.f, fFrames = 0.f, fDeltaTime = 0.f, fHighestDelta = 0.f;
 	auto previousTime = std::chrono::high_resolution_clock::now(), currentTime = previousTime;
 #ifdef EMSCRIPTEN
@@ -36,9 +39,22 @@ void Engine::Loop()
 #endif 
 	{
 		currentTime = std::chrono::high_resolution_clock::now();
-
-		p_Renderer->Clear();
 		p_Window->PollEvents();
+		p_Renderer->Clear();
+
+		if (first)
+		{
+			m_nPreviousMouseX = GetMouseX();
+			m_nPreviousMouseY = GetMouseY();
+			first = false;
+		}
+			   
+		m_nMouseOffsetX = GetMouseX() - m_nPreviousMouseX;
+		m_nMouseOffsetY = GetMouseY() - m_nPreviousMouseY;
+
+		m_nPreviousMouseX = GetMouseX();
+		m_nPreviousMouseY = GetMouseY();
+
 
 		Tick(fDeltaTime);
 
