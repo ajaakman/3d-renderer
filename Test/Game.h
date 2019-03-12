@@ -6,9 +6,9 @@ class Game : Engine
 {
 public:
 	Game();
-	~Game() override;
-	void Begin() override;
-	void Tick(float deltaTime) override;
+	virtual ~Game() override;
+	virtual void Begin() override;
+	virtual void Tick(float deltaTime) override;
 private:
 	float pendulum = 0.f;
 	float linear = 0.f;

@@ -28,22 +28,22 @@ void Game::Tick(float fDeltaTime)
 	if (IsKeyPressed('W'))
 	{
 		p_Renderer->CameraPosition.z -= 0.2f * fDeltaTime;
-		p_Renderer->GetCamera()->UpdateKeyboardInput(fDeltaTime, FORWARD);
+		p_Renderer->GetCamera()->UpdateKeyboardInput(fDeltaTime, Camera::FORWARD);
 	}
 	if (IsKeyPressed('S'))
 	{
 		p_Renderer->CameraPosition.z += 0.2f * fDeltaTime;
-		p_Renderer->GetCamera()->UpdateKeyboardInput(fDeltaTime, BACK);
+		p_Renderer->GetCamera()->UpdateKeyboardInput(fDeltaTime, Camera::BACK);
 	}
 	if (IsKeyPressed('A'))
 	{
 		p_Renderer->CameraPosition.x += 0.2f * fDeltaTime;
-		p_Renderer->GetCamera()->UpdateKeyboardInput(fDeltaTime, LEFT);
+		p_Renderer->GetCamera()->UpdateKeyboardInput(fDeltaTime, Camera::LEFT);
 	}
 	if (IsKeyPressed('D'))
 	{
 		p_Renderer->CameraPosition.x -= 0.2f * fDeltaTime;
-		p_Renderer->GetCamera()->UpdateKeyboardInput(fDeltaTime, RIGHT);
+		p_Renderer->GetCamera()->UpdateKeyboardInput(fDeltaTime, Camera::RIGHT);
 
 	}
 	if (IsKeyPressed('C'))
@@ -51,7 +51,7 @@ void Game::Tick(float fDeltaTime)
 	if (IsKeyPressed(' '))
 		p_Renderer->CameraPosition.y -= 0.2f * fDeltaTime;
 	
-	p_Renderer->GetCamera()->UpdateInput(fDeltaTime, -1, GetMouseOffsetX(), GetMouseOffsetY());
+	p_Renderer->GetCamera()->UpdateInput(fDeltaTime, GetMouseOffsetX(), GetMouseOffsetY());
 
 	p_Renderer->Find("r")->Rotation.x = linear;
 	p_Renderer->Find("r")->Rotation.y = linear /1.3f;

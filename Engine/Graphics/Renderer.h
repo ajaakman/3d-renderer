@@ -6,7 +6,7 @@
 #include "GLBase/ElementArrayBuffer.h"
 #include "GLBase/Program.h"
 #include "GLBase/Texture.h"
-#include "Camera.h"
+#include "Cameras/Camera.h"
 #include "Renderables/Renderable.h"
 #include "../IO/Window.h"
 

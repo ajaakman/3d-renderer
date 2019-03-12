@@ -1,44 +1,27 @@
 #pragma once
 
-#include "../Libraries/glm/glm.hpp"
-#include "../Libraries/glm/gtc/matrix_transform.hpp"
+#include "../../Libraries/glm/glm.hpp"
+#include "../../Libraries/glm/gtc/matrix_transform.hpp"
+#include "Camera.h"
 
-enum direction { FORWARD = 0, BACK, LEFT, RIGHT};
-
-class Camera
+class Camera3D : public Camera
 {
-public:
+public:	
 
-	Camera(const glm::vec3 & position, const glm::vec3 & direction, const glm::vec3 & worldUp)
-		:m_Position(position), m_Direction(direction), m_WorldUp(worldUp),
-		 m_ViewMatrix(glm::mat4(1.f)), m_fMovementSpeed(0.5f), m_fSensitivity(1.f),
+	Camera3D(const glm::vec3 & position, const glm::vec3 & direction, const glm::vec3 & worldUp)
+		:m_Direction(direction), m_WorldUp(worldUp), m_fMovementSpeed(0.5f), m_fSensitivity(1.f),
 		 m_Up(worldUp), m_Right(glm::vec3(0.f)), m_fPitch(0.f), m_fYaw(-90.f), m_fRoll(0.f)
 	{
-		UpdateCamera();
+		m_Position = position;
+		m_ViewMatrix = glm::mat4(1.f);
 #ifdef EMSCRIPTEN
 		m_fSensitivity = 0.01f;
 #endif
-
 	}
 
-	const glm::mat4 & GetViewMatrix()
-	{
-		UpdateCamera();
+	virtual ~Camera3D() override {};
 
-		m_ViewMatrix = glm::lookAt(m_Position, m_Position + m_Front, m_Up);
-		
-		return m_ViewMatrix;
-	}
-
-	inline const glm::vec3 & GetPosition() const { return m_Position; }
-		
-	void UpdateInput(const float & deltaTime, const int & direction, const int & offsetX, const int & offsetY)
-	{
-		UpdateKeyboardInput(deltaTime, direction);
-		UpdateMouseInput(deltaTime, offsetX, offsetY);
-	}
-	
-	void UpdateCamera()
+	virtual const glm::mat4 & GetViewMatrix() override
 	{
 		m_Front.x = cos(glm::radians(m_fYaw)) * cos(glm::radians(m_fPitch));
 		m_Front.y = sin(glm::radians(m_fPitch));
@@ -48,9 +31,17 @@ public:
 		m_Right = glm::normalize(glm::cross(m_Front, m_WorldUp));
 		m_Up = glm::normalize(glm::cross(m_Right, m_Front));
 
+		m_ViewMatrix = glm::lookAt(m_Position, m_Position + m_Front, m_Up);
+		
+		return m_ViewMatrix;
+	}
+			
+	virtual void UpdateInput(const float & deltaTime, const int & offsetX, const int & offsetY) override
+	{
+		UpdateMouseInput(deltaTime, offsetX, offsetY);
 	}
 
-	void UpdateKeyboardInput(const float & deltaTime, const int & direction)
+	virtual void UpdateKeyboardInput(const float & deltaTime, const int & direction) override
 	{
 		switch (direction)
 		{
@@ -66,11 +57,10 @@ public:
 		case RIGHT:
 			m_Position -= m_Right * m_fMovementSpeed * deltaTime;
 			break;
-		default:
-			break;
 		}
-
 	}
+
+private:
 
 	void UpdateMouseInput(const float & deltaTime, const int & offsetX, const int & offsetY)
 	{
@@ -84,20 +74,15 @@ public:
 
 		if (m_fYaw > 360.f || m_fYaw < -360.f)
 			m_fYaw = 0.f;
-	}
+	}	
 
-private:
-	
 	float m_fPitch;
 	float m_fYaw;
 	float m_fRoll;
 
 	float m_fMovementSpeed;
 	float m_fSensitivity;
-
-	glm::mat4 m_ViewMatrix;
-
-	glm::vec3 m_Position;
+		
 	glm::vec3 m_Front;
 	glm::vec3 m_Right;
 	glm::vec3 m_Up;

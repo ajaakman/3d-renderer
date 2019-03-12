@@ -139,7 +139,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Graphics\Camera.h" />
+    <ClInclude Include="Graphics\Cameras\Camera2D.h" />
+    <ClInclude Include="Graphics\Cameras\Camera.h" />
+    <ClInclude Include="Graphics\Cameras\Camera3D.h" />
     <ClInclude Include="Graphics\GLBase\ElementArrayBuffer.h" />
     <ClInclude Include="Graphics\GLBase\Buffer.h" />
     <ClInclude Include="Engine.h" />
@@ -395,6 +397,8 @@
     <ClInclude Include="Graphics\GUtility\VertexLayout.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Graphics\Cameras\Camera2D.cpp" />
+    <ClCompile Include="Graphics\Cameras\Camera3D.cpp" />
     <ClCompile Include="Graphics\GLBase\ElementArrayBuffer.cpp" />
     <ClCompile Include="Graphics\GLBase\Buffer.cpp" />
     <ClCompile Include="Engine.cpp" />

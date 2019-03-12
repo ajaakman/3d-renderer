@@ -7,16 +7,19 @@
 #include <GL/glew.h>
 #endif
 
+
 #include <iostream>
 
 #include "../Libraries/glm/gtc/matrix_transform.hpp"
 
 #include "../Utility/Error.h"
+#include "Cameras/Camera3D.h"
+#include "Cameras/Camera2D.h"
 
 Renderer::Renderer(Window* window)
 	:m_pWindow(window), CameraPosition(glm::vec3(0.f, 0.f, 0.f)), CameraRotation(glm::vec3(0.f, 0.f, -1.f)), WorldUp(glm::vec3(0.f, 1.f, 0.f)),	LightPos(glm::vec3(300.f, 300.f, 500.f))
 {	
-	m_pCamera = new Camera(glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 1.f, 0.f));
+	m_pCamera = new Camera3D(glm::vec3(0.f), glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 1.f, 0.f));
 
 	GL(glClearColor(0.1f, 0.1f, 0.1f, 1.f));
 	//GL(glEnable(GL_DEPTH_TEST));
@@ -114,7 +117,6 @@ void Renderer::Draw()
 {	
 	glm::mat4 PerspectiveProjectionView = glm::perspective(80.f, (float)m_pWindow->GetWidth() / (float)m_pWindow->GetHeight(), 1.f, 10000.f)
 										    	* m_pCamera->GetViewMatrix();
-		//										* (glm::lookAt(CameraPosition, CameraPosition + CameraRotation, WorldUp));
 	glm::mat4 OrthoProjectionView = glm::translate ( glm::ortho ( 0.f, (float)m_pWindow->GetWidth(), 0.f, (float)m_pWindow->GetHeight(), -100.f, 100.f),	
 													 glm::vec3(CameraPosition.x, CameraPosition.y, 0.f));	
 	
