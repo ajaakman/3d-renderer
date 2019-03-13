@@ -1,25 +1,31 @@
 #pragma once
 
 #include "../../Libraries/glm/glm.hpp"
+#include "../../IO/Window.h"
 
 class Camera
 {
 public:
-	enum Direction { FORWARD = 0, BACK, LEFT, RIGHT };
+	enum Direction { FORWARD = 0, BACK, LEFT, RIGHT, UP, DOWN };
 
-	Camera(glm::vec3 position = glm::vec3(0.f))
-		:m_ViewMatrix(glm::mat4(1.f)), m_Position(glm::vec3(0.f))
-	{};
+	Camera() {};
 
 	virtual ~Camera() {};
 
-	virtual const glm::mat4 & GetViewMatrix() { return m_ViewMatrix; }
 	inline const glm::vec3 & GetPosition() const { return m_Position; };
 
-	virtual void UpdateKeyboardInput(const float & deltaTime, const int & direction) = 0;
-	virtual void UpdateInput(const float & deltaTime, const int & offsetX, const int & offsetY) = 0;
+	virtual const glm::mat4 & GetMatrix() = 0;
+
+	virtual void Move(const float & deltaTime, const int & direction) = 0;
+	virtual void Rotate(const float & deltaTime, const int & offsetX, const int & offsetY) = 0;
 
 public:
 	glm::mat4 m_ViewMatrix;
 	glm::vec3 m_Position;
+	glm::vec3 m_Direction;
+	glm::vec3 m_WorldUp;
+
+	Window* m_pWindow;
+
+	float m_fMovementSpeed;
 };

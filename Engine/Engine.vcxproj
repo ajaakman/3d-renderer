@@ -147,6 +147,7 @@
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Graphics\Materials\Material.h" />
     <ClInclude Include="Graphics\GLBase\Program.h" />
+    <ClInclude Include="Graphics\Meshes\Primitives.h" />
     <ClInclude Include="Graphics\Renderer.h" />
     <ClInclude Include="Libraries\glm\common.hpp" />
     <ClInclude Include="Libraries\glm\detail\compute_common.hpp" />

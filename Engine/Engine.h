@@ -9,10 +9,7 @@ class Engine
 protected:
 
 	Engine();
-
-	Renderer* p_Renderer;
-
-
+	   
 	virtual ~Engine() = 0;
 
 	virtual void Begin() = 0;
@@ -20,6 +17,8 @@ protected:
 	virtual void Tick(float fDeltaTime) = 0;
 
 	void Loop();
+
+	inline SimpleRenderer* & Renderer() { return p_Renderer; }
 
 	inline const bool IsKeyPressed (const char & key)      { return p_Window->IsKeyPressed(key); }
 	inline const bool IsMouseClicked (const char & button) { return p_Window->IsMouseClicked(button); }
@@ -31,6 +30,7 @@ protected:
 	inline const int & GetMouseOffsetY() const { return m_nMouseOffsetY; }
 
 private:
+	SimpleRenderer* p_Renderer;
 	Window* p_Window;
 
 	int m_nPreviousMouseX;

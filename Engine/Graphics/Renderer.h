@@ -10,11 +10,11 @@
 #include "Renderables/Renderable.h"
 #include "../IO/Window.h"
 
-class Renderer
+class SimpleRenderer
 {
 public:
-	Renderer(Window* window);
-	~Renderer();
+	SimpleRenderer(Window* window);
+	~SimpleRenderer();
 
 	void Clear();
 	void Draw();
@@ -24,17 +24,15 @@ public:
 	Renderable* Find(const std::string & name);
 	Renderable* FindS(const std::string & name);
 		
-	inline Camera* GetCamera() const { return m_pCamera; }
-
-	glm::vec3 CameraPosition;
-	glm::vec3 CameraRotation;
-
+	inline Camera* GetCamera3D() const { return m_pCamera3D; }
+	inline Camera* GetCamera2D() const { return m_pCamera2D; }
+	
 	glm::vec3 LightPos;
 private:
-	glm::vec3 WorldUp;
 
 	Window* m_pWindow;
-	Camera* m_pCamera;
+	Camera* m_pCamera3D;
+	Camera* m_pCamera2D;
 
 	std::unordered_map<std::string, Renderable*> m_Renderables;
 	std::unordered_map<std::string, Renderable*> m_Sprites;

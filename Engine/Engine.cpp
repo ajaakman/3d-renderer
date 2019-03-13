@@ -16,7 +16,7 @@ Engine::Engine()
 	:m_nPreviousMouseX(0), m_nPreviousMouseY(0), m_nMouseOffsetX(0), m_nMouseOffsetY(0)
 {
 	p_Window = new Window(960, 540, "GLWindow");
-	p_Renderer = new Renderer(p_Window);
+	p_Renderer = new SimpleRenderer(p_Window);
 }
 
 Engine::~Engine()
@@ -34,6 +34,8 @@ void Engine::Loop()
 
 	float fTime = 0.f, fFrames = 0.f, fDeltaTime = 0.f, fHighestDelta = 0.f;
 	auto previousTime = std::chrono::high_resolution_clock::now(), currentTime = previousTime;
+
+	Begin();
 #ifdef EMSCRIPTEN
 	std::function<void()> mainLoop = [&]()
 #else

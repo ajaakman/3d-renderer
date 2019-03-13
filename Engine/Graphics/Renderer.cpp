@@ -7,19 +7,18 @@
 #include <GL/glew.h>
 #endif
 
-
 #include <iostream>
-
-#include "../Libraries/glm/gtc/matrix_transform.hpp"
 
 #include "../Utility/Error.h"
 #include "Cameras/Camera3D.h"
 #include "Cameras/Camera2D.h"
+#include "Meshes/Primitives.h"
 
-Renderer::Renderer(Window* window)
-	:m_pWindow(window), CameraPosition(glm::vec3(0.f, 0.f, 0.f)), CameraRotation(glm::vec3(0.f, 0.f, -1.f)), WorldUp(glm::vec3(0.f, 1.f, 0.f)),	LightPos(glm::vec3(300.f, 300.f, 500.f))
+SimpleRenderer::SimpleRenderer(Window* window)
+	:m_pWindow(window),	LightPos(glm::vec3(300.f, 300.f, 500.f))
 {	
-	m_pCamera = new Camera3D(glm::vec3(0.f), glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 1.f, 0.f));
+	m_pCamera3D = new Camera3D(m_pWindow, 0.5f, 1.f);
+	m_pCamera2D = new Camera2D(m_pWindow, 0.2f);
 
 	GL(glClearColor(0.1f, 0.1f, 0.1f, 1.f));
 	//GL(glEnable(GL_DEPTH_TEST));
@@ -35,67 +34,29 @@ Renderer::Renderer(Window* window)
 #endif		
 	// 3D Models
 	{
-		std::vector<float> vertices = {
-							-0.5f, -0.5f,  0.5f,     1.f, 1.f,    -0.5f, -0.5f,  0.5f,
-					 		 0.5f, -0.5f,  0.5f,     0.f, 1.f,     0.5f, -0.5f,  0.5f,
-					  		 0.5f,  0.5f,  0.5f,     0.f, 0.f,     0.5f,  0.5f,  0.5f,
-							-0.5f,  0.5f,  0.5f,     1.f, 0.f,    -0.5f,  0.5f,  0.5f,
-							-0.5f, -0.5f, -0.5f,     0.f, 1.f,    -0.5f, -0.5f, -0.5f,
-							 0.5f, -0.5f, -0.5f,     1.f, 1.f,     0.5f, -0.5f, -0.5f,
-							 0.5f,  0.5f, -0.5f,     1.f, 0.f,     0.5f,  0.5f, -0.5f,
-							-0.5f,  0.5f, -0.5f,     0.f, 0.f,    -0.5f,  0.5f, -0.5f
-		};		
-
-		std::vector<unsigned> indices = {
-			0, 1, 2,
-			0, 2, 3,
-			1, 6, 2,
-			1, 5, 6,
-			4, 7, 5,
-			7, 6, 5,
-			3, 7, 4,
-			0, 3, 4,
-			3, 6, 7,
-			3, 2, 6,
-			0, 4, 5,
-			0, 5, 1
-		};
-
-		std::vector<unsigned> layout = { 3, 2, 3 };
+		Cube cube;
 		VertexLayout vertex;
-		for (auto & element : layout)
+		for (auto & element : cube.layout)
 			vertex.PushFloat(element);
 
-		p_Buffer = new Buffer(&vertices[0], vertices.size() * sizeof(float), vertex, GL_STATIC_DRAW);
-		p_ElementArrayBuffer = new ElementArrayBuffer(&indices[0], indices.size(), GL_STATIC_DRAW);
+		p_Buffer = new Buffer(&cube.vertices[0], cube.vertices.size() * sizeof(float), vertex, GL_STATIC_DRAW);
+		p_ElementArrayBuffer = new ElementArrayBuffer(&cube.indices[0], cube.indices.size(), GL_STATIC_DRAW);
 		p_Program = new Program("Resources/Shaders/Basic.shader");
 	}
 	// 2D Sprites
-	{
-		std::vector<float> vertices = {
-							-0.5f, -0.5f,     1.f, 1.f,     0.f, 0.f, 1.f,
-							 0.5f, -0.5f,     0.f, 1.f,     0.f, 0.f, 1.f,
-							 0.5f,  0.5f,     0.f, 0.f,     0.f, 0.f, 1.f,
-							-0.5f,  0.5f,     1.f, 0.f,     0.f, 0.f, 1.f,
-		};
-
-		std::vector<unsigned> indices = {
-			0, 1, 2,
-			0, 2, 3
-		};
-
-		std::vector<unsigned> layout = { 2, 2, 3 };
+	{		
+		Sprite sprite;
 		VertexLayout vertex;
-		for (auto & element : layout)
+		for (auto & element : sprite.layout)
 			vertex.PushFloat(element);
 
-		p_SpriteBuffer = new Buffer(&vertices[0], vertices.size() * sizeof(float), vertex, GL_STATIC_DRAW);
-		p_SpriteElementArrayBuffer = new ElementArrayBuffer(&indices[0], indices.size(), GL_STATIC_DRAW);
+		p_SpriteBuffer = new Buffer(&sprite.vertices[0], sprite.vertices.size() * sizeof(float), vertex, GL_STATIC_DRAW);
+		p_SpriteElementArrayBuffer = new ElementArrayBuffer(&sprite.indices[0], sprite.indices.size(), GL_STATIC_DRAW);
 		p_SpriteProgram = new Program("Resources/Shaders/Basic.shader");
 	}
 }
 
-Renderer::~Renderer()
+SimpleRenderer::~SimpleRenderer()
 {
 	delete p_ElementArrayBuffer;
 	delete p_Program;
@@ -105,28 +66,24 @@ Renderer::~Renderer()
 	delete p_SpriteProgram;
 	delete p_SpriteBuffer;
 
-	delete m_pCamera;
+	delete m_pCamera3D;
+	delete m_pCamera2D;
 }
 
-void Renderer::Clear()
+void SimpleRenderer::Clear()
 {
 	GL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT));
 }
 
-void Renderer::Draw()
-{	
-	glm::mat4 PerspectiveProjectionView = glm::perspective(80.f, (float)m_pWindow->GetWidth() / (float)m_pWindow->GetHeight(), 1.f, 10000.f)
-										    	* m_pCamera->GetViewMatrix();
-	glm::mat4 OrthoProjectionView = glm::translate ( glm::ortho ( 0.f, (float)m_pWindow->GetWidth(), 0.f, (float)m_pWindow->GetHeight(), -100.f, 100.f),	
-													 glm::vec3(CameraPosition.x, CameraPosition.y, 0.f));	
-	
+void SimpleRenderer::Draw()
+{		
 	p_Buffer->Bind();
 	p_ElementArrayBuffer->Bind();
 	p_Program->Bind();
 
 	for (auto & renderable : m_Renderables)
 	{
-		renderable.second->GetMaterial()->Use(p_Program, PerspectiveProjectionView, m_pCamera->GetPosition(), LightPos);
+		renderable.second->GetMaterial()->Use(p_Program, m_pCamera3D->GetMatrix(), m_pCamera3D->GetPosition(), LightPos);
 		GL(glDrawElements(GL_TRIANGLES, p_ElementArrayBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
 	}	
 
@@ -136,12 +93,12 @@ void Renderer::Draw()
 
 	for (auto & sprite : m_Sprites)
 	{
-		sprite.second->GetMaterial()->Use(p_SpriteProgram, OrthoProjectionView, CameraPosition, LightPos);
+		sprite.second->GetMaterial()->Use(p_SpriteProgram, m_pCamera2D->GetMatrix(), m_pCamera2D->GetPosition(), LightPos);
 		GL(glDrawElements(GL_TRIANGLES, p_SpriteElementArrayBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
 	}
 }
 
-bool Renderer::Create(const std::string & name, const glm::vec3 & position, const glm::vec3 & scale, const std::string & path, const std::string & specularPath, const glm::vec3 & rotation, const glm::vec4 & color)
+bool SimpleRenderer::Create(const std::string & name, const glm::vec3 & position, const glm::vec3 & scale, const std::string & path, const std::string & specularPath, const glm::vec3 & rotation, const glm::vec4 & color)
 {
 	if (!(m_Renderables.emplace(name, new Renderable(position, scale, path, specularPath, rotation, color)).second))
 	{
@@ -151,14 +108,14 @@ bool Renderer::Create(const std::string & name, const glm::vec3 & position, cons
 	return true;
 }
 
-Renderable* Renderer::Find(const std::string & name)
+Renderable* SimpleRenderer::Find(const std::string & name)
 {
 	auto result = m_Renderables.find(name);
 	// TODO Fatal error if wrong name is used.
 	return result == m_Renderables.end() ? nullptr : m_Renderables.find(name)->second;
 }
 
-bool Renderer::CreateS(const std::string & name, const glm::vec3 & position, const glm::vec3 & scale, const std::string & path, const std::string & specularPath, const glm::vec3 & rotation, const glm::vec4 & color)
+bool SimpleRenderer::CreateS(const std::string & name, const glm::vec3 & position, const glm::vec3 & scale, const std::string & path, const std::string & specularPath, const glm::vec3 & rotation, const glm::vec4 & color)
 {
 	if (!(m_Sprites.emplace(name, new Renderable(position, scale, path, specularPath, rotation, color)).second))
 	{
@@ -168,7 +125,7 @@ bool Renderer::CreateS(const std::string & name, const glm::vec3 & position, con
 	return true;
 }
 
-Renderable* Renderer::FindS(const std::string & name)
+Renderable* SimpleRenderer::FindS(const std::string & name)
 {
 	auto result = m_Sprites.find(name);
 	// TODO Fatal error if wrong name is used.
