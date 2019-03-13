@@ -6,7 +6,7 @@
 
 
 Window::Window(int width, int height, const char * name)
-	: m_nWidth(width), m_nHeight(height), m_Name(name), m_bKeyW(false), m_bKeyA(false), m_bKeyS(false),
+	: m_nWidth(width), m_nHeight(height), m_Name(name), m_bFocused(false), m_bKeyW(false), m_bKeyA(false), m_bKeyS(false),
 	  m_bKeyD(false), m_bKeyQ(false), m_bKeyE(false), m_bMouseR(false), m_bMouseL(false), m_bKeyC(false), m_bKeySpace(false)
 {
 	if (!glfwInit())
@@ -33,8 +33,7 @@ Window::Window(int width, int height, const char * name)
 	glfwSetCursorPosCallback(m_pWindow, CursorCallback);
 	glfwSetMouseButtonCallback(m_pWindow, MouseClickCallback);
 	glfwSetInputMode(m_pWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-	glfwSetCursorPos(m_pWindow, m_nWidth/2, m_nHeight/2);	
-
+	glfwSetCursorPos(m_pWindow, m_nWidth/2, m_nHeight/2);		
 	glfwMakeContextCurrent(m_pWindow);
 #ifndef EMSCRIPTEN
 	glewExperimental = GL_TRUE;
@@ -104,6 +103,11 @@ const bool Window::IsMouseClicked(const char & button)
 	return false;
 }
 
+const bool Window::IsFocused()
+{
+	return m_bFocused;
+}
+
 void WindowSizeCallback(GLFWwindow* window, int width, int height)
 {
 	Window* w = static_cast<Window*>(glfwGetWindowUserPointer(window));
@@ -129,6 +133,7 @@ void MouseClickCallback(GLFWwindow* window, int button, int action, int mods)
 {
 	Window* w = static_cast<Window*>(glfwGetWindowUserPointer(window));	
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	w->m_bFocused = true;
 	if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
 		w->m_bMouseR = true;
 	else if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_RELEASE)
@@ -175,5 +180,8 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	else if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE)
 		w->m_bKeySpace = false;
 	else if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+	{
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		w->m_bFocused = false;
+	}
 }

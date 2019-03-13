@@ -26,6 +26,7 @@ public:
 
 	const bool IsKeyPressed(const char& key);
 	const bool IsMouseClicked(const char& button);
+	const bool IsFocused();
 
 	void SetFocus();
 private:
@@ -34,6 +35,7 @@ private:
 	const char * m_Name;
 	GLFWwindow* m_pWindow;
 
+	bool m_bFocused;
 	bool m_bKeyW;
 	bool m_bKeyA;
 	bool m_bKeyS;

@@ -16,12 +16,13 @@ protected:
 
 	virtual void Tick(float fDeltaTime) = 0;
 
-	void Loop();
+	void Start();
 
 	inline SimpleRenderer* & Renderer() { return p_Renderer; }
 
 	inline const bool IsKeyPressed (const char & key)      { return p_Window->IsKeyPressed(key); }
-	inline const bool IsMouseClicked (const char & button) { return p_Window->IsMouseClicked(button); }
+	inline const bool IsMouseClicked(const char & button) { return p_Window->IsMouseClicked(button); }
+	inline const bool IsFocused()  const { return p_Window->IsFocused(); }
 	inline const int & GetWidth()  const { return p_Window->GetWidth();  }
 	inline const int & GetHeight() const { return p_Window->GetHeight(); }
 	inline const int & GetMouseX() const { return p_Window->GetMouseX(); }

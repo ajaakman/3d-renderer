@@ -25,7 +25,7 @@ Engine::~Engine()
 	delete p_Window;
 }
 
-void Engine::Loop()
+void Engine::Start()
 {
 	int nCount = 0;
 

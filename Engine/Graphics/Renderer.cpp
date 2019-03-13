@@ -83,7 +83,7 @@ void SimpleRenderer::Draw()
 
 	for (auto & renderable : m_Renderables)
 	{
-		renderable.second->GetMaterial()->Use(p_Program, m_pCamera3D->GetMatrix(), m_pCamera3D->GetPosition(), LightPos);
+		renderable->GetMaterial()->Use(p_Program, m_pCamera3D->GetMatrix(), m_pCamera3D->GetPosition(), LightPos);
 		GL(glDrawElements(GL_TRIANGLES, p_ElementArrayBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
 	}	
 
@@ -93,41 +93,20 @@ void SimpleRenderer::Draw()
 
 	for (auto & sprite : m_Sprites)
 	{
-		sprite.second->GetMaterial()->Use(p_SpriteProgram, m_pCamera2D->GetMatrix(), m_pCamera2D->GetPosition(), LightPos);
+		sprite->GetMaterial()->Use(p_SpriteProgram, m_pCamera2D->GetMatrix(), m_pCamera2D->GetPosition(), LightPos);
 		GL(glDrawElements(GL_TRIANGLES, p_SpriteElementArrayBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
 	}
 }
 
-bool SimpleRenderer::Create(const std::string & name, const glm::vec3 & position, const glm::vec3 & scale, const std::string & path, const std::string & specularPath, const glm::vec3 & rotation, const glm::vec4 & color)
+Renderable*& SimpleRenderer::CreateCube(const glm::vec3 & position, const glm::vec3 & scale, const std::string & path, const std::string & specularPath, const glm::vec3 & rotation, const glm::vec4 & color)
 {
-	if (!(m_Renderables.emplace(name, new Renderable(position, scale, path, specularPath, rotation, color)).second))
-	{
-		std::cout << "Failed to create Renderable. Renderable with name " << name << " already exists.\n";
-		return false;
-	}
-	return true;
+	m_Renderables.push_back(new Renderable(position, scale, path, specularPath, rotation, color));
+	return m_Renderables.back();
 }
 
-Renderable* SimpleRenderer::Find(const std::string & name)
+Renderable*& SimpleRenderer::CreateSprite(const glm::vec3 & position, const glm::vec3 & scale, const std::string & path, const std::string & specularPath, const glm::vec3 & rotation, const glm::vec4 & color)
 {
-	auto result = m_Renderables.find(name);
-	// TODO Fatal error if wrong name is used.
-	return result == m_Renderables.end() ? nullptr : m_Renderables.find(name)->second;
+	m_Sprites.push_back(new Renderable(position, scale, path, specularPath, rotation, color));
+	return m_Sprites.back();
 }
 
-bool SimpleRenderer::CreateS(const std::string & name, const glm::vec3 & position, const glm::vec3 & scale, const std::string & path, const std::string & specularPath, const glm::vec3 & rotation, const glm::vec4 & color)
-{
-	if (!(m_Sprites.emplace(name, new Renderable(position, scale, path, specularPath, rotation, color)).second))
-	{
-		std::cout << "Failed to create Sprite. Sprite with name " << name << " already exists.\n";
-		return false;
-	}
-	return true;
-}
-
-Renderable* SimpleRenderer::FindS(const std::string & name)
-{
-	auto result = m_Sprites.find(name);
-	// TODO Fatal error if wrong name is used.
-	return result == m_Sprites.end() ? nullptr : m_Sprites.find(name)->second;
-}

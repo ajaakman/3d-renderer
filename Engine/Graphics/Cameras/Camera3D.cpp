@@ -10,7 +10,7 @@ Camera3D::Camera3D(Window* window, const float & speed, const float & sensitivit
 	m_Position = position;
 	m_ViewMatrix = glm::mat4(1.f);
 #ifdef EMSCRIPTEN
-	m_fSensitivity = 0.01f;
+	m_fSensitivity = 0.02f;
 #endif
 }
 
