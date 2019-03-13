@@ -13,7 +13,7 @@ private:
 	unsigned m_ArrayBufferID;
 	unsigned m_Count;
 public:
-	ElementArrayBuffer(const unsigned* data, unsigned count, GLenum usage);
+	ElementArrayBuffer(const unsigned* data, const unsigned & count, const GLenum & usage);
 	~ElementArrayBuffer();
 
 	void Bind() const;

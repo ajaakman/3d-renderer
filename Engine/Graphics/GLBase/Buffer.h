@@ -12,10 +12,10 @@
 class Buffer
 {
 public:
-	Buffer(const void* data, unsigned size, const VertexLayout & vertex, GLenum usage);
+	Buffer(const void* data, const unsigned & size, const VertexLayout & vertex, const GLenum & usage);
 	~Buffer();
 
-	void ModifyBuffer(const void * data, int offset, unsigned size);
+	void ModifyBuffer(const void * data, const int & offset, const unsigned & size);
 
 	void Bind() const;
 private:

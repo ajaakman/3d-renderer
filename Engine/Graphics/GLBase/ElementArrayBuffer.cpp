@@ -2,7 +2,7 @@
 
 #include "../../Utility/Error.h"
 
-ElementArrayBuffer::ElementArrayBuffer(const unsigned * data, unsigned count, GLenum usage)
+ElementArrayBuffer::ElementArrayBuffer(const unsigned* data, const unsigned & count, const GLenum & usage)
 	: m_Count(count)
 {
 	ASSERT(sizeof(unsigned) == sizeof(GLuint));

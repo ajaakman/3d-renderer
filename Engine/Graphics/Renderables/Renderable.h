@@ -17,7 +17,7 @@ public:
 	glm::vec3 Rotation;
 	glm::vec4 Color;
 
-	inline Material* GetMaterial() const { return p_mMaterial; }
+	inline Material* GetMaterial() const& { return p_mMaterial; }
 private:
 	Texture* p_mTexture;
 	Texture* p_mSpecularTexture;

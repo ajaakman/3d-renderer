@@ -89,7 +89,7 @@ Program::ShaderProgramSource Program::ParseShader(const std::string& filepath)
 	return { ss[0].str(), ss[1].str() };
 }
 
-unsigned Program::CompileShader(unsigned type, const std::string& source)
+const unsigned Program::CompileShader(const unsigned & type, const std::string& source)
 {
 	GL(unsigned id = glCreateShader(type));
 	const char* src = source.c_str();
@@ -113,7 +113,7 @@ unsigned Program::CompileShader(unsigned type, const std::string& source)
 	return id;
 }
 
-unsigned Program::CreateShader(const std::string& vertexShader, const std::string& fragmentShader)
+const unsigned Program::CreateShader(const std::string& vertexShader, const std::string& fragmentShader)
 {
 	GL(unsigned program = glCreateProgram());
 	unsigned vs = CompileShader(GL_VERTEX_SHADER, vertexShader);
@@ -135,12 +135,12 @@ void Program::Bind() const
 	GL(glUseProgram(m_ShaderID));
 }
 
-void Program::SetUniform1i(const std::string & name, const int value)
+void Program::SetUniform1i(const std::string & name, const int & value)
 {
 	GL(glUniform1i(GetUniformLocation(name), value));
 }
 
-void Program::SetUniform1f(const std::string & name, const float value)
+void Program::SetUniform1f(const std::string & name, const float & value)
 {
 	GL(glUniform1f(GetUniformLocation(name), value));
 }
@@ -160,7 +160,7 @@ void Program::SetUniformMat4f(const std::string & name, const glm::mat4 & matrix
 	GL(glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &matrix[0][0]));
 }
 
-int Program::GetUniformLocation(const std::string & name)
+const int Program::GetUniformLocation(const std::string & name)
 {
 	if (m_UniformLocationCache.find(name) != m_UniformLocationCache.end())
 		return m_UniformLocationCache[name];

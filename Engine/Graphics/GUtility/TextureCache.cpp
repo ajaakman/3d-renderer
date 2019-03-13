@@ -3,7 +3,7 @@
 
 std::unordered_map<std::string, Texture*> TextureCache::m_TextureCache;
 
-Texture* TextureCache::UseTexture(std::string path)
+Texture* TextureCache::UseTexture(const std::string & path)
 {
 	auto it = m_TextureCache.find(path);
 

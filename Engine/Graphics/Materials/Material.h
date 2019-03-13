@@ -9,7 +9,7 @@ class Renderable;
 class Material
 {
 public:
-	Material(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float specularFocus, Texture* diffuseTexture, Texture* specularTexture, Renderable* parent);
+	Material(const glm::vec3 & ambient, const glm::vec3 & diffuse, const glm::vec3 & specular,const float & specularFocus, Texture* diffuseTexture, Texture* specularTexture, Renderable* parent);
 
 	void Use(Program* program, const glm::mat4 & projectionView, const glm::vec3 & camera, const glm::vec3 & light);
 

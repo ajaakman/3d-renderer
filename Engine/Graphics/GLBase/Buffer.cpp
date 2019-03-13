@@ -2,7 +2,7 @@
 
 #include "../../Utility/Error.h"
 
-Buffer::Buffer(const void * data, unsigned size, const VertexLayout & vertex, GLenum usage)
+Buffer::Buffer(const void* data, const unsigned & size, const VertexLayout & vertex, const GLenum & usage)
 {
 	GL(glGenVertexArrays(1, &m_ArrayID));
 	GL(glBindVertexArray(m_ArrayID));
@@ -34,7 +34,7 @@ void Buffer::Bind() const
 	GL(glBindVertexArray(m_ArrayID));
 }
 
-void Buffer::ModifyBuffer(const void * data, int offset, unsigned size)
+void Buffer::ModifyBuffer(const void * data, const int & offset, const unsigned & size)
 {
 	GL(glBindBuffer(GL_ARRAY_BUFFER, m_BufferID));
 	GL(glBufferSubData(GL_ARRAY_BUFFER, offset, size, data));

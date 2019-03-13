@@ -22,8 +22,8 @@ public:
 	Renderable*& CreateCube(const glm::vec3 & position, const glm::vec3 & scale, const std::string & path = "none", const std::string & specularPath = "", const glm::vec3 & rotation = glm::vec3(0.f, 0.f, 0.f), const glm::vec4 & color = glm::vec4(1.f, 1.f, 1.f, 1.f));
 	Renderable*& CreateSprite(const glm::vec3 & position, const glm::vec3 & scale, const std::string & path = "none", const std::string & specularPath = "", const glm::vec3 & rotation = glm::vec3(0.f, 0.f, 0.f), const glm::vec4 & color = glm::vec4(1.f, 1.f, 1.f, 1.f));
 			
-	inline Camera* GetCamera3D() const { return m_pCamera3D; }
-	inline Camera* GetCamera2D() const { return m_pCamera2D; }
+	inline Camera* GetCamera3D() const& { return m_pCamera3D; }
+	inline Camera* GetCamera2D() const& { return m_pCamera2D; }
 	
 	glm::vec3 LightPos;
 private:

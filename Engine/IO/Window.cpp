@@ -5,7 +5,7 @@
 #include "../Utility/Error.h"
 
 
-Window::Window(int width, int height, const char * name)
+Window::Window(const int & width, const int & height, const char * name)
 	: m_nWidth(width), m_nHeight(height), m_Name(name), m_bFocused(false), m_bKeyW(false), m_bKeyA(false), m_bKeyS(false),
 	  m_bKeyD(false), m_bKeyQ(false), m_bKeyE(false), m_bMouseR(false), m_bMouseL(false), m_bKeyC(false), m_bKeySpace(false)
 {
@@ -122,8 +122,8 @@ void WindowSizeCallback(GLFWwindow* window, int width, int height)
 void CursorCallback(GLFWwindow* window, double xpos, double ypos)
 {	
 	Window* w = static_cast<Window*>(glfwGetWindowUserPointer(window));
-	w->m_nMousePosX = xpos;
-	int v = (ypos - w->m_nHeight);
+	w->m_nMousePosX = (int)xpos;
+	int v = ((int)ypos - w->m_nHeight);
 	int const mask = v >> (sizeof(int) * CHAR_BIT - 1);
 	int r = (v + mask) ^ mask;
 	w->m_nMousePosY = r;

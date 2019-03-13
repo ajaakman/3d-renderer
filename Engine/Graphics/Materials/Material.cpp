@@ -4,7 +4,7 @@
 
 #include "../../Libraries/glm/gtc/matrix_transform.hpp"
 
-Material::Material(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float specularFocus, Texture* diffuseTexture, Texture* specularTexture, Renderable* parent)
+Material::Material(const glm::vec3 & ambient, const glm::vec3 & diffuse, const glm::vec3 & specular, const float & specularFocus, Texture* diffuseTexture, Texture* specularTexture, Renderable* parent)
 	:Ambient(ambient), Diffuse(diffuse), Specular(specular), SpecularFocus(specularFocus),
 	 p_DiffuseTexture(diffuseTexture), p_SpecularTexture(specularTexture), p_ParentRenderable(parent)
 {

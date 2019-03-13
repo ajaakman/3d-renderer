@@ -11,18 +11,18 @@
 class Window
 {
 public:
-	Window(int width, int height, const char * name);
+	Window(const int & width,const int & height, const char * name);
 	~Window();
 
 	void SwapBuffers();
 	void PollEvents();
 	bool Open();
 
-	inline const int & GetWidth()   { return m_nWidth; }
-	inline const int & GetHeight()  { return m_nHeight;}
+	inline const int & GetWidth()  const& { return m_nWidth; }
+	inline const int & GetHeight() const& { return m_nHeight;}
 
-	inline const int & GetMouseX() { return m_nMousePosX; }
-	inline const int & GetMouseY() { return m_nMousePosY; }
+	inline const int & GetMouseX() const& { return m_nMousePosX; }
+	inline const int & GetMouseY() const& { return m_nMousePosY; }
 
 	const bool IsKeyPressed(const char& key);
 	const bool IsMouseClicked(const char& button);

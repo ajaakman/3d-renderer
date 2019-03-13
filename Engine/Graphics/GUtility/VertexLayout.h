@@ -35,12 +35,12 @@ public:
 
 	VertexLayout();
 	
-	void PushFloat(unsigned count);
-	void PushUInt(unsigned count);		
-	void PushChar(unsigned count);
+	void PushFloat(const unsigned & count);
+	void PushUInt (const unsigned & count);		
+	void PushChar (const unsigned & count);
 
-	const std::vector<VertexElement> GetElements() const&;
-	unsigned GetStride() const;
+	const std::vector<VertexElement> & GetElements() const&;
+	const unsigned & GetStride() const;
 
 private:
 

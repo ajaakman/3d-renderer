@@ -8,7 +8,7 @@
 class TextureCache
 {
 public:
-	static Texture* UseTexture(std::string path);
+	static Texture* UseTexture(const std::string & path);
 	static void DeleteTexture(Texture* texture);
 private:
 	static std::unordered_map<std::string, Texture*> m_TextureCache;
