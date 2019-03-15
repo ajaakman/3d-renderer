@@ -15,7 +15,7 @@
 #include "Meshes/Primitives.h"
 
 SimpleRenderer::SimpleRenderer(Window* window)
-	:m_pWindow(window),	LightPos(glm::vec3(300.f, 300.f, 500.f))
+	:m_pWindow(window), m_Cube(Mesh::CUBE), m_Sprite(Mesh::SPRITE)
 {	
 	m_pCamera3D = new Camera3D(m_pWindow, 0.5f, 1.f);
 	m_pCamera2D = new Camera2D(m_pWindow, 0.2f);
@@ -31,41 +31,11 @@ SimpleRenderer::SimpleRenderer(Window* window)
 	GL(glFrontFace(GL_CCW));
 #ifndef EMSCRIPTEN
 	GL(glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)); // GL_FILL GL_LINE
-#endif		
-	// 3D Models
-	{
-		Cube cube;
-		VertexLayout vertex;
-		for (auto & element : cube.layout)
-			vertex.PushFloat(element);
-
-		p_Buffer = new Buffer(&cube.vertices[0], cube.vertices.size() * sizeof(float), vertex, GL_STATIC_DRAW);
-		p_ElementArrayBuffer = new ElementArrayBuffer(&cube.indices[0], cube.indices.size(), GL_STATIC_DRAW);
-		p_Program = new Program("Resources/Shaders/Basic.shader");
-	}
-	// 2D Sprites
-	{		
-		Sprite sprite;
-		VertexLayout vertex;
-		for (auto & element : sprite.layout)
-			vertex.PushFloat(element);
-
-		p_SpriteBuffer = new Buffer(&sprite.vertices[0], sprite.vertices.size() * sizeof(float), vertex, GL_STATIC_DRAW);
-		p_SpriteElementArrayBuffer = new ElementArrayBuffer(&sprite.indices[0], sprite.indices.size(), GL_STATIC_DRAW);
-		p_SpriteProgram = new Program("Resources/Shaders/Basic.shader");
-	}
+#endif
 }
 
 SimpleRenderer::~SimpleRenderer()
-{
-	delete p_ElementArrayBuffer;
-	delete p_Program;
-	delete p_Buffer;
-
-	delete p_SpriteElementArrayBuffer;
-	delete p_SpriteProgram;
-	delete p_SpriteBuffer;
-
+{	
 	delete m_pCamera3D;
 	delete m_pCamera2D;
 }
@@ -76,26 +46,9 @@ void SimpleRenderer::Clear()
 }
 
 void SimpleRenderer::Draw()
-{		
-	p_Buffer->Bind();
-	p_ElementArrayBuffer->Bind();
-	p_Program->Bind();
-
-	for (auto & renderable : m_Renderables)
-	{
-		renderable->GetMaterial()->Use(p_Program, m_pCamera3D->GetMatrix(), m_pCamera3D->GetPosition(), LightPos);
-		GL(glDrawElements(GL_TRIANGLES, p_ElementArrayBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
-	}	
-
-	p_SpriteBuffer->Bind();
-	p_SpriteElementArrayBuffer->Bind();
-	p_SpriteProgram->Bind();
-
-	for (auto & sprite : m_Sprites)
-	{
-		sprite->GetMaterial()->Use(p_SpriteProgram, m_pCamera2D->GetMatrix(), m_pCamera2D->GetPosition(), LightPos);
-		GL(glDrawElements(GL_TRIANGLES, p_SpriteElementArrayBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
-	}
+{			
+	m_Cube.Draw(m_Renderables, m_pCamera3D);		
+	m_Sprite.Draw(m_Sprites, m_pCamera2D);
 }
 
 Renderable*& SimpleRenderer::CreateCube(const glm::vec3 & position, const glm::vec3 & scale, const std::string & path, const std::string & specularPath, const glm::vec3 & rotation, const glm::vec4 & color)
