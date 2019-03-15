@@ -12,10 +12,9 @@
 #include "../Utility/Error.h"
 #include "Cameras/Camera3D.h"
 #include "Cameras/Camera2D.h"
-#include "Meshes/Primitives.h"
 
 SimpleRenderer::SimpleRenderer(Window* window)
-	:m_pWindow(window), m_Cube(Mesh::CUBE), m_Sprite(Mesh::SPRITE)
+	:m_pWindow(window), LightPos(glm::vec3(300.f, 300.f, 500.f)), m_CubeMesh(Mesh::CUBE), m_SpriteMesh(Mesh::SPRITE)
 {	
 	m_pCamera3D = new Camera3D(m_pWindow, 0.5f, 1.f);
 	m_pCamera2D = new Camera2D(m_pWindow, 0.2f);
@@ -47,19 +46,25 @@ void SimpleRenderer::Clear()
 
 void SimpleRenderer::Draw()
 {			
-	m_Cube.Draw(m_Renderables, m_pCamera3D);		
-	m_Sprite.Draw(m_Sprites, m_pCamera2D);
+	m_CubeMesh.Draw(m_Renderables, m_pCamera3D, LightPos);		
+	m_SpriteMesh.Draw(m_Sprites, m_pCamera2D, LightPos);
 }
 
-Renderable*& SimpleRenderer::CreateCube(const glm::vec3 & position, const glm::vec3 & scale, const std::string & path, const std::string & specularPath, const glm::vec3 & rotation, const glm::vec4 & color)
+Renderable*& SimpleRenderer::Create(Mesh::Primitive type, const glm::vec3 & position, const glm::vec3 & scale, const std::string & path, const std::string & specularPath, const glm::vec3 & rotation, const glm::vec4 & color)
 {
-	m_Renderables.push_back(new Renderable(position, scale, path, specularPath, rotation, color));
-	return m_Renderables.back();
+	switch (type)
+	{
+		case Mesh::CUBE:
+		{
+			m_Renderables.push_back(new Renderable(position, scale, path, specularPath, rotation, color));
+			return m_Renderables.back();		
+			break;
+		}
+		case Mesh::SPRITE:
+		{
+			m_Sprites.push_back(new Renderable(position, scale, path, specularPath, rotation, color));
+			return m_Sprites.back();		
+			break;
+		}
+	}
 }
-
-Renderable*& SimpleRenderer::CreateSprite(const glm::vec3 & position, const glm::vec3 & scale, const std::string & path, const std::string & specularPath, const glm::vec3 & rotation, const glm::vec4 & color)
-{
-	m_Sprites.push_back(new Renderable(position, scale, path, specularPath, rotation, color));
-	return m_Sprites.back();
-}
-

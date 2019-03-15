@@ -1,7 +1,6 @@
 #include "Mesh.h"
 
-Mesh::Mesh(Primitive primitive)
-	:LightPos(glm::vec3(300.f, 300.f, 500.f))
+Mesh::Mesh(Primitive primitive)	
 {
 	switch (primitive)
 	{
@@ -39,7 +38,7 @@ Mesh::~Mesh()
 	delete p_Program;
 }
 
-void Mesh::Draw(std::vector<Renderable*> renderables, Camera* camera)
+void Mesh::Draw(std::vector<Renderable*> renderables, Camera* camera, glm::vec3 light)
 {
 	p_Buffer->Bind();
 	p_ElementArrayBuffer->Bind();
@@ -47,7 +46,7 @@ void Mesh::Draw(std::vector<Renderable*> renderables, Camera* camera)
 
 	for (auto & renderable : renderables)
 	{
-		renderable->GetMaterial()->Use(p_Program, camera->GetMatrix(), camera->GetPosition(), LightPos);
+		renderable->GetMaterial()->Use(p_Program, camera->GetMatrix(), camera->GetPosition(), light);
 		GL(glDrawElements(GL_TRIANGLES, p_ElementArrayBuffer->GetCount(), GL_UNSIGNED_INT, nullptr));
 	}
 }

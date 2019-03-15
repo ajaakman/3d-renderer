@@ -16,10 +16,9 @@ public:
 	Mesh(Primitive primitive);
 	~Mesh();
 
-	void Draw(std::vector<Renderable*> renderables, Camera* camera);
+	void Draw(std::vector<Renderable*> renderables, Camera* camera, glm::vec3 light);
 
 private:
-	glm::vec3 LightPos;
 
 	ElementArrayBuffer* p_ElementArrayBuffer;
 	Program* p_Program;
