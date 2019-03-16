@@ -6,25 +6,25 @@ Mesh::Mesh(Primitive primitive)
 	{
 	case CUBE:
 		{
-			Cube cube;
+			Cube mesh;
 			VertexLayout vertex;
-			for (auto & element : cube.layout)
+			for (auto & element : mesh.layout)
 				vertex.PushFloat(element);
 
-			p_Buffer = new Buffer(&cube.vertices[0], cube.vertices.size() * sizeof(float), vertex, GL_STATIC_DRAW);
-			p_ElementArrayBuffer = new ElementArrayBuffer(&cube.indices[0], cube.indices.size(), GL_STATIC_DRAW);
+			p_Buffer = new Buffer(&mesh.vertices[0], mesh.vertices.size() * sizeof(float), vertex, GL_STATIC_DRAW);
+			p_ElementArrayBuffer = new ElementArrayBuffer(&mesh.indices[0], mesh.indices.size(), GL_STATIC_DRAW);
 			p_Program = new Program("Resources/Shaders/Basic.shader");
 			break;
 		}
 	case SPRITE:
 		{
-			Sprite sprite;
+			Sprite mesh;
 			VertexLayout vertex;
-			for (auto & element : sprite.layout)
+			for (auto & element : mesh.layout)
 				vertex.PushFloat(element);
 
-			p_Buffer = new Buffer(&sprite.vertices[0], sprite.vertices.size() * sizeof(float), vertex, GL_STATIC_DRAW);
-			p_ElementArrayBuffer = new ElementArrayBuffer(&sprite.indices[0], sprite.indices.size(), GL_STATIC_DRAW);
+			p_Buffer = new Buffer(&mesh.vertices[0], mesh.vertices.size() * sizeof(float), vertex, GL_STATIC_DRAW);
+			p_ElementArrayBuffer = new ElementArrayBuffer(&mesh.indices[0], mesh.indices.size(), GL_STATIC_DRAW);
 			p_Program = new Program("Resources/Shaders/Basic.shader");
 			break;
 		}

@@ -19,6 +19,7 @@ void Game::Begin()
 	p_Box = Renderer()->Create(Mesh::CUBE, glm::vec3(0.f, 0.f, -200.f), glm::vec3(70.f, 70.f, 70.f), "Resources/Textures/box.png", "Resources/Textures/boxs.png");
 
 	Renderer()->Create(Mesh::SPRITE, glm::vec3(100.f, 100.f, 0.f), glm::vec3(70.f, 70.f, 0.f), "Resources/Textures/test.png", "");
+	Renderer()->Create(Mesh::SPRITE, glm::vec3(120.f, 120.f, 0.f), glm::vec3(70.f, 70.f, 0.f), "Resources/Textures/test.png", "");
 }
 
 void Game::Tick(float fDeltaTime)

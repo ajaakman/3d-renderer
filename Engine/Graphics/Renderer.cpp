@@ -20,7 +20,6 @@ SimpleRenderer::SimpleRenderer(Window* window)
 	m_pCamera2D = new Camera2D(m_pWindow, 0.2f);
 
 	GL(glClearColor(0.1f, 0.1f, 0.1f, 1.f));
-	//GL(glEnable(GL_DEPTH_TEST));
 	GL(glEnable(GL_CULL_FACE));
 
 	GL(glEnable(GL_BLEND));
@@ -46,7 +45,9 @@ void SimpleRenderer::Clear()
 
 void SimpleRenderer::Draw()
 {			
+	GL(glEnable(GL_DEPTH_TEST));
 	m_CubeMesh.Draw(m_Renderables, m_pCamera3D, LightPos);		
+	GL(glDisable(GL_DEPTH_TEST));
 	m_SpriteMesh.Draw(m_Sprites, m_pCamera2D, LightPos);
 }
 
