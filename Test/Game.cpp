@@ -14,12 +14,11 @@ void Game::Begin()
 {		
 	for (unsigned i = 0; i < 7; ++i)	
 		for (unsigned j = 0; j < 4; ++j)		
-			p_Boxes.push_back(Renderer()->Create(Mesh::CUBE, glm::vec3(-900.f + 300 * i, 450.f + -300.f * j, -800.f), glm::vec3(140.f, 140.f, 140.f), "Resources/Textures/box.png", "Resources/Textures/boxs.png"));
+			p_Boxes.push_back(Renderer()->Render(Mesh::CUBE, glm::vec3(-900.f + 300 * i, 450.f + -300.f * j, -800.f), glm::vec3(140.f, 140.f, 140.f), "Resources/Textures/box.png", "Resources/Textures/boxs.png"));
 	
-	p_Box = Renderer()->Create(Mesh::CUBE, glm::vec3(0.f, 0.f, -200.f), glm::vec3(70.f, 70.f, 70.f), "Resources/Textures/box.png", "Resources/Textures/boxs.png");
+	p_Box = Renderer()->Render(Mesh::MODEL, glm::vec3(0.f, 0.f, -200.f), glm::vec3(70.f, 70.f, 70.f), "Resources/Textures/bricks.jpg", "Resources/Textures/brickss.png");
 
-	Renderer()->Create(Mesh::SPRITE, glm::vec3(100.f, 100.f, 0.f), glm::vec3(70.f, 70.f, 0.f), "Resources/Textures/test.png", "");
-	Renderer()->Create(Mesh::SPRITE, glm::vec3(120.f, 120.f, 0.f), glm::vec3(70.f, 70.f, 0.f), "Resources/Textures/test.png", "");
+	Renderer()->Render(Mesh::SPRITE, glm::vec3(120.f, 120.f, 0.f), glm::vec3(70.f, 70.f, 0.f), "Resources/Textures/test.png", "");
 }
 
 void Game::Tick(float fDeltaTime)
@@ -66,7 +65,7 @@ void Game::Tick(float fDeltaTime)
 
 	if (linear > 3 && !created)
 	{
-		Renderer()->Create(Mesh::CUBE, glm::vec3(GetWidth() / 10, GetHeight() / 10, -200.f), glm::vec3(70.f, 70.f, 0.f), "Resources/Textures/test.png", "");
+		Renderer()->Render(Mesh::CUBE, glm::vec3(GetScreenWidth() / 10, GetScreenHeight() / 10, -200.f), glm::vec3(70.f, 70.f, 0.f), "Resources/Textures/test.png", "");
 		created = true;
 	}
 

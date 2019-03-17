@@ -5,10 +5,10 @@
 struct Sprite
 {
 	const std::array<float, 28> vertices = {
-							-0.5f, -0.5f,     0.f, 0.f,     0.f, 0.f, 1.f,
-							 0.5f, -0.5f,     1.f, 0.f,     0.f, 0.f, 1.f,
-							 0.5f,  0.5f,     1.f, 1.f,     0.f, 0.f, 1.f,
-							-0.5f,  0.5f,     0.f, 1.f,     0.f, 0.f, 1.f,
+							-0.5f, -0.5f,     0.f, 0.f,     0.f, 0.f, -1.f,
+							 0.5f, -0.5f,     1.f, 0.f,     0.f, 0.f, -1.f,
+							 0.5f,  0.5f,     1.f, 1.f,     0.f, 0.f, -1.f,
+							-0.5f,  0.5f,     0.f, 1.f,     0.f, 0.f, -1.f,
 	};
 
 	std::array<unsigned, 6> indices = {

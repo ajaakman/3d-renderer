@@ -11,7 +11,7 @@
 class Mesh
 {
 public:
-	enum Primitive { SPRITE= 0, CUBE};
+	enum Primitive { SPRITE= 0, CUBE, MODEL};
 
 	Mesh(Primitive primitive);
 	~Mesh();

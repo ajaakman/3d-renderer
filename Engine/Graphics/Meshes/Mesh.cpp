@@ -1,5 +1,7 @@
 #include "Mesh.h"
 
+#include "../GUtility/MeshLoader.h"
+
 Mesh::Mesh(Primitive primitive)	
 {
 	switch (primitive)
@@ -28,8 +30,21 @@ Mesh::Mesh(Primitive primitive)
 			p_Program = new Program("Resources/Shaders/Basic.shader");
 			break;
 		}
+		case MODEL:
+		{
+			MeshLoader mesh("Resources/Models/Monkey.obj");
+			VertexLayout vertex;
+			for (auto & element : mesh.layout)
+				vertex.PushFloat(element);
+
+			p_Buffer = new Buffer(&mesh.vertices[0], mesh.vertices.size() * sizeof(float), vertex, GL_STATIC_DRAW);
+			p_ElementArrayBuffer = new ElementArrayBuffer(&mesh.indices[0], mesh.indices.size(), GL_STATIC_DRAW);
+			p_Program = new Program("Resources/Shaders/Basic.shader");
+			break;
+		}
 	}
 }
+
 
 Mesh::~Mesh()
 {
