@@ -32,14 +32,15 @@ Mesh::Mesh(Primitive primitive)
 		}
 		case MODEL:
 		{
-			MeshLoader mesh("Resources/Models/Monkey.obj");
+			MeshLoader* mesh = new MeshLoader("Resources/Models/penguin.obj");
 			VertexLayout vertex;
-			for (auto & element : mesh.layout)
+			for (auto & element : mesh->layout)
 				vertex.PushFloat(element);
 
-			p_Buffer = new Buffer(&mesh.vertices[0], mesh.vertices.size() * sizeof(float), vertex, GL_STATIC_DRAW);
-			p_ElementArrayBuffer = new ElementArrayBuffer(&mesh.indices[0], mesh.indices.size(), GL_STATIC_DRAW);
+			p_Buffer = new Buffer(&mesh->vertices[0], mesh->vertices.size() * sizeof(float), vertex, GL_STATIC_DRAW);
+			p_ElementArrayBuffer = new ElementArrayBuffer(&mesh->indices[0], mesh->indices.size(), GL_STATIC_DRAW);
 			p_Program = new Program("Resources/Shaders/Basic.shader");
+			delete mesh;
 			break;
 		}
 	}

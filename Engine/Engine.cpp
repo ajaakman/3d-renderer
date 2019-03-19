@@ -67,7 +67,7 @@ void Engine::Start()
 
 		if (fTime > 1000.f)
 		{
-			std::cout << "FPS: " << (int)(1000.f/(fFrames/(float)nCount)) << "  Lowest: " << (int)(1000.f/ fHighestDelta) << "\n";
+			//std::cout << "FPS: " << (int)(1000.f/(fFrames/(float)nCount)) << "  Lowest: " << (int)(1000.f/ fHighestDelta) << "\n";
 			fTime -= 1000.f;
 			nCount = 0;
 			fFrames = 0.f;

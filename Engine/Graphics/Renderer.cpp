@@ -14,7 +14,7 @@
 #include "Cameras/Camera2D.h"
 
 SimpleRenderer::SimpleRenderer(Window* window)
-	:m_pWindow(window), LightPos(glm::vec3(1000.f, -300.f, 10.f)), m_pCamera3D(nullptr), m_pCamera2D(nullptr), m_CubeMesh(Mesh::CUBE), m_SpriteMesh(Mesh::SPRITE), m_ModelMesh(Mesh::MODEL)
+	:m_pWindow(window), LightPos(glm::vec3(2500.f, -200.f, 800.f)), m_pCamera3D(nullptr), m_pCamera2D(nullptr), m_CubeMesh(Mesh::CUBE), m_SpriteMesh(Mesh::SPRITE), m_ModelMesh(Mesh::MODEL)
 {	
 	m_pCamera3D = new Camera3D(m_pWindow, 0.5f, 1.f);
 	m_pCamera2D = new Camera2D(m_pWindow, 0.2f);
