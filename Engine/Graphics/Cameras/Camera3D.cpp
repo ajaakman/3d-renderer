@@ -27,6 +27,7 @@ const glm::mat4 & Camera3D::GetMatrix()
 	m_ViewMatrix = glm::lookAt(m_Position, m_Position + m_Front, m_Up);
 	m_ViewMatrix = glm::perspective(80.f, (float)m_pWindow->GetWidth() / (float)m_pWindow->GetHeight(), 1.f, 10000.f) * m_ViewMatrix;
 
+	m_Direction = m_Front;
 	return m_ViewMatrix;
 }
 

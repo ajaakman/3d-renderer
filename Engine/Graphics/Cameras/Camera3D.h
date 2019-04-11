@@ -12,6 +12,9 @@ public:
 	virtual ~Camera3D() override {};
 
 	virtual const glm::mat4 & GetMatrix() override;
+
+	inline const glm::vec3 & GetForward() const { return m_Front; };
+	inline const glm::vec3 & GetUp() const { return m_Up; };
 			
 	virtual void Rotate(const float & deltaTime, const int & offsetX, const int & offsetY) override;
 	virtual void Move(const float & deltaTime, const int & direction) override;
