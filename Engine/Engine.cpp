@@ -1,5 +1,4 @@
 #include "Engine.h"
-
 #include <iostream>
 #include <chrono>
 
@@ -145,6 +144,12 @@ void Engine::Start()
 	alSourceStop(sourceid);
 	alSourcePlay(sourceid);
 //----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	//ImGui::CreateContext();
+	//ImGui_ImplGlfw_InitForOpenGL(p_Window->GetWindowPointer(), true);
+	//ImGui_ImplOpenGL3_Init();
+	//ImGui::StyleColorsDark();
+
 	Begin();
 #ifdef EMSCRIPTEN
 	std::function<void()> mainLoop = [&]()
@@ -155,6 +160,11 @@ void Engine::Start()
 		currentTime = std::chrono::high_resolution_clock::now();
 		p_Window->PollEvents();
 		p_Renderer->Clear();
+
+		//ImGui_ImplOpenGL3_NewFrame();
+		//ImGui_ImplGlfw_NewFrame();
+		//ImGui::NewFrame();		
+
 			   
 		m_nMouseOffsetX = GetMouseX() - m_nPreviousMouseX;
 		m_nMouseOffsetY = GetMouseY() - m_nPreviousMouseY;
@@ -173,10 +183,11 @@ void Engine::Start()
 		//std::cout << p_Renderer->GetCamera3D()->m_WorldUp.x << p_Renderer->GetCamera3D()->m_WorldUp.y << p_Renderer->GetCamera3D()->m_WorldUp.z << std::endl;
 		//std::cout << p_Renderer->GetCamera3D()->m_Direction.x << p_Renderer->GetCamera3D()->m_Direction.y << p_Renderer->GetCamera3D()->m_Direction.z << std::endl;
 		
-
 		Tick(fDeltaTime);
-
+		
 		p_Renderer->Draw();
+		//ImGui::Render();
+		//ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		p_Window->SwapBuffers();
 
 		fTime += fDeltaTime;

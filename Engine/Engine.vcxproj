@@ -392,6 +392,14 @@
     <ClInclude Include="Libraries\glm\vector_relational.hpp" />
     <ClInclude Include="Graphics\Renderables\Renderable.h" />
     <ClInclude Include="Graphics\GLBase\Texture.h" />
+    <ClInclude Include="Libraries\imgui\imconfig.h" />
+    <ClInclude Include="Libraries\imgui\imgui.h" />
+    <ClInclude Include="Libraries\imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="Libraries\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="Libraries\imgui\imgui_internal.h" />
+    <ClInclude Include="Libraries\imgui\imstb_rectpack.h" />
+    <ClInclude Include="Libraries\imgui\imstb_textedit.h" />
+    <ClInclude Include="Libraries\imgui\imstb_truetype.h" />
     <ClInclude Include="Libraries\obj_loader\obj_loader.h" />
     <ClInclude Include="Libraries\stbi\stbi.h" />
     <ClInclude Include="Graphics\GUtility\TextureCache.h" />
@@ -412,6 +420,12 @@
     <ClCompile Include="Graphics\Renderer.cpp" />
     <ClCompile Include="Graphics\Renderables\Renderable.cpp" />
     <ClCompile Include="Graphics\GLBase\Texture.cpp" />
+    <ClCompile Include="Libraries\imgui\imgui.cpp" />
+    <ClCompile Include="Libraries\imgui\imgui_demo.cpp" />
+    <ClCompile Include="Libraries\imgui\imgui_draw.cpp" />
+    <ClCompile Include="Libraries\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="Libraries\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="Libraries\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Libraries\obj_loader\obj_loader.cpp" />
     <ClCompile Include="Libraries\stbi\stbi.cpp" />
     <ClCompile Include="Graphics\GUtility\TextureCache.cpp" />

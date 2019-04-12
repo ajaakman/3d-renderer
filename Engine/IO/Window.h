@@ -19,10 +19,12 @@ public:
 	bool Open();
 
 	inline const int & GetWidth()  const& { return m_nWidth; }
-	inline const int & GetHeight() const& { return m_nHeight;}
+	inline const int & GetHeight() const& { return m_nHeight; }
 
 	inline const int & GetMouseX() const& { return m_nMousePosX; }
 	inline const int & GetMouseY() const& { return m_nMousePosY; }
+
+	inline GLFWwindow* GetWindowPointer() const& { return m_pWindow;}
 
 	const bool IsKeyPressed(const char& key);
 	const bool IsMouseClicked(const char& button);

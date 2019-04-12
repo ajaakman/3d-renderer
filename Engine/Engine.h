@@ -4,6 +4,10 @@
 #include "Libraries/glm/glm.hpp"
 #include "Graphics/Renderer.h"
 
+#include "Libraries/imgui/imgui.h"
+#include "Libraries/imgui/imgui_impl_opengl3.h"
+#include "Libraries/imgui/imgui_impl_glfw.h"
+
 class Engine
 {
 protected:
