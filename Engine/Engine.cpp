@@ -145,10 +145,10 @@ void Engine::Start()
 	alSourcePlay(sourceid);
 //----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	//ImGui::CreateContext();
-	//ImGui_ImplGlfw_InitForOpenGL(p_Window->GetWindowPointer(), true);
-	//ImGui_ImplOpenGL3_Init();
-	//ImGui::StyleColorsDark();
+	ImGui::CreateContext();
+	ImGui_ImplGlfw_InitForOpenGL(p_Window->GetWindowPointer(), false);
+	ImGui_ImplOpenGL3_Init();
+	ImGui::StyleColorsDark();
 
 	Begin();
 #ifdef EMSCRIPTEN
@@ -161,10 +161,9 @@ void Engine::Start()
 		p_Window->PollEvents();
 		p_Renderer->Clear();
 
-		//ImGui_ImplOpenGL3_NewFrame();
-		//ImGui_ImplGlfw_NewFrame();
-		//ImGui::NewFrame();		
-
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();		
 			   
 		m_nMouseOffsetX = GetMouseX() - m_nPreviousMouseX;
 		m_nMouseOffsetY = GetMouseY() - m_nPreviousMouseY;
@@ -186,8 +185,8 @@ void Engine::Start()
 		Tick(fDeltaTime);
 		
 		p_Renderer->Draw();
-		//ImGui::Render();
-		//ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		p_Window->SwapBuffers();
 
 		fTime += fDeltaTime;
